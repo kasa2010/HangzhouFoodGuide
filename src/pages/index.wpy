@@ -1,0 +1,51 @@
+<template>
+  <view class="container">
+    <view class="userinfo" @tap="handleViewTap">
+      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.page { 
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    data = {
+      mynum: 20,
+      userInfo: {
+        nickName: '加载中...'
+      },
+      normalTitle: '原始标题',
+    }
+    onLoad() {
+      wepy.request({
+        url: 'http://localhost:3000/api/post/bgetArticle',
+        method: 'POST',
+        data: {
+          start: 0,
+          count: 24
+        },
+        success: function (d) {
+          console.log(d)
+        }
+      })
+      let self = this
+      this.$parent.getUserInfo(function (userInfo) {
+        if (userInfo) {
+          self.userInfo = userInfo
+        }
+        self.normalTitle = '标题已被修改'
+
+        self.setTimeoutTitle = '标题三秒后会被修改'
+        setTimeout(() => {
+          self.setTimeoutTitle = '到三秒了'
+          self.$apply()
+        }, 3000)
+
+        self.$apply()
+      })
+    }
+  }
+</script>
