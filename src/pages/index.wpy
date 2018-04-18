@@ -96,14 +96,15 @@ html,body,page{
   left: 0;
   top: 0;
   right: 0;
-  bottom:50px;
+  bottom:40px;
 }
 .selectarea{
-  height:50px;
+  height:40px;
   position: fixed;
   width: 100%;
   left: 0;
-  bottom: 0
+  bottom: 0;
+  font-size: 14px;
 }
 #map{
   width:100%;
