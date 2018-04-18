@@ -1,26 +1,28 @@
 <template>
   <view class="container">
-    <map id="map" longitude="120.149799" latitude="30.246539" scale="14" controls="{{controls}}" markers="{{markers}}" show-location></map>
+    <view class="mapcontainer">
+      <map id="map" longitude="120.149799" latitude="30.246539" scale="14" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+    </view>
+    <view class="selectarea">
+      <selector></selector>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import Select from '../components/select'
   var QQMapWX = require('../libs/qqmap-wx-jssdk.js');
   var qqmapsdk;
   export default class Index extends wepy.page { 
     config = {
       navigationBarTitleText: '杭州美食地图'
     }
+    components = {
+      selector: Select
+    }
     data = {
-      markers: [{
-        height: 33,
-        iconPath: "/resources/mark.png",
-        id:17,
-        latitude: "30.229031",
-        longitude: "120.133305",
-        width: 22
-      }],
+      markers: [],
       controls: [{
         id: 1,
         iconPath: '/resources/location.png',
@@ -37,18 +39,16 @@
       qqmapsdk = new QQMapWX({
           key: 'GWTBZ-5UNCJ-TJAFJ-KRNNM-YIMEF-4GFBM'
       })
-      
-    }
-    onShow() {
       var that = this
       wepy.request({
         url:'http://localhost:3000/api/post/getrestaurant',
         method: 'POST',
         data:{
-          selected: 'west'
+          selected: 'bbq'
         },
         success: function(res){
           var data = res.data
+          console.log(data)
           var marker_new = []
           data.forEach((val) => {
             var lnglat = val.lnglat.split(',')
@@ -59,16 +59,27 @@
                 latitude: lnglat[1],
                 longitude: lnglat[0],
                 width: 22,
-                height: 33
+                height: 33,
+                callout:{
+                  content: val.resname,
+                  display: 'BYCLICK',
+                  padding: 5,
+                  borderRadius: 4,
+                  bgColor: "#ffffff",
+                  color: "green",
+                  fontSize: 12
+                }
               }
             )
           })
           
-          this.markers = marker_new
+          that.markers = marker_new
           that.$apply()
-          console.log(this.markers)
         }
       })
+    }
+    markertap(e) {
+      console.log(e.markerId)
     }
   }  
 </script>
@@ -77,7 +88,22 @@ html,body,page{
   height: 100%
 }
 .container{
-  height:100%
+  height:100%;
+  position:relative
+}
+.mapcontainer{
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom:50px;
+}
+.selectarea{
+  height:50px;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0
 }
 #map{
   width:100%;

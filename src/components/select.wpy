@@ -1,0 +1,40 @@
+<template>
+  <picker bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{objectArray}}">
+    <view class="picker">
+        当前选择：{{objectArray[index].name}}
+    </view>
+  </picker>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Select extends wepy.component {
+  data = {
+      index: 0,
+      objectArray: [
+        {
+          id: 0,
+          name: '美国'
+        },
+        {
+          id: 1,
+          name: '中国'
+        },
+        {
+          id: 2,
+          name: '巴西'
+        },
+        {
+          id: 3,
+          name: '日本'
+        }
+      ]
+  }
+  methods = {
+      bindPickerChange(e) {
+    console.log(e.detail.value)
+    this.index = e.detail.value
+    this.$apply()
+  }
+  }  
+}
+</script>
