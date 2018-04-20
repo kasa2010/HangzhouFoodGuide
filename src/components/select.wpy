@@ -1,7 +1,7 @@
 <template>
-  <picker class="selector" bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{objectArray}}">
+  <picker class="selector" bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{restaurants}}">
     <view class="picker">
-        当前选择：{{objectArray[index].name}}
+        {{restaurants[index].name}}
     </view>
   </picker>
 </template>
@@ -10,29 +10,93 @@ import wepy from 'wepy';
 export default class Select extends wepy.component {
   data = {
     index: 0,
-    objectArray: [
+    restaurants: [
       {
         id: 0,
-        name: '美国'
+        short: 'all',
+        name: '全部'
       },
       {
         id: 1,
-        name: '中国'
+        short: 'hotel',
+        name: '高端酒店'
       },
       {
         id: 2,
-        name: '巴西'
+        short: 'west',
+        name: '西餐'
       },
       {
         id: 3,
-        name: '日本'
+        short: 'dragon',
+        name: '小龙虾'
+      },
+      {
+        id: 4,
+        short: 'bbq',
+        name: '烧烤'
+      },
+      {
+        id: 5,
+        short: 'hangzhou',
+        name: '杭帮菜'
+      },
+      {
+        id: 6,
+        short: 'cake',
+        name: '点心'
+      },
+      {
+        id: 7,
+        short: 'idea',
+        name: '创意餐厅'
+      },
+      {
+        id: 8,
+        short: 'noodle',
+        name: '面馆'
+      },
+      {
+        id: 9,
+        short: 'vegetarian',
+        name: '素斋'
+      },
+      {
+        id: 10,
+        short: 'japan',
+        name: '日料'
+      },
+      {
+        id: 11,
+        short: 'guangdong',
+        name: '茶餐厅、粤菜'
+      },
+      {
+        id: 12,
+        short: 'thai',
+        name: '泰国菜'
+      },
+      {
+        id: 13,
+        short: 'family',
+        name: '家常菜'
+      },
+      {
+        id: 14,
+        short: 'hotpot',
+        name: '火锅'
+      },
+      {
+        id: 15,
+        short: 'tea',
+        name: '下午茶'
       }
     ]
   };
   methods = {
     bindPickerChange(e) {
-      console.log(e.detail.value);
       this.index = e.detail.value;
+      this.$emit('reGet',this.restaurants[this.index].short)
       this.$apply();
     }
   };

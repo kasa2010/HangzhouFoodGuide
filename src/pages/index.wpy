@@ -22,6 +22,7 @@
       selector: Select
     }
     data = {
+      selected: 'all',
       markers: [],
       controls: [{
         id: 1,
@@ -36,19 +37,21 @@
       }]
     }
     onLoad() {
-      qqmapsdk = new QQMapWX({
-          key: 'GWTBZ-5UNCJ-TJAFJ-KRNNM-YIMEF-4GFBM'
-      })
+      this.getRestaurant()
+    }
+    markertap(e) {
+      console.log(e.markerId)
+    }
+    getRestaurant() {
       var that = this
       wepy.request({
-        url:'http://localhost:3000/api/post/getrestaurant',
+        url:'https://ksmqtv1c.qcloud.la/weapp/demo',
         method: 'POST',
         data:{
-          selected: 'bbq'
+          tag: this.selected
         },
         success: function(res){
-          var data = res.data
-          console.log(data)
+          var data = res.data.data
           var marker_new = []
           data.forEach((val) => {
             var lnglat = val.lnglat.split(',')
@@ -78,8 +81,12 @@
         }
       })
     }
-    markertap(e) {
-      console.log(e.markerId)
+    events = {
+      'reGet': (p1,$event) => {
+        this.selected = p1
+        this.$apply()
+        this.getRestaurant()
+      }
     }
   }  
 </script>
