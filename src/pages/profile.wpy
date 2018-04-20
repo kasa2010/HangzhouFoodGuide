@@ -1,0 +1,11 @@
+<template>
+  <text>my profile</text>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Profile extends wepy.page {
+  data = {
+
+  }
+}
+</script>
