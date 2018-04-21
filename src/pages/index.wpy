@@ -31,7 +31,7 @@
     }
     data = {
       currentTabIndex: 0,
-      selected: 'all',
+      selected: 'hotel',
       markers: [],
       resList: [],
       included: []
