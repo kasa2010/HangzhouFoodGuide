@@ -1,7 +1,7 @@
 <template>
   <picker class="selector" bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{restaurants}}">
     <view class="picker">
-        {{restaurants[index].name}}<text class="iconfont icon-xia"></text>
+        {{restaurants[index].name}}<text class="iconfont icon-xialajiantouxiao"></text>
     </view>
   </picker>
 </template>
@@ -109,7 +109,7 @@ export default class Select extends wepy.component {
     top: 50%;
     transform:translate(-50%,-50%)
 }
-.icon-xia{
+.icon-xialajiantouxiao{
   margin-left: 5px;
   font-size:14px;
 }
