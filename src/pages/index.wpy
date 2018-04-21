@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <locate :markers.sync="markers"></locate>
+      <locate :markers.sync="markers" :include.sync="included"></locate>
     </view>
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
@@ -33,7 +33,8 @@
       currentTabIndex: 0,
       selected: 'all',
       markers: [],
-      resList: []
+      resList: [],
+      included: []
     }
     onLoad() {
       this.getRestaurant()
@@ -50,6 +51,7 @@
           var data = res.data.data
           var marker_new = []
           var list_new = []
+          var include_new = []
           data.forEach((val) => {
             var lnglat = val.lnglat.split(',')
             marker_new.push({
@@ -70,10 +72,12 @@
               }
             })
             list_new.push(val.resname)
+            include_new.push([lnglat[0],lnglat[1]])
           })
           
           that.markers = marker_new
           that.resList = list_new
+          that.included = include_new
           that.$apply()
         }
       })
