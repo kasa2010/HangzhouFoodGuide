@@ -1,15 +1,16 @@
 <template>
   <view class="container">
-    <view class="content">
+    <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
       <locate :markers.sync="markers"></locate>
     </view>
-    <view class="content">
+    <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
     </view>
     <view class="selectarea">
-      <navigator class="nav-left" url="/pages/profile" open-type="redirect"><text class="iconfont icon-liebiao"></text></navigator>
+      <view class="nav-left hide {{currentTabIndex == '1' ? 'active' : ''}}" id="0" bindtap="changeTab"><text class="iconfont icon-liebiao"></text></view>
+      <view class="nav-right hide {{currentTabIndex == '0' ? 'active' : ''}}" id="1" bindtap="changeTab"><text class="iconfont icon-yonghu-yuan"></text></view>
       <selector></selector>
-      <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-yonghu-yuan"></text></navigator>
+      
     </view>
   </view>
 </template>
@@ -29,6 +30,7 @@
       list: List
     }
     data = {
+      currentTabIndex: 0,
       selected: 'all',
       markers: [],
       resList: []
@@ -76,6 +78,11 @@
         }
       })
     }
+    changeTab(e){
+      var index = e.currentTarget.id
+      this.currentTabIndex = index
+      this.$apply()
+    }
     events = {
       'reGet': (p1,$event) => {
         this.selected = p1
@@ -85,3 +92,11 @@
     }
   }  
 </script>
+<style>
+.hide{
+  display: none;
+}
+.active{
+  display: block;
+}
+</style>

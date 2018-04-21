@@ -69,7 +69,7 @@ export default class Select extends wepy.component {
       {
         id: 11,
         short: 'guangdong',
-        name: '茶餐厅、粤菜'
+        name: '                                茶餐厅、粤菜                                '
       },
       {
         id: 12,
