@@ -1,0 +1,39 @@
+<template>
+  <scroll-view class="content-scroll">
+    <ul class="reslist">
+      <repeat for="{{resList}}" key="index" index="index" item="item">
+        <li>{{item}}</li>
+      </repeat>
+    </ul>
+  </scroll-view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class ResList extends wepy.component { 
+    props = {
+      resList: {
+        type: Array,
+        default: []
+      }
+    }
+  }  
+</script>
+<style>
+.content-scroll{
+  padding-bottom: 50px;
+}
+.reslist{
+  list-style: none;
+  height: 100%;
+  padding-bottom: 50px;
+}
+.reslist li{
+  display: block;
+  padding-left: 15px;
+  height: 40px;
+  font-size:16px;
+  line-height: 40px;
+  border-top: 1px solid #e9e9e9;
+}
+</style>

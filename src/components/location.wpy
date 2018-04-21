@@ -1,0 +1,36 @@
+<template>
+    <map id="map" longitude="120.149799" latitude="30.246539" scale="14" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Location extends wepy.component {
+  props = {
+      markers: {
+          type: Array,
+          default: []
+      }
+  }  
+  data = {
+      controls: [{
+        id: 1,
+        iconPath: '/resources/location.png',
+        position: {
+          left: 0,
+          top: 300 - 50,
+          width: 50,
+          height: 50
+        },
+        clickable: true
+      }]
+  }
+  markertap(e) {
+    console.log(e.markerId)
+  }
+}
+</script>
+<style>
+#map{
+  width:100%;
+  height: 100%;
+}
+</style>

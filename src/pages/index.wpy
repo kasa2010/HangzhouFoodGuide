@@ -1,10 +1,13 @@
 <template>
   <view class="container">
-    <view class="mapcontainer">
-      <map id="map" longitude="120.149799" latitude="30.246539" scale="14" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+    <view class="content">
+      <locate :markers.sync="markers"></locate>
+    </view>
+    <view class="content">
+      <list :resList.sync="resList"></list>
     </view>
     <view class="selectarea">
-      <navigator class="nav-left" url="/pages/list" open-type="redirect"><text class="iconfont icon-liebiao"></text></navigator>
+      <navigator class="nav-left" url="/pages/profile" open-type="redirect"><text class="iconfont icon-liebiao"></text></navigator>
       <selector></selector>
       <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-yonghu-yuan"></text></navigator>
     </view>
@@ -13,36 +16,25 @@
 
 <script>
   import wepy from 'wepy'
+  import Locate from '../components/location'
+  import List from '../components/reslist'
   import Select from '../components/select'
-  var QQMapWX = require('../libs/qqmap-wx-jssdk.js');
-  var qqmapsdk;
-  export default class Index extends wepy.page { 
+  export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '杭州美食地图'
     }
     components = {
-      selector: Select
+      selector: Select,
+      locate: Locate,
+      list: List
     }
     data = {
       selected: 'all',
       markers: [],
-      controls: [{
-        id: 1,
-        iconPath: '/resources/location.png',
-        position: {
-          left: 0,
-          top: 300 - 50,
-          width: 50,
-          height: 50
-        },
-        clickable: true
-      }]
+      resList: []
     }
     onLoad() {
       this.getRestaurant()
-    }
-    markertap(e) {
-      console.log(e.markerId)
     }
     getRestaurant() {
       var that = this
@@ -55,30 +47,31 @@
         success: function(res){
           var data = res.data.data
           var marker_new = []
+          var list_new = []
           data.forEach((val) => {
             var lnglat = val.lnglat.split(',')
-            marker_new.push(
-              {
-                iconPath: "/resources/mark.png",
-                id: val.id,
-                latitude: lnglat[1],
-                longitude: lnglat[0],
-                width: 22,
-                height: 33,
-                callout:{
-                  content: val.resname,
-                  display: 'BYCLICK',
-                  padding: 5,
-                  borderRadius: 4,
-                  bgColor: "#ffffff",
-                  color: "green",
-                  fontSize: 12
-                }
+            marker_new.push({
+              iconPath: "/resources/mark.png",
+              id: val.id,
+              latitude: lnglat[1],
+              longitude: lnglat[0],
+              width: 22,
+              height: 33,
+              callout:{
+                content: val.resname,
+                display: 'BYCLICK',
+                padding: 5,
+                borderRadius: 4,
+                bgColor: "#ffffff",
+                color: "green",
+                fontSize: 12
               }
-            )
+            })
+            list_new.push(val.resname)
           })
           
           that.markers = marker_new
+          that.resList = list_new
           that.$apply()
         }
       })
@@ -92,43 +85,3 @@
     }
   }  
 </script>
-<style>
-html,body,page{
-  height: 100%
-}
-.container{
-  height:100%;
-  position:relative
-}
-.mapcontainer{
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom:50px;
-}
-.selectarea{
-  height:50px;
-  position: fixed;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  font-size: 15px;
-}
-#map{
-  width:100%;
-  height: 100%;
-}
-.nav-left,.nav-right{
-  position: absolute;
-  top:50%;
-  transform:translateY(-50%)
-
-}
-.nav-left{
-  left:15px;
-}
-.nav-right{
-  right:15px;
-}
-</style>
