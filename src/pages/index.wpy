@@ -20,6 +20,8 @@
   import Locate from '../components/location'
   import List from '../components/reslist'
   import Select from '../components/select'
+  var QQMapWX = require('../libs/qqmap-wx-jssdk.js')
+  var qqmapsdk
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '杭州美食地图'
@@ -36,11 +38,14 @@
       resList: [],
       longitude: '120.149799',
       latitude: '30.246539',
-      scale: '14',
+      scale: '15',
       included: []
     }
     onLoad() {
       this.getRestaurant()
+      qqmapsdk = new QQMapWX({
+        key: 'GWTBZ-5UNCJ-TJAFJ-KRNNM-YIMEF-4GFBM'
+      })
     }
     getRestaurant() {
       var that = this
@@ -66,13 +71,14 @@
               height: 33,
               callout:{
                 content: val.resname,
-                display: 'BYCLICK',
+                display: 'ALWAYS',
                 padding: 5,
                 borderRadius: 4,
                 bgColor: "#ffffff",
                 color: "green",
                 fontSize: 12
-              }
+              },
+              anchor:{x:.5,y:1}
             })
             list_new.push({
               name: val.resname,
@@ -86,8 +92,23 @@
           that.included = include_new
           that.longitude = '120.149799'
           that.latitude = '30.246539'
-          that.scale = '14'
+          that.scale = '15'
           that.$apply()
+        }
+      })
+    }
+    onShow() {
+      // 调用接口
+      qqmapsdk.search({
+        keyword: '酒店',
+        success: function (res) {
+            console.log(res)
+        },
+        fail: function (res) {
+            console.log(res)
+        },
+        complete: function (res) {
+            console.log(res)
         }
       })
     }
