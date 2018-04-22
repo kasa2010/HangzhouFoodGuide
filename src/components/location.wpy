@@ -1,10 +1,13 @@
 <template>
-    <map id="map" longitude="120.149799" latitude="30.246539" scale="14" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}"></map>
+    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
 </template>
 <script>
 import wepy from 'wepy'
 export default class Location extends wepy.component {
   props = {
+      longitude: String,
+      latitude: String,
+      scale: String,
       markers: {
         type: Array,
         default: []
@@ -27,8 +30,10 @@ export default class Location extends wepy.component {
         clickable: true
       }]
   }
-  markertap(e) {
-    console.log(e.markerId)
+  methods = {
+    markertap(e) {
+      console.log(e.markerId)
+    }
   }
 }
 </script>

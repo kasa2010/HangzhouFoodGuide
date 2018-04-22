@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <locate :markers.sync="markers" :include.sync="included"></locate>
+      <locate :longitude.sync="longitude" :latitude.sync="latitude" :scale.sync="scale" :markers.sync="markers" :include.sync="included"></locate>
     </view>
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
@@ -34,6 +34,9 @@
       selected: 'hotel',
       markers: [],
       resList: [],
+      longitude: '120.149799',
+      latitude: '30.246539',
+      scale: '14',
       included: []
     }
     onLoad() {
@@ -71,13 +74,19 @@
                 fontSize: 12
               }
             })
-            list_new.push(val.resname)
+            list_new.push({
+              name: val.resname,
+              lnglat: val.lnglat
+            })
             include_new.push([lnglat[0],lnglat[1]])
           })
           
           that.markers = marker_new
           that.resList = list_new
           that.included = include_new
+          that.longitude = '120.149799'
+          that.latitude = '30.246539'
+          that.scale = '14'
           that.$apply()
         }
       })
@@ -92,6 +101,14 @@
         this.selected = p1
         this.$apply()
         this.getRestaurant()
+      },
+      'locate': (lnglat) => {
+        this.currentTabIndex = 0
+        this.scale = '18'
+        var lnglatarr = lnglat.split(',')
+        this.longitude = lnglatarr[0]
+        this.latitude = lnglatarr[1]
+        this.$apply()
       }
     }
   }  

@@ -2,7 +2,7 @@
   <scroll-view class="content-scroll">
     <ul class="reslist">
       <repeat for="{{resList}}" key="index" index="index" item="item">
-        <li>{{item}}</li>
+        <li id="{{item.lnglat}}" bindtap="locateTo">{{item.name}}</li>
       </repeat>
     </ul>
   </scroll-view>
@@ -10,11 +10,17 @@
 
 <script>
   import wepy from 'wepy'
-  export default class ResList extends wepy.component { 
+  export default class ResList extends wepy.component {
     props = {
       resList: {
         type: Array,
         default: []
+      }
+    }
+    methods = {
+      locateTo(e){
+        var index = e.currentTarget.id
+        this.$emit('locate', index)
       }
     }
   }  
