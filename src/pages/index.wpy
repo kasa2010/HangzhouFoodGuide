@@ -1,7 +1,8 @@
 <template>
   <view class="container">
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <locate :longitude.sync="longitude" :latitude.sync="latitude" :scale.sync="scale" :markers.sync="markers" :include.sync="included"></locate>
+    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+
     </view>
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
@@ -17,7 +18,6 @@
 
 <script>
   import wepy from 'wepy'
-  import Locate from '../components/location'
   import List from '../components/reslist'
   import Select from '../components/select'
   var QQMapWX = require('../libs/qqmap-wx-jssdk.js')
@@ -28,7 +28,6 @@
     }
     components = {
       selector: Select,
-      locate: Locate,
       list: List
     }
     data = {
@@ -36,10 +35,9 @@
       selected: 'hotel',
       markers: [],
       resList: [],
-      longitude: '120.149799',
-      latitude: '30.246539',
-      scale: '15',
-      included: []
+      longitude: '',
+      latitude: '',
+      scale: ''
     }
     onLoad() {
       this.getRestaurant()
@@ -50,7 +48,7 @@
     getRestaurant() {
       var that = this
       wepy.request({
-        url:'https://ksmqtv1c.qcloud.la/weapp/demo',
+        url:'https://876379022.supergrass.club/weapp/demo',
         method: 'POST',
         data:{
           tag: this.selected
@@ -67,15 +65,15 @@
               id: val.id,
               latitude: lnglat[1],
               longitude: lnglat[0],
-              width: 22,
+              width: 33,
               height: 33,
               callout:{
                 content: val.resname,
                 display: 'ALWAYS',
                 padding: 5,
-                borderRadius: 4,
+                borderRadius: 50,
                 bgColor: "#ffffff",
-                color: "green",
+                color: "#333333",
                 fontSize: 12
               },
               anchor:{x:.5,y:1}
@@ -92,23 +90,8 @@
           that.included = include_new
           that.longitude = '120.149799'
           that.latitude = '30.246539'
-          that.scale = '15'
+          that.scale = 15
           that.$apply()
-        }
-      })
-    }
-    onShow() {
-      // 调用接口
-      qqmapsdk.search({
-        keyword: '酒店',
-        success: function (res) {
-            console.log(res)
-        },
-        fail: function (res) {
-            console.log(res)
-        },
-        complete: function (res) {
-            console.log(res)
         }
       })
     }
@@ -116,6 +99,16 @@
       var index = e.currentTarget.id
       this.currentTabIndex = index
       this.$apply()
+    }
+    markertap(e) {
+      console.log(e.markerId)
+        wx.openLocation({
+        latitude: 30.254851,
+        name: '湖滨28',
+        address: '浙江省杭州市上城区湖滨路28号',
+        longitude: 120.161666,
+        scale: 28
+      })
     }
     events = {
       'reGet': (p1,$event) => {
@@ -125,10 +118,12 @@
       },
       'locate': (lnglat) => {
         this.currentTabIndex = 0
-        this.scale = '18'
         var lnglatarr = lnglat.split(',')
-        this.longitude = lnglatarr[0]
-        this.latitude = lnglatarr[1]
+        console.log(lnglatarr[0])
+        console.log(lnglatarr[1])
+        this.longitude = lnglatarr[0] + ''
+        this.latitude = lnglatarr[1] + ''
+        //this.scale = 18
         this.$apply()
       }
     }
@@ -140,5 +135,9 @@
 }
 .active{
   display: block;
+}
+#map{
+  width:100%;
+  height: 100%;
 }
 </style>

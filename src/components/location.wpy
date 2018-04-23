@@ -1,18 +1,23 @@
 <template>
-    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+    <map id="map" longitude="120.145111" latitude="30.247205" scale="{{scale}}" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
 </template>
 <script>
 import wepy from 'wepy'
 export default class Location extends wepy.component {
   props = {
-      longitude: String,
-      latitude: String,
-      scale: String,
-      markers: {
-        type: Array,
-        default: []
+      longitude: {
+        type: Number,
+        default: 120.149799
       },
-      include: {
+      latitude: {
+        type: Number,
+        default: 30.246539
+      },
+      scale: {
+        type: Number,
+        default: 15
+      },
+      markers: {
         type: Array,
         default: []
       }
@@ -31,8 +36,16 @@ export default class Location extends wepy.component {
       }]
   }
   methods = {
-    markertap(e) {
-      console.log(e.markerId)
+    
+      // wepy.showActionSheet({
+      //   itemList: ['种草', '拔草'],
+      //   success: function(res) {
+      //     console.log(res.tapIndex)
+      //   },
+      //   fail: function(res) {
+      //     console.log(res.errMsg)
+      //   }
+      // })
     }
   }
 }

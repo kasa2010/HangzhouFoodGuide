@@ -1,5 +1,5 @@
 <template>
-  <text>my profile</text>
+  <text>敬请期待……</text>
 </template>
 <script>
 import wepy from 'wepy'
