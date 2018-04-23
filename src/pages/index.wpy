@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+      <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
@@ -108,6 +108,7 @@
     markertap(e) {
       var index = _.findIndex(this.markers,['id',e.markerId])
       var tapedMarker = this.markers[index]
+      var that = this
       wepy.showActionSheet({
         itemList: ['种草', '拔草','去'+tapedMarker.title],
         success: function(res) {
@@ -118,6 +119,12 @@
               longitude: tapedMarker.longitude - 0,
               scale: 18
             })
+          } else if(res.tapIndex == 0){
+            tapedMarker.iconPath = "/resources/greenmark.png"
+            that.$apply()
+          } else if(res.tapIndex == 1){
+            tapedMarker.iconPath = "/resources/bluemark.png"
+            that.$apply()          
           }
         },
         fail: function(res) {
