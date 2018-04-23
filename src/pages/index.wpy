@@ -18,6 +18,7 @@
 
 <script>
   import wepy from 'wepy'
+  import _ from 'lodash'
   import List from '../components/reslist'
   import Select from '../components/select'
   var QQMapWX = require('../libs/qqmap-wx-jssdk.js')
@@ -31,6 +32,9 @@
       list: List
     }
     data = {
+      test:[{
+        id:0,
+      },{id:3},{id:1}],
       currentTabIndex: 0,
       selected: 'hotel',
       markers: [],
@@ -67,6 +71,7 @@
               longitude: lnglat[0],
               width: 33,
               height: 33,
+              title: val.resname,
               callout:{
                 content: val.resname,
                 display: 'ALWAYS',
@@ -101,13 +106,13 @@
       this.$apply()
     }
     markertap(e) {
-      console.log(e.markerId)
-        wx.openLocation({
-        latitude: 30.254851,
-        name: '湖滨28',
-        address: '浙江省杭州市上城区湖滨路28号',
-        longitude: 120.161666,
-        scale: 28
+      var index = _.findIndex(this.markers,['id',e.markerId])
+      var tapedMarker = this.markers[index]
+      wepy.openLocation({
+        latitude: tapedMarker.latitude - 0,
+        name: tapedMarker.title,
+        longitude: tapedMarker.longitude - 0,
+        scale: 18
       })
     }
     events = {
@@ -119,8 +124,6 @@
       'locate': (lnglat) => {
         this.currentTabIndex = 0
         var lnglatarr = lnglat.split(',')
-        console.log(lnglatarr[0])
-        console.log(lnglatarr[1])
         this.longitude = lnglatarr[0] + ''
         this.latitude = lnglatarr[1] + ''
         //this.scale = 18
