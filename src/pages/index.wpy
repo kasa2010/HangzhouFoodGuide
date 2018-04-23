@@ -1,15 +1,18 @@
 <template>
   <view class="container">
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
-
+      <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
     </view>
     <view class="selectarea">
-      <view class="nav-left hide {{currentTabIndex == '1' ? 'active' : ''}}" id="0" bindtap="changeTab"><text class="iconfont icon-ditu"></text></view>
-      <view class="nav-left hide {{currentTabIndex == '0' ? 'active' : ''}}" id="1" bindtap="changeTab"><text class="iconfont icon-dingdan"></text></view>
+      <view class="nav-left hide {{currentTabIndex == '1' ? 'active' : ''}}" id="0" bindtap="changeTab">
+        <text class="iconfont icon-ditu"></text>
+      </view>
+      <view class="nav-left hide {{currentTabIndex == '0' ? 'active' : ''}}" id="1" bindtap="changeTab">
+        <text class="iconfont icon-dingdan"></text>
+      </view>
       <selector></selector>
       <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator>
     </view>
@@ -32,9 +35,6 @@
       list: List
     }
     data = {
-      test:[{
-        id:0,
-      },{id:3},{id:1}],
       currentTabIndex: 0,
       selected: 'hotel',
       markers: [],
