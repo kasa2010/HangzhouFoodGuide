@@ -108,11 +108,21 @@
     markertap(e) {
       var index = _.findIndex(this.markers,['id',e.markerId])
       var tapedMarker = this.markers[index]
-      wepy.openLocation({
-        latitude: tapedMarker.latitude - 0,
-        name: tapedMarker.title,
-        longitude: tapedMarker.longitude - 0,
-        scale: 18
+      wepy.showActionSheet({
+        itemList: ['种草', '拔草','去'+tapedMarker.title],
+        success: function(res) {
+          if(res.tapIndex == 2) {
+            wepy.openLocation({
+              latitude: tapedMarker.latitude - 0,
+              name: tapedMarker.title,
+              longitude: tapedMarker.longitude - 0,
+              scale: 18
+            })
+          }
+        },
+        fail: function(res) {
+          console.log(res.errMsg)
+        }
       })
     }
     events = {
