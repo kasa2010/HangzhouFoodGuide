@@ -1,11 +1,14 @@
 <template>
   <view class="container">
+    <!-- 地图 -->
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
       <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
+    <!-- 列表 -->
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
     </view>
+    <!-- 底部栏 -->
     <view class="selectarea">
       <view class="nav-left hide {{currentTabIndex == '1' ? 'active' : ''}}" id="0" bindtap="changeTab">
         <text class="iconfont icon-ditu"></text>
@@ -24,6 +27,7 @@
   import _ from 'lodash'
   import List from '../components/reslist'
   import Select from '../components/select'
+  import host from '../config.js'
   var QQMapWX = require('../libs/qqmap-wx-jssdk.js')
   var qqmapsdk
   export default class Index extends wepy.page {
@@ -52,7 +56,7 @@
     getRestaurant() {
       var that = this
       wepy.request({
-        url:'https://876379022.supergrass.club/weapp/demo',
+        url: host.service.getResUrl,
         method: 'POST',
         data:{
           tag: this.selected

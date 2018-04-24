@@ -17,13 +17,31 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null,
-    mapmarkers: null
+    userInfo: null
   }
 
   constructor () {
     super()
     this.use('requestfix')
+  }
+
+  onLaunch () {
+    wx.login({
+      success: function(res) {
+        if (res.code) {
+          console.log(res)
+          //发起网络请求
+          wx.request({
+            url: 'https://test.com/onLogin',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
   }
 
   getUserInfo(cb) {
