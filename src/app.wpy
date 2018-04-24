@@ -1,7 +1,7 @@
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
-
+import host from './config.js'
 export default class extends wepy.app {
   config = {
     pages: [
@@ -27,19 +27,17 @@ export default class extends wepy.app {
 
   onLaunch () {
     wx.login({
-      success: function(res) {
-        if (res.code) {
-          console.log(res)
-          //发起网络请求
-          wx.request({
-            url: 'https://test.com/onLogin',
-            data: {
-              code: res.code
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
+      success: function(res){
+        wx.request({
+          url: host.service.loginUrl,
+          method: 'POST',
+          data: {
+            code: res.code
+          },
+          success: function(res){
+            console.log(res)
+          }
+        })
       }
     })
   }
