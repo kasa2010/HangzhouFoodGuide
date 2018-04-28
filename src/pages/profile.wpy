@@ -1,11 +1,92 @@
 <template>
-  <text>敬请期待……</text>
+  <view class="profile">
+    <view class="profile-banner">
+      <image class="profile-avatar" src="{{avatarUrl}}"></image>
+      <text class="profile-nick">{{nickName}}</text>
+    </view>
+    <view>
+      <view class="profile-list">
+        <view class="profile-list_item">种草<text class="grass-num">12</text></view>
+        <view class="profile-list_item">拔草<text class="grass-num">35</text></view>
+      </view>
+    </view>
+  </view>
 </template>
 <script>
 import wepy from 'wepy'
 export default class Profile extends wepy.page {
+  config = {
+    navigationBarTitleText: '我的'
+  }
   data = {
-
+    nickName:'',
+    avatarUrl: '',
+  }
+  onLoad () {
+    var that = this
+    wx.getUserInfo({
+      success: function(res) {
+        var userInfo = res.userInfo
+        that.nickName = userInfo.nickName
+        that.avatarUrl = userInfo.avatarUrl
+        that.$apply()
+      }
+    })
   }
 }
 </script>
+<style>
+.profile{
+  height: 100%;
+  background: #f7f7f7
+}
+.profile-banner{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #fff;
+  text-align: center;
+  border-bottom: 1px solid #e9e9e9;
+  margin-bottom: 10px;
+}
+
+.profile-avatar{
+  display: block;
+  margin: 0 auto;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+}
+
+.profile-nick{
+  display: inline-block;
+  padding-top: 10px;
+}
+
+
+.profile-list {
+  background: #fff;
+  border-top: 1px solid #e9e9e9;
+}
+
+.profile-list_item{
+  background:#fff;
+  display: block;
+  padding-left: 10px;
+  height: 40px;
+  font-size:16px;
+  line-height: 40px;
+  border-bottom:1px solid #e9e9e9;
+}
+.grass-num{
+  display: inline-block;
+  width:24px;
+  height:24px;
+  font-size:14px;
+  line-height: 24px;
+  margin-left: 10px;
+  text-align: center;
+  color: #fff;
+  border-radius:50%;
+  background: red;
+}
+</style>
