@@ -55,53 +55,46 @@
     }
     getRestaurant() {
       var that = this
-      wepy.request({
-        url: host.service.getResUrl,
-        method: 'POST',
-        data:{
-          tag: this.selected
-        },
-        success: function(res){
-          var data = res.data.data
-          var marker_new = []
-          var list_new = []
-          var include_new = []
-          data.forEach((val) => {
-            var lnglat = val.lnglat.split(',')
-            marker_new.push({
-              iconPath: "/resources/mark.png",
-              id: val.id,
-              latitude: lnglat[1],
-              longitude: lnglat[0],
-              width: 33,
-              height: 33,
-              title: val.resname,
-              callout:{
-                content: val.resname,
-                display: 'ALWAYS',
-                padding: 5,
-                borderRadius: 50,
-                bgColor: "#ffffff",
-                color: "#333333",
-                fontSize: 12
-              },
-              anchor:{x:.5,y:1}
-            })
-            list_new.push({
-              name: val.resname,
-              lnglat: val.lnglat
-            })
-            include_new.push([lnglat[0],lnglat[1]])
+      this.$parent.ajax(host.service.getResUrl,'POST',{tag:this.selected}).then((res) => {
+        var data = res.data
+        var marker_new = []
+        var list_new = []
+        var include_new = []
+        data.forEach((val) => {
+          var lnglat = val.lnglat.split(',')
+          marker_new.push({
+            iconPath: "/resources/mark.png",
+            id: val.id,
+            latitude: lnglat[1],
+            longitude: lnglat[0],
+            width: 33,
+            height: 33,
+            title: val.resname,
+            callout:{
+              content: val.resname,
+              display: 'ALWAYS',
+              padding: 5,
+              borderRadius: 50,
+              bgColor: "#ffffff",
+              color: "#333333",
+              fontSize: 12
+            },
+            anchor:{x:.5,y:1}
           })
-          
-          that.markers = marker_new
-          that.resList = list_new
-          that.included = include_new
-          that.longitude = '120.149799'
-          that.latitude = '30.246539'
-          that.scale = 15
-          that.$apply()
-        }
+          list_new.push({
+            name: val.resname,
+            lnglat: val.lnglat
+          })
+          include_new.push([lnglat[0],lnglat[1]])
+        })
+        
+        that.markers = marker_new
+        that.resList = list_new
+        that.included = include_new
+        that.longitude = '120.149799'
+        that.latitude = '30.246539'
+        that.scale = 15
+        that.$apply()
       })
     }
     changeTab(e){

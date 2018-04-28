@@ -26,33 +26,71 @@ export default class extends wepy.app {
   }
 
   onLaunch () {
-    wx.login({
-      success: function(res){
-        wx.request({
-          url: host.service.loginUrl,
-          method: 'POST',
-          data: {
-            code: res.code
-          },
-          success: function(res){
-            console.log(res)
-          }
-        })
-      }
+    
+  }
+  checkSession(){
+    return new Promise((resolve, reject) => {
+      wx.checkSession({
+        success:function(){
+            resolve(true)
+        },
+        fail:function(){
+            reject(false)
+        }
+      })
     })
   }
-
-  getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
+  login(){
+    return new Promise((resolve,reject) => {
+      wx.login({
+        success: function(res){
+          wx.request({
+            url: host.service.loginUrl,
+            method: 'POST',
+            data: {
+              code: res.code
+            },
+            success: function(res){
+              wx.setStorage({
+                key:'key',
+                data: res.data.key
+              })
+            }
+          })
+        }
+      })
     })
+  }
+  test(){
+    console.log('from parent')
+  }
+  ajax(url,method="GET",data,config={}){
+    let key = wx.getStorageSync('key')
+    if(!key){
+      return new Promise((resolve,reject) =>{
+        this.login()
+        reject('请登录')
+      })
+    } else {
+      return new Promise((resolve,reject) =>{
+        this.checkSession().then(_=>{
+          if(_){
+            wepy.request({
+              url,
+              method:method.toLocaleUpperCase(),
+              data,
+              header: Object.assign({},{key},config),
+              success: (ret) =>{
+                resolve(ret.data)
+              }
+            })
+          } else {
+            login()
+            reject('session_key失效')
+          }
+        })
+      })
+    }
   }
 }
 </script>
