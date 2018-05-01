@@ -117,6 +117,7 @@
               scale: 18
             })
           } else if(res.tapIndex == 0){
+            console.log(tapedMarker)
             tapedMarker.iconPath = "/resources/greenmark.png"
             that.$apply()
           } else if(res.tapIndex == 1){
