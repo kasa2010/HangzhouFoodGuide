@@ -4,10 +4,12 @@
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
       <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
+
     <!-- 列表 -->
     <view class="content hide {{currentTabIndex == '1' ? 'active' : ''}}">
       <list :resList.sync="resList"></list>
     </view>
+
     <!-- 底部栏 -->
     <view class="selectarea">
       <view class="nav-left hide {{currentTabIndex == '1' ? 'active' : ''}}" id="0" bindtap="changeTab">
@@ -55,16 +57,14 @@
     }
     getRestaurant() {
       var that = this
-      console.log('d')
-      this.$parent.ajax(host.service.getResUrl,'POST',{tag:this.selected}).then((res) => {
-        var data = res.data
+      this.getSelectedData().then(res => {
+        var data = res
         var marker_new = []
         var list_new = []
         var include_new = []
         data.forEach((val) => {
           var lnglat = val.lnglat.split(',')
-          marker_new.push({
-            iconPath: "/resources/mark.png",
+          let iconInfo = {
             id: val.id,
             latitude: lnglat[1],
             longitude: lnglat[0],
@@ -81,7 +81,15 @@
               fontSize: 12
             },
             anchor:{x:.5,y:1}
-          })
+          }
+          if(_.indexOf(that.$parent.globalData.plant,val.id) >= 0){
+            iconInfo.iconPath = "/resources/greenmark.png" 
+          } else if (_.indexOf(that.$parent.globalData.pick,val.id) >= 0){
+            iconInfo.iconPath = "/resources/bluemark.png"
+          } else {
+            iconInfo.iconPath = "/resources/mark.png"
+          }
+          marker_new.push(iconInfo)
           list_new.push({
             name: val.resname,
             lnglat: val.lnglat
@@ -98,6 +106,22 @@
         that.$apply()
       })
     }
+    getSelectedData(){
+      var that = this
+      return new Promise((resolve,reject) => {
+        var tag = that.selected
+        var all = that.$parent.globalData.all
+        var resdata = []
+        all.forEach(val => {
+          if(val.tag == tag){
+            resdata.push(val)
+          }
+        })
+        if(resdata.length){
+          resolve(resdata)
+        }
+      })
+    }
     changeTab(e){
       var index = e.currentTarget.id
       this.currentTabIndex = index
@@ -107,22 +131,30 @@
       var index = _.findIndex(this.markers,['id',e.markerId])
       var tapedMarker = this.markers[index]
       var that = this
-      wepy.showActionSheet({
+      var state = this.$parent.globalData
+      wx.showActionSheet({
         itemList: ['种草', '拔草','去'+tapedMarker.title],
         success: function(res) {
           if(res.tapIndex == 2) {
-            wepy.openLocation({
+            wx.openLocation({
               latitude: tapedMarker.latitude - 0,
               name: tapedMarker.title,
               longitude: tapedMarker.longitude - 0,
               scale: 18
             })
           } else if(res.tapIndex == 0){
-            console.log(tapedMarker)
             tapedMarker.iconPath = "/resources/greenmark.png"
+            state.plant.push(index)
+            _.remove(state.pick,function(n){
+              return n === index
+            })
             that.$apply()
           } else if(res.tapIndex == 1){
             tapedMarker.iconPath = "/resources/bluemark.png"
+            state.pick.push(index)
+            _.remove(state.plant,function(n){
+              return n === index
+            })
             that.$apply()          
           }
         },

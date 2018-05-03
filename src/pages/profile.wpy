@@ -6,8 +6,8 @@
     </view>
     <view>
       <view class="profile-list">
-        <view class="profile-list_item">种草<text class="grass-num">12</text></view>
-        <view class="profile-list_item">拔草<text class="grass-num">35</text></view>
+        <view class="profile-list_item">种草<text class="grass-num">{{plantNum}}</text></view>
+        <view class="profile-list_item">拔草<text class="grass-num">{{pickNum}}</text></view>
       </view>
     </view>
   </view>
@@ -21,6 +21,14 @@ export default class Profile extends wepy.page {
   data = {
     nickName:'',
     avatarUrl: '',
+  }
+  computed = {
+    plantNum() {
+      return this.$parent.globalData.plant.length
+    },
+    pickNum() {
+      return this.$parent.globalData.pick.length
+    }
   }
   onLoad () {
     var that = this
