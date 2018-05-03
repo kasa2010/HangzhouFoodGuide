@@ -55,6 +55,7 @@
     }
     getRestaurant() {
       var that = this
+      console.log('d')
       this.$parent.ajax(host.service.getResUrl,'POST',{tag:this.selected}).then((res) => {
         var data = res.data
         var marker_new = []
