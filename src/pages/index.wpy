@@ -50,7 +50,15 @@
       scale: ''
     }
     onLoad() {
-      this.getRestaurant()
+      if(!this.$parent.globalData.all.length) {
+        var that = this
+        this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+          that.$parent.globalData.all = res.data
+          that.getRestaurant()
+        })
+      } else {
+        this.getRestaurant()
+      }
       qqmapsdk = new QQMapWX({
         key: 'GWTBZ-5UNCJ-TJAFJ-KRNNM-YIMEF-4GFBM'
       })
@@ -119,6 +127,8 @@
         })
         if(resdata.length){
           resolve(resdata)
+        }else{
+          reject('ffff')
         }
       })
     }
