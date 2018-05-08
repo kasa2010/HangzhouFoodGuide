@@ -30,11 +30,14 @@ export default class extends wepy.app {
     this.use('requestfix')
   }
 
+  // 初始化数据
   onLaunch () {
     this.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
       this.globalData.all = res.data
     })
   }
+
+  // 检查登录是否过期
   checkSession(){
     return new Promise((resolve, reject) => {
       wx.checkSession({
@@ -42,11 +45,13 @@ export default class extends wepy.app {
           resolve(true)
         },
         fail:function(){
-          reject(false)
+          reject('请重新登录')
         }
       })
     })
   }
+
+  // 登录并返回key
   login(){
     return new Promise((resolve,reject) => {
       wx.login({
@@ -68,6 +73,8 @@ export default class extends wepy.app {
       })
     })
   }
+
+  // 封装登录之后的请求
   ajax(url,method="GET",data,config={}){
     let key = wx.getStorageSync('key')
     if(!key){
