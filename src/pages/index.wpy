@@ -48,11 +48,19 @@
       resList: [],
       longitude: '',
       latitude: '',
-      scale: ''
+      scale: '',
+      plant: '',
+      pick: ''
     }
 
     // 页面初始化
     onLoad() {
+      this.plant = this.$parent.globalData.plant
+      this.pick = this.$parent.globalData.pick
+      this.$apply()
+      this.$parent.ajax(host.service.cryptoUrl,'POST',{tag: 'all'}).then(res => {
+        console.log(res)
+      })
       if(!this.$parent.globalData.all.length) {
         var that = this
         this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
@@ -92,9 +100,9 @@
             },
             anchor:{x:.5,y:1}
           }
-          if(_.indexOf(that.$parent.globalData.plant,val.id) >= 0){
+          if(_.indexOf(that.plant,val.id) >= 0){
             iconInfo.iconPath = "/resources/greenmark.png" 
-          } else if (_.indexOf(that.$parent.globalData.pick,val.id) >= 0){
+          } else if (_.indexOf(that.pick,val.id) >= 0){
             iconInfo.iconPath = "/resources/bluemark.png"
           } else {
             iconInfo.iconPath = "/resources/mark.png"
@@ -129,7 +137,6 @@
             resdata.push(val)
           }
         })
-        
         if(resdata.length){
           resolve(resdata)
         }else{
@@ -163,16 +170,16 @@
             })
           } else if(res.tapIndex == 0){
             tapedMarker.iconPath = "/resources/greenmark.png"
-            state.plant.push(index)
-            _.remove(state.pick,function(n){
-              return n === index
+            that.plant.push(tapedMarker.id)
+            _.remove(that.pick,function(n){
+              return n === tapedMarker.id
             })
             that.$apply()
           } else if(res.tapIndex == 1){
             tapedMarker.iconPath = "/resources/bluemark.png"
-            state.pick.push(index)
-            _.remove(state.plant,function(n){
-              return n === index
+            that.pick.push(tapedMarker.id)
+            _.remove(that.plant,function(n){
+              return n === tapedMarker.id
             })
             that.$apply()          
           }

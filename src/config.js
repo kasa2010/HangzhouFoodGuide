@@ -8,5 +8,6 @@ export default {
       getResUrl: `${host}/weapp/restaurant`,
       getLikeUrl: `${host}/weapp/like`,
       getDoneUrl: `${host}/weapp/done`,
+      cryptoUrl: `${host}/weapp/crypto`
   }
 }

@@ -63,6 +63,7 @@ export default class extends wepy.app {
               code: res.code
             },
             success: function(res){
+              console.log(res)
               wx.setStorage({
                 key:'key',
                 data: res.data.key
