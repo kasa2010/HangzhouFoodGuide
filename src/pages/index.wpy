@@ -177,13 +177,13 @@
             that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
               if(res.message == 'success'){
                 wx.showToast({
-                  title: '成功',
+                  title: '种草成功',
                   icon: 'success',
                   duration: 2000
                 })
               } else {
                 wx.showToast({
-                  title: res.message,
+                  title: '种草失败',
                   icon: 'none',
                   duration: 2000
                 })
@@ -196,16 +196,16 @@
               return n === tapedMarker.id
             })
             that.$apply()
-            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
+            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'pick'}).then(res => {
               if(res.message == 'success'){
                 wx.showToast({
-                  title: '成功',
+                  title: '拔草成功',
                   icon: 'success',
                   duration: 2000
                 })
               } else {
                 wx.showToast({
-                  title: '失败',
+                  title: '拔草失败',
                   icon: 'none',
                   duration: 2000
                 })
