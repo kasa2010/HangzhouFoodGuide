@@ -47,9 +47,9 @@
       selected: 'hotel',
       markers: [],
       resList: [],
-      longitude: '',
-      latitude: '',
-      scale: '',
+      longitude: 120.149799,
+      latitude: 30.246539,
+      scale: 15,
       plant: [],
       pick: []
     }
@@ -116,8 +116,8 @@
         that.markers = marker_new
         that.resList = list_new
         that.included = include_new
-        that.longitude = '120.149799'
-        that.latitude = '30.246539'
+        that.longitude = 120.149799
+        that.latitude = 30.246539
         that.scale = 15
         that.isready = true
         that.$apply()
