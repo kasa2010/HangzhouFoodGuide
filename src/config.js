@@ -6,8 +6,7 @@ export default {
       host,
       loginUrl: `${host}/weapp/login`,
       getResUrl: `${host}/weapp/restaurant`,
-      getLikeUrl: `${host}/weapp/like`,
-      getDoneUrl: `${host}/weapp/done`,
-      cryptoUrl: `${host}/weapp/crypto`
+      addUrl: `${host}/weapp/addres`,
+      getfavUrl: `${host}/weapp/getlike`
   }
 }

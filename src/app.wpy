@@ -20,8 +20,8 @@ export default class extends wepy.app {
   globalData = {
     userInfo: null,
     all: [],
-    plant: [1,2],
-    pick: [3,4]
+    plant: [],
+    pick: []
   }
 
   constructor () {
@@ -32,8 +32,15 @@ export default class extends wepy.app {
 
   // 初始化数据
   onLaunch () {
-    this.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
-      this.globalData.all = res.data
+    this.ajax(host.service.getfavUrl,'POST').then(res => {
+      var data = res
+      res.forEach(val => {
+        if(val.type == 'plant'){
+          this.globalData.plant.push(val.resid)
+        } else {
+          this.globalData.pick.push(val.resid)
+        }
+      })
     })
   }
 

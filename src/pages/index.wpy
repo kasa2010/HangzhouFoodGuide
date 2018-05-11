@@ -2,7 +2,7 @@
   <view class="container">
     <!-- 地图 -->
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+      <map id="map" longitude="{{longitude}}" wx:if="isready" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
     <!-- 列表 -->
@@ -42,6 +42,7 @@
     }
 
     data = {
+      isready: false,
       currentTabIndex: 0,
       selected: 'hotel',
       markers: [],
@@ -49,8 +50,8 @@
       longitude: '',
       latitude: '',
       scale: '',
-      plant: '',
-      pick: ''
+      plant: [],
+      pick: []
     }
 
     // 页面初始化
@@ -58,9 +59,6 @@
       this.plant = this.$parent.globalData.plant
       this.pick = this.$parent.globalData.pick
       this.$apply()
-      this.$parent.ajax(host.service.cryptoUrl,'POST',{tag: 'all'}).then(res => {
-        console.log(res)
-      })
       if(!this.$parent.globalData.all.length) {
         var that = this
         this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
@@ -121,6 +119,7 @@
         that.longitude = '120.149799'
         that.latitude = '30.246539'
         that.scale = 15
+        that.isready = true
         that.$apply()
       })
     }
@@ -175,13 +174,43 @@
               return n === tapedMarker.id
             })
             that.$apply()
+            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
+              if(res.message == 'success'){
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              } else {
+                wx.showToast({
+                  title: res.message,
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            })
           } else if(res.tapIndex == 1){
             tapedMarker.iconPath = "/resources/bluemark.png"
             that.pick.push(tapedMarker.id)
             _.remove(that.plant,function(n){
               return n === tapedMarker.id
             })
-            that.$apply()          
+            that.$apply()
+            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
+              if(res.message == 'success'){
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              } else {
+                wx.showToast({
+                  title: '失败',
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            })      
           }
         },
         fail: function(res) {
