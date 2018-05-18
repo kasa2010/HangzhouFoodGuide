@@ -2,7 +2,7 @@
   <view class="container">
     <!-- 地图 -->
     <view class="content hide {{currentTabIndex == '0' ? 'active' : ''}}">
-      <map id="map" longitude="{{longitude}}" wx:if="isready" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
+      <map id="map" wx:if="isready" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
     <!-- 列表 -->
@@ -74,6 +74,7 @@
     getRestaurant() {
       var that = this
       this.getSelectedData().then(res => {
+        console.log(res)
         var data = res
         var marker_new = []
         var list_new = []
@@ -86,7 +87,6 @@
             longitude: lnglat[0],
             width: 33,
             height: 33,
-            title: val.resname,
             callout:{
               content: val.resname,
               display: 'ALWAYS',
@@ -95,8 +95,7 @@
               bgColor: "#ffffff",
               color: "#333333",
               fontSize: 12
-            },
-            anchor:{x:.5,y:1}
+            }
           }
           if(_.indexOf(that.plant,val.id) >= 0){
             iconInfo.iconPath = "/resources/greenmark.png" 
