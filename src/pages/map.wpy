@@ -1,17 +1,8 @@
 <template>
   <view class="container">
-    <!-- 列表 -->
-    <view class="content">
-      <view class="topbar">
-        <view class="topbar-container">
-          <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">登记日期<text class="iconfont icon-triangledownfill"></text></view>
-          <view class="topbar-item topbar-item_left {{choosenid == 2 ? 'choosen' : ''}}">均价<text class="iconfont icon-triangledownfill"></text></view>
-          <view class="topbar-item topbar-item_right" bindtap="toMap"><text class="iconfont icon-locationfill"></text>地图模式</view>
-        </view>
-      </view>
-      <view class="contentlist">
-        <list :resList.sync="resList"></list>
-      </view>
+    <!-- 地图 -->
+    <view class="content" style="top:0">
+      <map id="map" wx:if="isready" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
     <!-- 底部栏 -->
@@ -57,17 +48,22 @@
       this.plant = this.$parent.globalData.plant
       this.pick = this.$parent.globalData.pick
       this.$apply()
-      var that = this
-      this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
-        that.$parent.globalData.all = res.data
-        that.getRestaurant()
-      })
+      if(!this.$parent.globalData.all.length) {
+        var that = this
+        this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+          that.$parent.globalData.all = res.data
+          that.getRestaurant()
+        })
+      } else {
+        this.getRestaurant()
+      }
     }
 
     // 渲染获取到的餐厅到地图上
     getRestaurant() {
       var that = this
       this.getSelectedData().then(res => {
+        console.log(res)
         var data = res
         var marker_new = []
         var list_new = []
@@ -136,10 +132,11 @@
       })
     }
 
-    toMap(){
-      wx.navigateTo({
-        url: '/pages/map'
-      })
+    // 切换Tab
+    changeTab(e){
+      var index = e.currentTarget.id
+      this.currentTabIndex = index
+      this.$apply()
     }
 
     // 点击地图标记
@@ -229,43 +226,6 @@
   }  
 </script>
 <style>
-/* 顶部栏 */
-.topbar{
-  position: fixed;
-  width:100%;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  background: #fff;
-  z-index: 2;
-  border-bottom:1px solid #f4f4f4;
-}
-.topbar-container{
-  height: 18px;
-  padding: 15px 20px;
-}
-.topbar-item{
-  font-size:14px;
-  float: left;
-  margin-right:20px;
-}
-.choosen.topbar-item{
-  color:#2ed573
-}
-.topbar-item .iconfont{
-  margin-right: 2px;
-}
-.topbar-item_left .iconfont{
-  font-size:10px;
-  margin-left: 2px;
-  position: relative;
-  top:-2px
-}
-
-.topbar-item_right{
-  float: right;
-  margin-right: 0;
-}
 .hide{
   display: none;
 }
@@ -277,3 +237,18 @@
   height: 100%;
 }
 </style>
+
+    © 2018 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    API
+    Training
+    Shop
+    Blog
+    About
+
