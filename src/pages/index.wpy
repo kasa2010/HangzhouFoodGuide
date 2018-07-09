@@ -16,7 +16,7 @@
 
     <!-- 底部栏 -->
     <view class="selectarea">
-      <selector></selector>
+      <selector :index.sync="index"></selector>
       <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator>
     </view>
   </view>
@@ -47,6 +47,7 @@
       longitude: 120.149799,
       latitude: 30.246539,
       scale: 15,
+      index: 0,
       plant: [],
       pick: []
     }
@@ -61,6 +62,9 @@
           that.getRestaurant()
         })
       }
+
+      this.index = this.$parent.globalData.index
+      this.$apply()
     }
 
     // 页面初始化
@@ -223,9 +227,11 @@
 
     // 处理子组件事件
     events = {
-      'reGet': (p1,$event) => {
+      'reGet': (p1,p2,$event) => {
         this.$parent.globalData.selected = p1
+        this.$parent.globalData.index = p2
         this.selected = p1
+        this.index = p2
         this.$apply()
         this.getRestaurant()
       },

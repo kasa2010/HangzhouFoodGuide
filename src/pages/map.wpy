@@ -7,7 +7,7 @@
 
     <!-- 底部栏 -->
     <view class="selectarea">
-      <selector></selector>
+      <selector :index.sync="index"></selector>
       <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator>
     </view>
   </view>
@@ -34,6 +34,7 @@
       isready: false,
       currentTabIndex: 0,
       markers: [],
+      index: 0,
       resList: [],
       longitude: 120.149799,
       latitude: 30.246539,
@@ -43,10 +44,14 @@
     }
 
     // 页面初始化
+    onShow() {
+      this.index = this.$parent.globalData.index
+      this.$apply()
+    }
     onLoad() {
       this.plant = this.$parent.globalData.plant
       this.pick = this.$parent.globalData.pick
-      this.$apply()
+      
       if(!this.$parent.globalData.all.length) {
         var that = this
         this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
@@ -201,8 +206,9 @@
 
     // 处理子组件事件
     events = {
-      'reGet': (p1,$event) => {
+      'reGet': (p1,p2,$event) => {
         this.$parent.globalData.selected = p1
+        this.$parent.globalData.index = p2
         this.$apply()
         this.getRestaurant()
       },

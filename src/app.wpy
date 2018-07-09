@@ -21,6 +21,7 @@ export default class extends wepy.app {
   globalData = {
     userInfo: null,
     all: [],
+    index: 0,
     selected: 'hotel',
     plant: [],
     pick: []

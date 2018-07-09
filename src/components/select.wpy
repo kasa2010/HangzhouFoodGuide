@@ -8,8 +8,13 @@
 <script>
 import wepy from 'wepy';
 export default class Select extends wepy.component {
+  props = {
+    index: {
+      type: Number,
+      default: 0
+    }
+  }
   data = {
-    index: 0,
     restaurants: [
       {
         id: 0,
@@ -91,7 +96,7 @@ export default class Select extends wepy.component {
   methods = {
     bindPickerChange(e) {
       this.index = e.detail.value;
-      this.$emit('reGet',this.restaurants[this.index].short)
+      this.$emit('reGet',this.restaurants[this.index].short,e.detail.value)
       this.$apply();
     }
   };
