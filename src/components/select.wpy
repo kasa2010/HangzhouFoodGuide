@@ -11,11 +11,6 @@ export default class Select extends wepy.component {
   data = {
     index: 0,
     restaurants: [
-      // {
-      //   id: 0,
-      //   short: 'all',
-      //   name: '全部美食'
-      // },
       {
         id: 0,
         short: 'hotel',

@@ -25,7 +25,7 @@
 <script>
   import wepy from 'wepy'
   import _ from 'lodash'
-  import List from '../components/reslist'
+  import List from '../components/reslist' 
   import Select from '../components/select'
   import host from '../config.js'
   
@@ -42,7 +42,6 @@
     data = {
       isready: false,
       currentTabIndex: 0,
-      selected: 'hotel',
       markers: [],
       resList: [],
       longitude: 120.149799,
@@ -50,6 +49,18 @@
       scale: 15,
       plant: [],
       pick: []
+    }
+
+    onShow() {
+      var that = this
+      if(this.$parent.globalData.all.length){
+        this.getRestaurant()
+      }else{
+        this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+          that.$parent.globalData.all = res.data
+          that.getRestaurant()
+        })
+      }
     }
 
     // 页面初始化
@@ -120,7 +131,7 @@
     getSelectedData(){
       var that = this
       return new Promise((resolve,reject) => {
-        var tag = that.selected
+        var tag = that.$parent.globalData.selected
         var all = that.$parent.globalData.all
         var resdata = []
         all.forEach(val => {
@@ -213,6 +224,7 @@
     // 处理子组件事件
     events = {
       'reGet': (p1,$event) => {
+        this.$parent.globalData.selected = p1
         this.selected = p1
         this.$apply()
         this.getRestaurant()

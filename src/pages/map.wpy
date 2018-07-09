@@ -33,7 +33,6 @@
     data = {
       isready: false,
       currentTabIndex: 0,
-      selected: 'hotel',
       markers: [],
       resList: [],
       longitude: 120.149799,
@@ -116,7 +115,7 @@
     getSelectedData(){
       var that = this
       return new Promise((resolve,reject) => {
-        var tag = that.selected
+        var tag = that.$parent.globalData.selected
         var all = that.$parent.globalData.all
         var resdata = []
         all.forEach(val => {
@@ -130,13 +129,6 @@
           reject('获取分类错误')
         }
       })
-    }
-
-    // 切换Tab
-    changeTab(e){
-      var index = e.currentTarget.id
-      this.currentTabIndex = index
-      this.$apply()
     }
 
     // 点击地图标记
@@ -210,7 +202,7 @@
     // 处理子组件事件
     events = {
       'reGet': (p1,$event) => {
-        this.selected = p1
+        this.$parent.globalData.selected = p1
         this.$apply()
         this.getRestaurant()
       },
