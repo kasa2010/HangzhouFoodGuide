@@ -1,7 +1,12 @@
 <template>
   <view class="container">
+    <view class="selectarea">
+      <selector :index.sync="index"></selector>
+      <!-- <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator> -->
+    </view>
+
     <!-- 地图 -->
-    <view class="content" style="top:0;bottom:150px">
+    <view class="content" style="top:50px;bottom:100px">
       <map id="map" wx:if="isready" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
@@ -15,10 +20,6 @@
           </view>
         </repeat>
       </scroll-view>
-    </view>
-    <view class="selectarea">
-      <selector :index.sync="index"></selector>
-      <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator>
     </view>
   </view>
 </template>
@@ -311,7 +312,7 @@
   position: fixed;
   width:100%;
   left:0;
-  bottom:50px;
+  bottom:0;
   height:100px;
 }
 </style>

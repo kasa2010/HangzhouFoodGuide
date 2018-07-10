@@ -55,6 +55,9 @@
   padding-bottom: 18px;
   border-bottom: 1px solid #f4f4f4;
 }
+.reslist li:last-child{
+  border-bottom: none;
+}
 .list-item_pic{
   float: left;
   width: 100px;

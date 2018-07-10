@@ -121,7 +121,7 @@ html,body,page{
   left: 0;
   top: 49px;
   right: 0;
-  bottom:50px;
+  bottom:0;
 }
 .container {
   height: 100%;
@@ -164,7 +164,7 @@ html,body,page{
   position: fixed;
   width: 100%;
   left: 0;
-  bottom: 0;
+  top: 0;
   font-size: 15px;
   background: #fff
 }
