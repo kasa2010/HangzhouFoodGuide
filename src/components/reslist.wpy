@@ -2,7 +2,16 @@
   <scroll-view class="content-scroll">
     <ul class="reslist">
       <repeat for="{{resList}}" key="index" index="index" item="item">
-        <li id="{{item.lnglat}}" bindtap="locateTo">{{item.name}}</li>
+        <li id="{{item.id}}" bindtap="locateTo">
+          <view class="list-item_pic">
+            <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/hotel01.jpg" mode="widthFix" style="height:60px;width:80px"></image>
+          </view>
+          <view class="list-item_content">
+            <view class="list-item_name">{{item.name}}</view>
+            <view class="list-item_area">距离1km</view>
+            <view class="list-item_price">人均<view class="price_num">{{200}}</view>元</view>
+          </view>
+        </li>
       </repeat>
     </ul>
   </scroll-view>
@@ -20,7 +29,9 @@
     methods = {
       locateTo(e){
         var index = e.currentTarget.id
-        this.$emit('locate', index)
+        wx.navigateTo({
+          url: '/pages/detail?id=' + index
+        })
       }
     }
   }  
@@ -30,19 +41,72 @@
   padding-bottom: 50px;
 }
 .reslist{
+  display: block;
   list-style: none;
   height: 100%;
-  padding-bottom: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .reslist li{
+  overflow: hidden;
   display: block;
-  padding-left: 15px;
-  height: 40px;
   font-size:16px;
-  line-height: 40px;
-  border-top: 1px solid #e9e9e9;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f4f4f4;
 }
-.reslist li:first-child{
-  border-top:none
+.list-item_pic{
+  float: left;
+  width: 100px;
+  height: 60px;
+}
+.list-item_content{
+  margin-left: 110px;
+  height: 60px;
+  position: relative;
+}
+
+.list-item_name{
+  font-size:16px;
+  font-weight:bold;
+  color:#000;
+  padding: 0;
+}
+
+.list-item_area{
+  position: relative;
+  top:-3px;
+  font-size:10px;
+  display: inline-block;
+  border:1px solid #e5e5e5;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: normal;
+  color: #acaeb0;
+}
+
+.list-item_date{
+  padding-top: 2px;
+  font-size:12px;
+  font-weight: normal;
+  color: #6b7072;
+}
+
+.list-item_price{
+  position: absolute;
+  left: 0;
+  bottom:0;
+  color:#fa5741;
+  font-size:14px;
+}
+
+.price_num{
+  display: inline;
+  font-size:16px;
+  font-weight: bold;
+}
+
+.list-item_status{
+  margin-left: 110px;
 }
 </style>

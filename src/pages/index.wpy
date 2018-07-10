@@ -4,8 +4,8 @@
     <view class="content">
       <view class="topbar">
         <view class="topbar-container">
-          <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">登记日期<text class="iconfont icon-triangledownfill"></text></view>
-          <view class="topbar-item topbar-item_left {{choosenid == 2 ? 'choosen' : ''}}">均价<text class="iconfont icon-triangledownfill"></text></view>
+          <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">人均<text class="iconfont icon-triangledownfill"></text></view>
+          <view class="topbar-item topbar-item_left {{choosenid == 2 ? 'choosen' : ''}}">距离<text class="iconfont icon-triangledownfill"></text></view>
           <view class="topbar-item topbar-item_right" bindtap="toMap"><text class="iconfont icon-locationfill"></text>地图模式</view>
         </view>
       </view>
@@ -52,6 +52,13 @@
       pick: []
     }
 
+    onShareAppMessage(){
+      return {
+        title: '杭州美食指南',
+        path:'/pages/index'
+      }
+    }
+
     onShow() {
       var that = this
       if(this.$parent.globalData.all.length){
@@ -69,6 +76,7 @@
 
     // 页面初始化
     onLoad() {
+      wx.showShareMenu()
       this.plant = this.$parent.globalData.plant
       this.pick = this.$parent.globalData.pick
       this.$apply()

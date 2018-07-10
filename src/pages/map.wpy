@@ -1,11 +1,21 @@
 <template>
   <view class="container">
     <!-- 地图 -->
-    <view class="content" style="top:0">
+    <view class="content" style="top:0;bottom:150px">
       <map id="map" wx:if="isready" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
     <!-- 底部栏 -->
+    <view class="maplist">
+      <scroll-view class="scroll-view_H" scroll-x>
+        <repeat for="{{resList}}" key="index" index="index" item="item">
+          <view class="scroll-view-item_H  {{resid == item.id ? 'active' : ''}}" bindtap="locateTo" id="{{item.id}}">
+            <view class="item-num">{{index + 1}}</view>
+            <view class="item-name">{{item.name}}</view>
+          </view>
+        </repeat>
+      </scroll-view>
+    </view>
     <view class="selectarea">
       <selector :index.sync="index"></selector>
       <navigator class="nav-right" url="/pages/profile"><text class="iconfont icon-wode"></text></navigator>
@@ -34,11 +44,12 @@
       isready: false,
       currentTabIndex: 0,
       markers: [],
+      resid: '',
       index: 0,
       resList: [],
       longitude: 120.149799,
       latitude: 30.246539,
-      scale: 15,
+      scale: 12,
       plant: [],
       pick: []
     }
@@ -99,6 +110,7 @@
           }
           marker_new.push(iconInfo)
           list_new.push({
+            id: val.id,
             name: val.resname,
             lnglat: val.lnglat
           })
@@ -204,6 +216,17 @@
       })
     }
 
+    // 地图中心点设置为指定的点
+    locateTo(e){
+      var id = e.currentTarget.id
+      this.resid = id
+      var index = _.findIndex(this.markers,['id',id - 0])
+      this.longitude = this.markers[index].longitude
+      this.latitude = this.markers[index].latitude
+      this.scale = 14
+      this.$apply()
+    }
+
     // 处理子组件事件
     events = {
       'reGet': (p1,p2,$event) => {
@@ -234,19 +257,61 @@
   width:100%;
   height: 100%;
 }
+
+.scroll-view_H{
+   overflow:hidden;
+   width: 100%;
+   height:100px;
+   white-space: nowrap;
+}
+.scroll-view-item_H{
+  padding: 13px 5px;
+  width:60px;
+  display: inline-block;
+}
+.item-num{
+  position: relative;
+  margin:0 auto;
+  width:30px;
+  height:30px;
+  line-height: 30px;
+  text-align: center;
+  border:1px solid #2ed573;
+  border-radius:50%;
+  font-size:14px;
+}
+.item-num:after{
+  content: '';
+  display: inline-block;
+  position: absolute;
+  right:-30px;
+  top:13px;
+  width:20px;
+  height:1px;
+  border-bottom: 1px dotted #2ed573;
+}
+.active .item-num{
+  background: #2ed573;
+  color: #fff
+}
+.scroll-view-item_H:last-child .item-num::after{
+  display: none;
+}
+.item-name{
+  width:60px;
+  height: 40px;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap
+}
+.maplist{
+  position: fixed;
+  width:100%;
+  left:0;
+  bottom:50px;
+  height:100px;
+}
 </style>
-
-    © 2018 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    API
-    Training
-    Shop
-    Blog
-    About
-

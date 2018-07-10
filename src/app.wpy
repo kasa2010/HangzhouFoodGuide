@@ -8,7 +8,8 @@ export default class extends wepy.app {
     pages: [
       'pages/index',
       'pages/profile',
-      'pages/map'
+      'pages/map',
+      'pages/detail'
     ],
     window: {
       backgroundTextStyle: 'light',

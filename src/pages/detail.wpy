@@ -1,0 +1,305 @@
+<template>
+  <view>
+    <view class="detail-wraper">
+            <view class="detail-container">
+              <view class="detail-title">
+                <text>四季酒店金沙厅</text>
+              </view>
+              <view class="detail-part">
+                <text class="iconfont icon-remind"></text>
+                <view class="detail-info">
+                  <view class="detail-info_label">人均：</view>
+                  <view class="detail-info_text">1500元</view>
+                </view>
+              </view>
+            </view>
+            <view class="functional">
+              <view class="func-item" bindtap="goto">
+                <view class="navicon"><text class="iconfont icon-location_light"></text></view>
+                <view class="navtext">地图</view>
+              </view>
+              <view class="func-item" bindtap="phonecall" wx:if="{{telephone}}">
+                <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
+                <view class="navtext">电话</view>
+              </view>
+            </view>
+          </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import host from '../config.js'
+export default class Profile extends wepy.page {
+  config = {
+    navigationBarTitleText: '餐厅详情'
+  }
+  data = {
+    id: '',
+    title:'',
+    housenum: '',
+    nohouse: '',
+    money: '',
+    area: '',
+    average_price: '',
+    starttime: '',
+    endtime: '',
+    locate:'',
+    checkin: '售楼处登记',
+    other: '无',
+    fixtures: '',
+    currentTabIndex:0,
+    wechat: '',
+    telephone: '',
+    picid:0,
+    currentitemid: 0
+  }
+  // 加载页面信息
+  onLoad (option) {
+    // var id = option.id
+    // var that = this
+    // that.id = id
+    // wx.request({
+    //   url: host.service.getBuildDetail,
+    //   method: 'POST',
+    //   data: {
+    //     id: id
+    //   },
+    //   success: function (res) {
+    //     var data = res.data.data[0]
+    //     // 房源信息
+    //     that.title = data.building
+    //     wx.setNavigationBarTitle({
+    //       title: data.building
+    //     })
+    //     that.locate = data.coordinate
+    //     that.housenum = data.housenum
+    //     that.nohouse = data.nohouse
+    //     that.picid = data.picid
+    //     var rowareaarr = data.area.split(';')
+    //     var areaarr = rowareaarr.map(val => {
+    //       return val.trim()
+    //     })
+    //     that.area = areaarr
+    //     var rowaveragearr = data.average_price.split(';')
+    //     var averagearr = rowaveragearr.map(val => {
+    //       return val.trim()
+    //     })
+    //     that.average_price = averagearr
+    //     that.fixtures = data.fixtures
+
+    //     // 日期
+    //     if(data.checkin){
+    //       that.checkin = data.checkin
+    //     } 
+    //     that.starttime = that.toLocaleDate(data.starttime)
+    //     that.endtime = that.toLocaleDate(data.endtime)
+
+    //     // 银行
+    //     that.money = data.money
+    //     if(data.wechat){
+    //       that.wechat = '："' + data.wechat + '"'
+    //     }
+
+    //     if(data.telephone){
+    //       that.telephone = data.telephone
+    //     }
+    //     wx.showShareMenu()
+    //     that.$apply()
+    //   }
+    // })
+  }
+
+  onShareAppMessage(){
+    return {
+      title: `${this.title}`+ '销售公示',
+      path:'/pages/detail?id='+ `${this.id}`
+    }
+  }
+  
+  // UTC时间转为本地时间
+  toLocaleDate(UTCDateString){
+    function formatFunc(str) {    //格式化显示
+      return str > 9 ? str : '0' + str
+    }
+    var date = new Date(UTCDateString)
+    var year = date.getFullYear();
+    var mon = formatFunc(date.getMonth() + 1);
+    var day = formatFunc(date.getDate())
+    var hour = formatFunc(date.getHours());
+    var min = formatFunc(date.getMinutes());
+    var newdate = year + '-' + mon + '-' + day + ' ' + hour + ':' + min
+
+    return newdate
+  }
+
+  // 切换Tab
+  changeTab(e){
+    var index = e.currentTarget.id
+    this.currentitemid = index
+    this.$apply()
+  }
+  changeContent(e){
+    var index = e.detail.current
+    this.currentTabIndex = index
+    this.$apply()
+  }
+  // 导航
+  goto(){
+    var location = this.locate.split(',')
+    wx.openLocation({
+      latitude: location[1] - 0,
+      name: this.title,
+      longitude: location[0] - 0,
+      scale: 18
+    })
+  }
+
+  officeldetail(){
+    // var index = _.findIndex(this.markers,['id',e.markerId])
+    // var tapedMarker = this.markers[index]
+    // var id = tapedMarker.id
+    wx.navigateTo({
+      url: '/pages/officel'
+    })
+  }
+
+  // 热线
+  phonecall(){
+    var phonenum = this.telephone
+    wx.makePhoneCall({
+      phoneNumber: phonenum
+    })
+  }
+}
+</script>
+<style>
+/* tab */
+.tab{
+  background: #fff;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 28px;
+  z-index: 3;
+  border-bottom:1px solid #f4f4f4;
+}
+.tabitem{
+  display:inline-block;
+  font-size:18px;
+  color:#666;
+  padding: 0 10px 3px 10px;
+}
+.tabitem1{
+  margin-right: 10px;
+}
+.tabitem2{
+  margin-left: 10px;
+}
+.tabitem.active{
+  color:#2ed573;
+  border-bottom:2px solid #2ed573;
+}
+
+/*tabcontent*/
+.tabcontainer{
+  position: absolute;
+  width:100%;
+  left: 0;
+  top: 40px;
+  bottom:0;
+}
+.tabcontent{
+  height: 100%
+}
+
+.tabcontent-item{
+  overflow: auto
+}
+.detail-wraper{
+  padding: 20px;
+}
+.detail-container {
+  padding: 15px;
+  border: 1px solid #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 0 1px rgba(0,0,0,.1)
+}
+.detail-title {
+  border-bottom: 1px solid #f4f4f4;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+.detail-part {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid #f4f4f4;
+}
+.detail-part:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.detail-part:first-child {
+  padding-top: 0;
+}
+.detail-part {
+  display: block;
+  line-height: 32px;
+}
+.detail-part .iconfont {
+  float: left;
+  margin-right: 8px;
+}
+.detail-info {
+  margin-left: 25px;
+  overflow: hidden;
+  line-height: normal;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.detail-info_label{
+  float: left;
+  width:48px;
+}
+.detail-info_text{
+  margin-left: 48px;
+}
+.bank-item{
+  padding-bottom: 5px;
+}
+
+.functional{
+  text-align: center;
+}
+
+.func-item{
+  padding: 20px 20px;
+  display: inline-block;
+  width:40px;
+}
+
+.navicon {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  color: #fc7272;
+  border: 1px solid #fc7272;
+}
+.navicon .iconfont {
+  font-size: 22px;
+}
+.navtext {
+  font-size: 14px;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.officel{
+  padding: 20px 0;
+}
+</style>
