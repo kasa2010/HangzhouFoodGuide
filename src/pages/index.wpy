@@ -7,33 +7,11 @@
           <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">人均<text class="iconfont icon-triangledownfill"></text></view>
           <view class="topbar-item topbar-item_left {{choosenid == 2 ? 'choosen' : ''}}">距离<text class="iconfont icon-triangledownfill"></text></view>
           <selector :index.sync="index"></selector>
-          <view class="topbar-item topbar-item_right" bindtap="toMap"><text class="iconfont icon-locationfill"></text>地图模式</view>
         </view>
       </view>
       <view class="contentlist">
         <list :resList.sync="resList"></list>
       </view>
-      <view class="tabcontainer">
-        <view class="tab-item">
-          <text></text>
-          <text>首页</text>
-        </view>
-        <view class="tab-item">
-          <text></text>
-          <text>地图</text>
-        </view>
-        <view class="tab-item">
-          <navigator url="/pages/profile">
-            <text class="iconfont icon-wode"></text>
-            <text>我</text>
-          </navigator>
-        </view>
-      </view>
-    </view>
-
-    <!-- 底部栏 -->
-    <view class="profile-enter">
-      
     </view>
   </view>
 </template>
@@ -152,6 +130,10 @@
         that.scale = 15
         that.isready = true
         that.$apply()
+        wx.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        })
       })
     }
 
@@ -317,28 +299,5 @@
 #map{
   width:100%;
   height: 100%;
-}
-.profile-enter{
-  width:30px;
-  height:30px;
-  position: fixed;
-  right:15px;
-  bottom:15px;
-  z-index: 99;
-}
-.tabcontainer{
-  display: flex;
-  width: 100%;
-  background: #fff;
-  position: fixed;
-  left: 0;
-  bottom: 0
-}
-.tab-item{
-  text-align: center;
-  font-size: 14px;
-  height: 50px;
-  line-height: 50px;
-  width:33.3%
 }
 </style>

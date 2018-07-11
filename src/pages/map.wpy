@@ -58,6 +58,15 @@
     // 页面初始化
     onShow() {
       this.index = this.$parent.globalData.index
+      if(!this.$parent.globalData.all.length) {
+        var that = this
+        this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+          that.$parent.globalData.all = res.data
+          that.getRestaurant()
+        })
+      } else {
+        this.getRestaurant()
+      }
       this.$apply()
     }
     onLoad() {
@@ -79,7 +88,6 @@
     getRestaurant() {
       var that = this
       this.getSelectedData().then(res => {
-        console.log(res)
         var data = res
         var marker_new = []
         var list_new = []

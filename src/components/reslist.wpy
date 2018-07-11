@@ -37,9 +37,6 @@
   }  
 </script>
 <style>
-.content-scroll{
-  padding-bottom: 50px;
-}
 .reslist{
   display: block;
   list-style: none;

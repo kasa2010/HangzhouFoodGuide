@@ -11,6 +11,23 @@ export default class extends wepy.app {
       'pages/map',
       'pages/detail'
     ],
+    tabBar: {
+      selectedColor: "#1296db",
+      backgroundColor: "#ffffff",
+      borderStyle:"white",
+      list: [{
+        pagePath: "pages/index",
+        text: "首页"
+      },{
+        pagePath: "pages/map",
+        text: "地图"
+      },{
+        pagePath: "pages/profile",
+        text: "我"
+        // iconPath: "images/ico-help.png",
+        // selectedIconPath: "images/ico-help-d.png"
+      }]
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
