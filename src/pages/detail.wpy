@@ -36,22 +36,9 @@ export default class Profile extends wepy.page {
   data = {
     id: '',
     title:'',
-    housenum: '',
-    nohouse: '',
-    money: '',
-    area: '',
     average_price: '',
-    starttime: '',
-    endtime: '',
-    locate:'',
-    checkin: '售楼处登记',
-    other: '无',
-    fixtures: '',
-    currentTabIndex:0,
-    wechat: '',
     telephone: '',
-    picid:0,
-    currentitemid: 0
+    picid:0
   }
   // 加载页面信息
   onLoad (option) {
@@ -66,39 +53,8 @@ export default class Profile extends wepy.page {
     //   },
     //   success: function (res) {
     //     var data = res.data.data[0]
-    //     // 房源信息
-    //     that.title = data.building
-    //     wx.setNavigationBarTitle({
-    //       title: data.building
-    //     })
-    //     that.locate = data.coordinate
-    //     that.housenum = data.housenum
-    //     that.nohouse = data.nohouse
-    //     that.picid = data.picid
-    //     var rowareaarr = data.area.split(';')
-    //     var areaarr = rowareaarr.map(val => {
-    //       return val.trim()
-    //     })
-    //     that.area = areaarr
-    //     var rowaveragearr = data.average_price.split(';')
-    //     var averagearr = rowaveragearr.map(val => {
-    //       return val.trim()
-    //     })
-    //     that.average_price = averagearr
-    //     that.fixtures = data.fixtures
-
-    //     // 日期
-    //     if(data.checkin){
-    //       that.checkin = data.checkin
-    //     } 
-    //     that.starttime = that.toLocaleDate(data.starttime)
-    //     that.endtime = that.toLocaleDate(data.endtime)
-
-    //     // 银行
-    //     that.money = data.money
-    //     if(data.wechat){
-    //       that.wechat = '："' + data.wechat + '"'
-    //     }
+    //   
+    //     
 
     //     if(data.telephone){
     //       that.telephone = data.telephone
@@ -115,34 +71,7 @@ export default class Profile extends wepy.page {
       path:'/pages/detail?id='+ `${this.id}`
     }
   }
-  
-  // UTC时间转为本地时间
-  toLocaleDate(UTCDateString){
-    function formatFunc(str) {    //格式化显示
-      return str > 9 ? str : '0' + str
-    }
-    var date = new Date(UTCDateString)
-    var year = date.getFullYear();
-    var mon = formatFunc(date.getMonth() + 1);
-    var day = formatFunc(date.getDate())
-    var hour = formatFunc(date.getHours());
-    var min = formatFunc(date.getMinutes());
-    var newdate = year + '-' + mon + '-' + day + ' ' + hour + ':' + min
 
-    return newdate
-  }
-
-  // 切换Tab
-  changeTab(e){
-    var index = e.currentTarget.id
-    this.currentitemid = index
-    this.$apply()
-  }
-  changeContent(e){
-    var index = e.detail.current
-    this.currentTabIndex = index
-    this.$apply()
-  }
   // 导航
   goto(){
     var location = this.locate.split(',')
@@ -151,15 +80,6 @@ export default class Profile extends wepy.page {
       name: this.title,
       longitude: location[0] - 0,
       scale: 18
-    })
-  }
-
-  officeldetail(){
-    // var index = _.findIndex(this.markers,['id',e.markerId])
-    // var tapedMarker = this.markers[index]
-    // var id = tapedMarker.id
-    wx.navigateTo({
-      url: '/pages/officel'
     })
   }
 

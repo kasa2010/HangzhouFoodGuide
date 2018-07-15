@@ -12,20 +12,24 @@ export default class extends wepy.app {
       'pages/detail'
     ],
     tabBar: {
-      selectedColor: "#1296db",
+      selectedColor: "#2ed573",
       backgroundColor: "#ffffff",
       borderStyle:"white",
       list: [{
         pagePath: "pages/index",
-        text: "首页"
+        text: "首页",
+        iconPath: "resources/home_light.png",
+        selectedIconPath: "./resources/home_fill_light.png"
       },{
         pagePath: "pages/map",
-        text: "地图"
+        text: "地图",
+        iconPath: "./resources/location_light.png",
+        selectedIconPath: "resources/location_fill.png"
       },{
         pagePath: "pages/profile",
-        text: "我"
-        // iconPath: "images/ico-help.png",
-        // selectedIconPath: "images/ico-help-d.png"
+        text: "我",
+        iconPath: "resources/my_light.png",
+        selectedIconPath: "resources/my_fill_light.png"
       }]
     },
     window: {

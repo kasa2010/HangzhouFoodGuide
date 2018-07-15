@@ -116,6 +116,8 @@
           }
           marker_new.push(iconInfo)
           list_new.push({
+            picid: val.picid,
+            average_price: val.average_price,
             name: val.resname,
             lnglat: val.lnglat
           })
@@ -130,10 +132,6 @@
         that.scale = 15
         that.isready = true
         that.$apply()
-        wx.pageScrollTo({
-          scrollTop: 0,
-          duration: 300
-        })
       })
     }
 
@@ -239,6 +237,10 @@
         this.selected = p1
         this.index = p2
         this.$apply()
+        wx.pageScrollTo({
+          scrollTop: 0,
+          duration: 0
+        })
         this.getRestaurant()
       },
       'locate': (lnglat) => {

@@ -50,7 +50,7 @@
       resList: [],
       longitude: 120.149799,
       latitude: 30.246539,
-      scale: 12,
+      scale: 14,
       plant: [],
       pick: []
     }
@@ -131,7 +131,7 @@
         that.included = include_new
         that.longitude = 120.149799
         that.latitude = 30.246539
-        that.scale = 15
+        that.scale = 14
         that.isready = true
         that.$apply()
       })
