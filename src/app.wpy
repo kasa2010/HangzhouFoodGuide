@@ -186,7 +186,6 @@ html,body,page{
   width: 100%;
   left: 0;
   top: 0;
-  font-size: 15px;
   background: #fff
 }
 .nav-left,.nav-right{
