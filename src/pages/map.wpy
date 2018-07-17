@@ -96,8 +96,8 @@
           var lnglat = val.lnglat.split(',')
           let iconInfo = {
             id: val.id,
-            latitude: lnglat[1],
-            longitude: lnglat[0],
+            latitude: lnglat[0],
+            longitude: lnglat[1],
             width: 33,
             height: 33,
             callout:{
