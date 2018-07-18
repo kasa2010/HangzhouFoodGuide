@@ -5,7 +5,6 @@
       <view class="topbar">
         <view class="topbar-container">
           <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">人均<text class="iconfont icon-triangledownfill"></text></view>
-          <view class="topbar-item topbar-item_left {{choosenid == 2 ? 'choosen' : ''}}">距离<text class="iconfont icon-triangledownfill"></text></view>
           <selector :index.sync="index"></selector>
         </view>
       </view>
