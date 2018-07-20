@@ -159,71 +159,77 @@
 
     // 点击地图标记
     markertap(e) {
-      var index = _.findIndex(this.markers,['id',e.markerId])
-      var tapedMarker = this.markers[index]
-      var that = this
-      var state = this.$parent.globalData
-      wx.showActionSheet({
-        itemList: ['种草', '拔草','去'+tapedMarker.title],
-        success: function(res) {
-          if(res.tapIndex == 2) {
-            wx.openLocation({
-              latitude: tapedMarker.latitude - 0,
-              name: tapedMarker.title,
-              longitude: tapedMarker.longitude - 0,
-              scale: 18
-            })
-          } else if(res.tapIndex == 0){
-            tapedMarker.iconPath = "/resources/greenmark.png"
-            that.plant.push(tapedMarker.id)
-            _.remove(that.pick,function(n){
-              return n === tapedMarker.id
-            })
-            that.$apply()
-            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
-              if(res.message == 'success'){
-                wx.showToast({
-                  title: '种草成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              } else {
-                wx.showToast({
-                  title: '种草失败',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            })
-          } else if(res.tapIndex == 1){
-            tapedMarker.iconPath = "/resources/bluemark.png"
-            that.pick.push(tapedMarker.id)
-            _.remove(that.plant,function(n){
-              return n === tapedMarker.id
-            })
-            that.$apply()
-            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'pick'}).then(res => {
-              if(res.message == 'success'){
-                wx.showToast({
-                  title: '拔草成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              } else {
-                wx.showToast({
-                  title: '拔草失败',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            })      
-          }
-        },
-        fail: function(res) {
-          console.log(res.errMsg)
-        }
+      var index = e.markerId
+      wx.navigateTo({
+        url: '/pages/detail?id=' + index
       })
     }
+    // markertap(e) {
+    //   var index = _.findIndex(this.markers,['id',e.markerId])
+    //   var tapedMarker = this.markers[index]
+    //   var that = this
+    //   var state = this.$parent.globalData
+    //   wx.showActionSheet({
+    //     itemList: ['种草', '拔草','去'+tapedMarker.title],
+    //     success: function(res) {
+    //       if(res.tapIndex == 2) {
+    //         wx.openLocation({
+    //           latitude: tapedMarker.latitude - 0,
+    //           name: tapedMarker.title,
+    //           longitude: tapedMarker.longitude - 0,
+    //           scale: 18
+    //         })
+    //       } else if(res.tapIndex == 0){
+    //         tapedMarker.iconPath = "/resources/greenmark.png"
+    //         that.plant.push(tapedMarker.id)
+    //         _.remove(that.pick,function(n){
+    //           return n === tapedMarker.id
+    //         })
+    //         that.$apply()
+    //         that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
+    //           if(res.message == 'success'){
+    //             wx.showToast({
+    //               title: '种草成功',
+    //               icon: 'success',
+    //               duration: 2000
+    //             })
+    //           } else {
+    //             wx.showToast({
+    //               title: '种草失败',
+    //               icon: 'none',
+    //               duration: 2000
+    //             })
+    //           }
+    //         })
+    //       } else if(res.tapIndex == 1){
+    //         tapedMarker.iconPath = "/resources/bluemark.png"
+    //         that.pick.push(tapedMarker.id)
+    //         _.remove(that.plant,function(n){
+    //           return n === tapedMarker.id
+    //         })
+    //         that.$apply()
+    //         that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'pick'}).then(res => {
+    //           if(res.message == 'success'){
+    //             wx.showToast({
+    //               title: '拔草成功',
+    //               icon: 'success',
+    //               duration: 2000
+    //             })
+    //           } else {
+    //             wx.showToast({
+    //               title: '拔草失败',
+    //               icon: 'none',
+    //               duration: 2000
+    //             })
+    //           }
+    //         })      
+    //       }
+    //     },
+    //     fail: function(res) {
+    //       console.log(res.errMsg)
+    //     }
+    //   })
+    // }
 
     // 地图中心点设置为指定的点
     locateTo(e){

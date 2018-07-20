@@ -35,14 +35,8 @@
     data = {
       isready: false,
       currentTabIndex: 0,
-      markers: [],
       resList: [],
-      longitude: 120.149799,
-      latitude: 30.246539,
-      scale: 15,
-      index: 0,
-      plant: [],
-      pick: []
+      index: 0
     }
 
     onShareAppMessage(){
@@ -85,50 +79,18 @@
       var that = this
       this.getSelectedData().then(res => {
         var data = res
-        var marker_new = []
         var list_new = []
-        var include_new = []
         data.forEach((val) => {
-          var lnglat = val.lnglat.split(',')
-          let iconInfo = {
-            id: val.id,
-            latitude: lnglat[0],
-            longitude: lnglat[1],
-            width: 33,
-            height: 33,
-            callout:{
-              content: val.resname,
-              display: 'ALWAYS',
-              padding: 5,
-              borderRadius: 50,
-              bgColor: "#ffffff",
-              color: "#333333",
-              fontSize: 12
-            }
-          }
-          if(_.indexOf(that.plant,val.id) >= 0){
-            iconInfo.iconPath = "/resources/greenmark.png" 
-          } else if (_.indexOf(that.pick,val.id) >= 0){
-            iconInfo.iconPath = "/resources/bluemark.png"
-          } else {
-            iconInfo.iconPath = "/resources/mark.png"
-          }
-          marker_new.push(iconInfo)
           list_new.push({
             picid: val.picid,
             average_price: val.average_price,
             name: val.resname,
-            lnglat: val.lnglat
+            lnglat: val.lnglat,
+            business: val.business
           })
-          include_new.push([lnglat[0],lnglat[1]])
         })
         
-        that.markers = marker_new
         that.resList = list_new
-        that.included = include_new
-        that.longitude = 120.149799
-        that.latitude = 30.246539
-        that.scale = 15
         that.isready = true
         that.$apply()
       })
@@ -159,75 +121,6 @@
         url: '/pages/map'
       })
     }
-
-    // 点击地图标记
-    markertap(e) {
-      var index = _.findIndex(this.markers,['id',e.markerId])
-      var tapedMarker = this.markers[index]
-      var that = this
-      var state = this.$parent.globalData
-      wx.showActionSheet({
-        itemList: ['种草', '拔草','去'+tapedMarker.title],
-        success: function(res) {
-          if(res.tapIndex == 2) {
-            wx.openLocation({
-              latitude: tapedMarker.latitude - 0,
-              name: tapedMarker.title,
-              longitude: tapedMarker.longitude - 0,
-              scale: 18
-            })
-          } else if(res.tapIndex == 0){
-            tapedMarker.iconPath = "/resources/greenmark.png"
-            that.plant.push(tapedMarker.id)
-            _.remove(that.pick,function(n){
-              return n === tapedMarker.id
-            })
-            that.$apply()
-            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'plant'}).then(res => {
-              if(res.message == 'success'){
-                wx.showToast({
-                  title: '种草成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              } else {
-                wx.showToast({
-                  title: '种草失败',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            })
-          } else if(res.tapIndex == 1){
-            tapedMarker.iconPath = "/resources/bluemark.png"
-            that.pick.push(tapedMarker.id)
-            _.remove(that.plant,function(n){
-              return n === tapedMarker.id
-            })
-            that.$apply()
-            that.$parent.ajax(host.service.addUrl,'POST',{resid:tapedMarker.id,type:'pick'}).then(res => {
-              if(res.message == 'success'){
-                wx.showToast({
-                  title: '拔草成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              } else {
-                wx.showToast({
-                  title: '拔草失败',
-                  icon: 'none',
-                  duration: 2000
-                })
-              }
-            })      
-          }
-        },
-        fail: function(res) {
-          console.log(res.errMsg)
-        }
-      })
-    }
-
     // 处理子组件事件
     events = {
       'reGet': (p1,p2,$event) => {
@@ -271,7 +164,7 @@
   padding: 15px 20px;
 }
 .topbar-item{
-  font-size:14px;
+  font-size:16px;
   float: left;
   margin-right:20px;
 }
