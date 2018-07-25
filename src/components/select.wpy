@@ -39,12 +39,12 @@ export default class Select extends wepy.component {
       {
         id: 4,
         short: 'hotpot',
-        name: '火锅'
+        name: '火锅、串串'
       },
       {
         id: 5,
         short: 'japan',
-        name: '日料'
+        name: '日本料理'
       },
       {
         id: 6,
@@ -63,18 +63,18 @@ export default class Select extends wepy.component {
       },
       {
         id: 9,
+        short: 'cake',
+        name: '点心'
+      },
+      {
+        id: 10,
         short: 'dragon',
         name: '小龙虾'
       },
       {
-        id: 10,
+        id: 11,
         short: 'bbq',
         name: '烧烤'
-      },
-      {
-        id: 11,
-        short: 'cake',
-        name: '点心'
       },
       {
         id: 12,

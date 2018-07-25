@@ -16,235 +16,277 @@
         <list :resList.sync="resList"></list>
       </view>
       <view class="selectChanger">
-        <view class="next changeritem">下一分类</view>
+        <view class="changeritem" bindtap="nextType">下一分类</view>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import _ from 'lodash'
-  import List from '../components/reslist' 
-  import Select from '../components/select'
-  import host from '../config.js'
-  
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '杭州美食地图'
-    }
+import wepy from 'wepy';
+import _ from 'lodash';
+import List from '../components/reslist';
+import Select from '../components/select';
+import host from '../config.js';
 
-    components = {
-      selector: Select,
-      list: List
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '杭州美食地图'
+  }
 
-    data = {
-      isready: false,
-      currentTabIndex: 0,
-      resList: [],
-      index: 0,
-      clickTimes: 0,
-      choosenid: 1
-    }
+  components = {
+    selector: Select,
+    list: List
+  }
 
-    onShareAppMessage(){
-      return {
-        title: '杭州美食指南',
-        path:'/pages/index'
-      }
-    }
+  data = {
+    isready: false,
+    currentTabIndex: 0,
+    resList: [],
+    index: 0,
+    clickTimes: 0,
+    choosenid: 1,
+    restaurants: [
+      'hotel',
+      'west',
+      'hangzhou',
+      'idea',
+      'hotpot',
+      'japan',
+      'family',
+      'guangdong',
+      'noodle',
+      'cake',
+      'dragon',
+      'bbq',
+      'vegetarian',
+      'thai',
+      'tea'
+    ]
+  }
 
-    onShow() {
-      var that = this
-      if(this.$parent.globalData.all.length){
-        this.getRestaurant()
-      }else{
-        this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+  onShareAppMessage() {
+    return {
+      title: '杭州美食指南',
+      path: '/pages/index'
+    }
+  }
+
+  onShow() {
+    var that = this;
+    if (this.$parent.globalData.all.length) {
+      this.getRestaurant()
+    } else {
+      this.$parent
+        .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
+        .then(res => {
           that.$parent.globalData.all = res.data
           that.getRestaurant()
         })
-      }
-
-      this.index = this.$parent.globalData.index
-      this.$apply()
     }
+    this.index = this.$parent.globalData.index
+    this.$apply()
+  }
 
-    // 页面初始化
-    onLoad() {
-      wx.showShareMenu()
-      this.plant = this.$parent.globalData.plant
-      this.pick = this.$parent.globalData.pick
-      this.$apply()
-      var that = this
-      this.$parent.ajax(host.service.getResUrl,'POST',{tag: 'all'}).then(res => {
+  // 页面初始化
+  onLoad() {
+    wx.showShareMenu()
+    this.plant = this.$parent.globalData.plant
+    this.pick = this.$parent.globalData.pick
+    this.$apply()
+    var that = this
+    this.$parent
+      .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
+      .then(res => {
         that.$parent.globalData.all = res.data
         that.getRestaurant()
       })
-    }
+  }
 
-    // 渲染获取到的餐厅到地图上
-    getRestaurant() {
-      var that = this
-      this.getSelectedData().then(res => {
-        var data = res
-        var list_new = []
-        data.forEach((val) => {
-          list_new.push({
-            picid: val.picid,
-            average_price: val.average_price - 0,
-            name: val.resname,
-            lnglat: val.lnglat,
-            business: val.business
-          })
+  // 渲染获取到的餐厅到地图上
+  getRestaurant() {
+    var that = this
+    this.getSelectedData().then(res => {
+      var data = res
+      var list_new = []
+      data.forEach(val => {
+        list_new.push({
+          picid: val.picid,
+          average_price: val.average_price - 0,
+          name: val.resname,
+          lnglat: val.lnglat,
+          business: val.business
         })
-        if(that.$parent.globalData.sorted){
-          that.resList = _.orderBy(list_new,'average_price',that.$parent.globalData.orders)
-        }else{
-          that.resList = list_new
-        }
-        that.isready = true
-        that.$apply()
       })
-    }
-
-    // 获取指定分类的餐厅
-    getSelectedData(){
-      var that = this
-      return new Promise((resolve,reject) => {
-        var tag = that.$parent.globalData.selected
-        var all = that.$parent.globalData.all
-        var resdata = []
-        all.forEach(val => {
-          if(val.tag == tag){
-            resdata.push(val)
-          }
-        })
-        if(resdata.length){
-          resolve(resdata)
-        }else{
-          reject('获取分类错误')
-        }
-      })
-    }
-
-    toMap(){
-      wx.navigateTo({
-        url: '/pages/map'
-      })
-    }
-
-    orederAverage(){
-      this.clickTimes = this.clickTimes + 1
-      var clicktype = this.clickTimes % 2
-      if(clicktype){
-        var orderedList = _.orderBy(this.resList, 'average_price','desc')
-        this.$parent.globalData.orders = 'desc'
-        this.choosenid = 1
+      if (that.$parent.globalData.sorted) {
+        that.resList = _.orderBy(
+          list_new,
+          'average_price',
+          that.$parent.globalData.orders
+        )
       } else {
-        var orderedList = _.orderBy(this.resList, 'average_price','asc')
-        this.$parent.globalData.orders = 'asc'
-        this.choosenid = 2
+        that.resList = list_new
       }
-      this.$parent.globalData.sorted = true
-      this.resList = orderedList
+      that.isready = true;
+      that.$apply()
+    })
+  }
+
+  // 获取指定分类的餐厅
+  getSelectedData() {
+    var that = this
+    return new Promise((resolve, reject) => {
+      var tag = that.$parent.globalData.selected
+      var all = that.$parent.globalData.all
+      var resdata = []
+      all.forEach(val => {
+        if (val.tag == tag) {
+          resdata.push(val)
+        }
+      })
+      if (resdata.length) {
+        resolve(resdata)
+      } else {
+        reject('获取分类错误')
+      }
+    })
+  }
+
+  toMap() {
+    wx.navigateTo({
+      url: '/pages/map'
+    })
+  }
+
+  // 排序
+  orederAverage() {
+    this.clickTimes = this.clickTimes + 1
+    var clicktype = this.clickTimes % 2
+    if (clicktype) {
+      var orderedList = _.orderBy(this.resList, 'average_price', 'desc')
+      this.$parent.globalData.orders = 'desc'
+      this.choosenid = 1
+    } else {
+      var orderedList = _.orderBy(this.resList, 'average_price', 'asc')
+      this.$parent.globalData.orders = 'asc'
+      this.choosenid = 2
+    }
+    this.$parent.globalData.sorted = true
+    this.resList = orderedList
+    this.$apply()
+  }
+
+  // 切换分类
+  nextType() {
+    if (this.index < 14) {
+      var tag = this.restaurants[this.index + 1]
+      this.index = this.index + 1
+      this.selected = tag
+      this.$parent.globalData.selected = tag
+      this.$parent.globalData.index = this.index + 1
+      this.$apply()
+      this.getRestaurant()
+      wx.pageScrollTo({
+        scrollTop: 0,
+        duration: 0
+      })
+    }
+  }
+
+  // 处理子组件事件
+  events = {
+    reGet: (p1, p2, $event) => {
+      this.$parent.globalData.selected = p1
+      this.$parent.globalData.index = p2
+      this.selected = p1
+      this.index = p2
+      this.$apply()
+      wx.pageScrollTo({
+        scrollTop: 0,
+        duration: 0
+      })
+      this.getRestaurant()
+    },
+    locate: lnglat => {
+      this.currentTabIndex = 0
+      var lnglatarr = lnglat.split(',')
+      this.longitude = lnglatarr[0] + ''
+      this.latitude = lnglatarr[1] + ''
+      //this.scale = 18
       this.$apply()
     }
-
-    // 处理子组件事件
-    events = {
-      'reGet': (p1,p2,$event) => {
-        this.$parent.globalData.selected = p1
-        this.$parent.globalData.index = p2
-        this.selected = p1
-        this.index = p2
-        this.$apply()
-        wx.pageScrollTo({
-          scrollTop: 0,
-          duration: 0
-        })
-        this.getRestaurant()
-      },
-      'locate': (lnglat) => {
-        this.currentTabIndex = 0
-        var lnglatarr = lnglat.split(',')
-        this.longitude = lnglatarr[0] + ''
-        this.latitude = lnglatarr[1] + ''
-        //this.scale = 18
-        this.$apply()
-      }
-    }
-  }  
+  }
+}
 </script>
 <style>
 /* 顶部栏 */
-.topbar{
+.topbar {
   position: fixed;
-  width:100%;
-  height:50px;
+  width: 100%;
+  height: 50px;
   left: 0;
   top: 0;
   overflow: hidden;
   background: #fff;
   z-index: 2;
-  border-bottom:1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
 }
-.topbar-container{
+.topbar-container {
   height: 18px;
   padding: 15px 20px;
 }
-.topbar-item{
-  font-size:16px;
+.topbar-item {
+  font-size: 16px;
   float: left;
-  margin-right:20px;
+  margin-right: 20px;
 }
-.choosen.topbar-item{
-  color:#2ed573
+.choosen.topbar-item {
+  color: #2ed573;
 }
-.topbar-item .iconfont{
+.topbar-item .iconfont {
   margin-right: 2px;
 }
-.topbar-item_left .iconfont{
-  font-size:10px;
+.topbar-item_left .iconfont {
+  font-size: 10px;
   position: relative;
-  top:-2px
+  top: -2px;
 }
 
-.topbar-item_right{
+.topbar-item_right {
   float: right;
   margin-right: 0;
 }
-.hide{
+.hide {
   display: none;
 }
-.active{
+.active {
   display: block;
 }
-#map{
-  width:100%;
+#map {
+  width: 100%;
   height: 100%;
 }
-.selectChanger{
+.selectChanger {
   position: fixed;
-  right:40rpx;
-  bottom:40rpx;
+  right: 40rpx;
+  bottom: 40rpx;
 }
-.changeritem{
-  background:#eee;
-  border-radius:20px;
+.changeritem {
+  background: #eee;
+  border-radius: 20px;
   font-size: 14px;
-  padding: 5px;
+  padding: 10rpx 30rpx;
 }
-.next{
-  margin-top:10px;
+.next {
+  margin-top: 10px;
 }
-.clicked{
+.clicked {
   color: #ffa502;
 }
-.sorticon{
+.sorticon {
   display: none;
 }
-.choosen{
-  display: inline-block
+.choosen {
+  display: inline-block;
 }
 </style>
