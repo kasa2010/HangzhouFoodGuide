@@ -1,7 +1,7 @@
 <template>
   <picker class="selector" bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{restaurants}}">
     <view class="picker">
-        {{restaurants[index].name}}<text class="iconfont icon-xialajiantouxiao"></text>
+        {{restaurants[index].name}}<text class="iconfont icon-unfold"></text>
     </view>
   </picker>
 </template>

@@ -4,12 +4,19 @@
     <view class="content">
       <view class="topbar">
         <view class="topbar-container">
-          <view class="topbar-item topbar-item_left {{choosenid == 1 ? 'choosen' : ''}}">人均<text class="iconfont icon-triangledownfill"></text></view>
+          <view class="topbar-item topbar-item_left  {{clickTimes > 0 ? 'clicked' : ''}}" bindtap="orederAverage">
+            人均
+            <text class="iconfont icon-triangledownfill sorticon {{choosenid == 1 ? 'choosen' : ''}}"></text>
+            <text class="iconfont icon-triangleupfill sorticon {{choosenid == 2 ? 'choosen' : ''}}"></text>
+          </view>
           <selector :index.sync="index"></selector>
         </view>
       </view>
       <view class="contentlist">
         <list :resList.sync="resList"></list>
+      </view>
+      <view class="selectChanger">
+        <view class="next changeritem">下一分类</view>
       </view>
     </view>
   </view>
@@ -36,7 +43,9 @@
       isready: false,
       currentTabIndex: 0,
       resList: [],
-      index: 0
+      index: 0,
+      clickTimes: 0,
+      choosenid: 1
     }
 
     onShareAppMessage(){
@@ -83,14 +92,17 @@
         data.forEach((val) => {
           list_new.push({
             picid: val.picid,
-            average_price: val.average_price,
+            average_price: val.average_price - 0,
             name: val.resname,
             lnglat: val.lnglat,
             business: val.business
           })
         })
-        
-        that.resList = list_new
+        if(that.$parent.globalData.sorted){
+          that.resList = _.orderBy(list_new,'average_price',that.$parent.globalData.orders)
+        }else{
+          that.resList = list_new
+        }
         that.isready = true
         that.$apply()
       })
@@ -121,6 +133,24 @@
         url: '/pages/map'
       })
     }
+
+    orederAverage(){
+      this.clickTimes = this.clickTimes + 1
+      var clicktype = this.clickTimes % 2
+      if(clicktype){
+        var orderedList = _.orderBy(this.resList, 'average_price','asc')
+        this.$parent.globalData.orders = 'asc'
+        this.choosenid = 1
+      } else {
+        var orderedList = _.orderBy(this.resList, 'average_price','desc')
+        this.$parent.globalData.orders = 'desc'
+        this.choosenid = 2
+      }
+      this.$parent.globalData.sorted = true
+      this.resList = orderedList
+      this.$apply()
+    }
+
     // 处理子组件事件
     events = {
       'reGet': (p1,p2,$event) => {
@@ -176,7 +206,6 @@
 }
 .topbar-item_left .iconfont{
   font-size:10px;
-  margin-left: 2px;
   position: relative;
   top:-2px
 }
@@ -194,5 +223,28 @@
 #map{
   width:100%;
   height: 100%;
+}
+.selectChanger{
+  position: fixed;
+  right:40rpx;
+  bottom:40rpx;
+}
+.changeritem{
+  background:#eee;
+  border-radius:20px;
+  font-size: 14px;
+  padding: 5px;
+}
+.next{
+  margin-top:10px;
+}
+.clicked{
+  color: #ffa502;
+}
+.sorticon{
+  display: none;
+}
+.choosen{
+  display: inline-block
 }
 </style>
