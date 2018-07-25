@@ -199,7 +199,7 @@ export default class Index extends wepy.page {
       this.$parent.globalData.selected = p1
       this.$parent.globalData.index = p2
       this.selected = p1
-      this.index = p2
+      this.index = p2 - 0
       this.$apply()
       wx.pageScrollTo({
         scrollTop: 0,
