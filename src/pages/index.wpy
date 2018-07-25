@@ -138,12 +138,12 @@
       this.clickTimes = this.clickTimes + 1
       var clicktype = this.clickTimes % 2
       if(clicktype){
-        var orderedList = _.orderBy(this.resList, 'average_price','asc')
-        this.$parent.globalData.orders = 'asc'
-        this.choosenid = 1
-      } else {
         var orderedList = _.orderBy(this.resList, 'average_price','desc')
         this.$parent.globalData.orders = 'desc'
+        this.choosenid = 1
+      } else {
+        var orderedList = _.orderBy(this.resList, 'average_price','asc')
+        this.$parent.globalData.orders = 'asc'
         this.choosenid = 2
       }
       this.$parent.globalData.sorted = true
