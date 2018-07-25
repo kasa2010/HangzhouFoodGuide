@@ -16,7 +16,8 @@
         <list :resList.sync="resList"></list>
       </view>
       <view class="selectChanger">
-        <view class="changeritem" bindtap="nextType">下一分类</view>
+        <view class="changeritem {{index > 0 ? 'showicon' : ''}}" bindtap="prevType"><text class="iconfont icon-fold"></text></view>
+        <view class="next changeritem {{index < 14 ? 'showicon' : ''}}" bindtap="nextType"><text class="iconfont icon-unfold"></text></view>
       </view>
     </view>
   </view>
@@ -180,10 +181,26 @@ export default class Index extends wepy.page {
   nextType() {
     if (this.index < 14) {
       var tag = this.restaurants[this.index + 1]
+      this.$parent.globalData.index = this.index + 1
       this.index = this.index + 1
       this.selected = tag
       this.$parent.globalData.selected = tag
-      this.$parent.globalData.index = this.index + 1
+      this.$apply()
+      this.getRestaurant()
+      wx.pageScrollTo({
+        scrollTop: 0,
+        duration: 0
+      })
+    }
+  }
+
+  prevType() {
+    if (this.index > 0) {
+      var tag = this.restaurants[this.index - 1]
+      this.index = this.index - 1
+      this.selected = tag
+      this.$parent.globalData.selected = tag
+      this.$parent.globalData.index = this.index - 1
       this.$apply()
       this.getRestaurant()
       wx.pageScrollTo({
@@ -272,10 +289,20 @@ export default class Index extends wepy.page {
   bottom: 40rpx;
 }
 .changeritem {
+  display: none;
   background: #eee;
-  border-radius: 20px;
-  font-size: 14px;
-  padding: 10rpx 30rpx;
+  width:80rpx;
+  height:80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 80rpx;
+}
+.changeritem.showicon{
+  display: block;
+}
+.changeritem .iconfont{
+  font-size: 24px;
+  color:#333;
 }
 .next {
   margin-top: 10px;
