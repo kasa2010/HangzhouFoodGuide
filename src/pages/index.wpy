@@ -197,10 +197,10 @@ export default class Index extends wepy.page {
   prevType() {
     if (this.index > 0) {
       var tag = this.restaurants[this.index - 1]
+      this.$parent.globalData.index = this.index - 1
       this.index = this.index - 1
       this.selected = tag
       this.$parent.globalData.selected = tag
-      this.$parent.globalData.index = this.index - 1
       this.$apply()
       this.getRestaurant()
       wx.pageScrollTo({
