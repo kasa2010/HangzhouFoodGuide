@@ -246,7 +246,7 @@
     events = {
       'reGet': (p1,p2,$event) => {
         this.$parent.globalData.selected = p1
-        this.$parent.globalData.index = p2
+        this.$parent.globalData.index = p2 - 0
         this.$apply()
         this.getRestaurant()
       },
