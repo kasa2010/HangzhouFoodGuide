@@ -32,7 +32,7 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '杭州美食地图'
+    navigationBarTitleText: '杭州餐厅与美食推荐'
   }
 
   components = {
@@ -112,6 +112,7 @@ export default class Index extends wepy.page {
       var list_new = []
       data.forEach(val => {
         list_new.push({
+          id: val.id,
           picid: val.picid,
           average_price: val.average_price - 0,
           name: val.resname,

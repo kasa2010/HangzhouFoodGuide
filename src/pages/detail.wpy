@@ -1,29 +1,48 @@
 <template>
   <view>
     <view class="detail-wraper">
-            <view class="detail-container">
-              <view class="detail-title">
-                <text>四季酒店金沙厅</text>
-              </view>
-              <view class="detail-part">
-                <text class="iconfont icon-remind"></text>
-                <view class="detail-info">
-                  <view class="detail-info_label">人均：</view>
-                  <view class="detail-info_text">1500元</view>
-                </view>
-              </view>
-            </view>
-            <view class="functional">
-              <view class="func-item" bindtap="goto">
-                <view class="navicon"><text class="iconfont icon-location_light"></text></view>
-                <view class="navtext">地图</view>
-              </view>
-              <view class="func-item" bindtap="phonecall" wx:if="{{telephone}}">
-                <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
-                <view class="navtext">电话</view>
-              </view>
-            </view>
+      <view class="detail-top">
+        <view class="detail-top_head">
+          <view class="detail-top_pic">
+            <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="widthFix" class="detail-top_picture"></image>
           </view>
+          <view class="detail-top_info">
+            <view class="detail-top_title">{{resname}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="detail-list">
+        <view class="detail-item">
+          <text class="detail-item_text">人均：￥{{average_price}}/人</text><text class="detail-item_text">{{business}}</text>
+        </view> 
+        <view class="detail-item">
+          <text class="detail-item_text">口味：{{tasty}}</text><text class="detail-item_text">环境：{{env}}</text><text class="detail-item_text">服务：{{server}}</text>
+        </view> 
+        <view class="detail-item">
+          <text class="detail-item_text">{{address}}</text>
+        </view>
+      </view>
+
+      <view class="functional">
+        <view class="func-item" bindtap="goto">
+          <view class="navicon"><text class="iconfont icon-location_light"></text></view>
+          <view class="navtext">导航</view>
+        </view>
+        <view class="func-item" bindtap="goto">
+          <view class="navicon"><text class="iconfont icon-location_light"></text></view>
+          <view class="navtext">想吃</view>
+        </view>
+        <view class="func-item" bindtap="goto">
+          <view class="navicon"><text class="iconfont icon-location_light"></text></view>
+          <view class="navtext">吃过</view>
+        </view>
+        <view class="func-item" bindtap="goto">
+          <view class="navicon"><text class="iconfont icon-location_light"></text></view>
+          <view class="navtext">分享</view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -35,34 +54,49 @@ export default class Profile extends wepy.page {
   }
   data = {
     id: '',
-    title:'',
+    resname:'',
     average_price: '',
-    telephone: '',
-    picid:0
+    lnglat: '',
+    address: '',
+    business: '',
+    fendian: '',
+    tasty: 0,
+    server: 0,
+    env: 0,
+    tag: '',
+    tel: '',
+    picid: ''
   }
   // 加载页面信息
   onLoad (option) {
-    // var id = option.id
-    // var that = this
-    // that.id = id
-    // wx.request({
-    //   url: host.service.getBuildDetail,
-    //   method: 'POST',
-    //   data: {
-    //     id: id
-    //   },
-    //   success: function (res) {
-    //     var data = res.data.data[0]
-    //   
-    //     
-
-    //     if(data.telephone){
-    //       that.telephone = data.telephone
-    //     }
-    //     wx.showShareMenu()
-    //     that.$apply()
-    //   }
-    // })
+    var id = option.id
+    var that = this
+    that.id = id
+    console.log(id)
+    wx.request({
+      url: host.service.getDetail,
+      method: 'POST',
+      data: {
+        id: id
+      },
+      success: function (res) {
+        var data = res.data.data[0]
+        that.resname = data.resname
+        that.average_price = data.average_price
+        that.lnglat = data.lnglat
+        that.address = data.address
+        that.business = data.business
+        that.fendian = data.fendian
+        that.tasty = data.tasty
+        that.server = data.server
+        that.env = data.env
+        that.tag = data.tag
+        that.tel = data.tel
+        that.picid = data.picid
+        wx.showShareMenu()
+        that.$apply()
+      }
+    })
   }
 
   onShareAppMessage(){
@@ -93,102 +127,62 @@ export default class Profile extends wepy.page {
 }
 </script>
 <style>
-/* tab */
-.tab{
-  background: #fff;
-  text-align: center;
-  padding: 10px 0;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 28px;
-  z-index: 3;
-  border-bottom:1px solid #f4f4f4;
-}
-.tabitem{
-  display:inline-block;
-  font-size:18px;
-  color:#666;
-  padding: 0 10px 3px 10px;
-}
-.tabitem1{
-  margin-right: 10px;
-}
-.tabitem2{
-  margin-left: 10px;
-}
-.tabitem.active{
-  color:#2ed573;
-  border-bottom:2px solid #2ed573;
-}
-
-/*tabcontent*/
-.tabcontainer{
-  position: absolute;
-  width:100%;
-  left: 0;
-  top: 40px;
-  bottom:0;
-}
-.tabcontent{
-  height: 100%
-}
-
-.tabcontent-item{
-  overflow: auto
-}
 .detail-wraper{
   padding: 20px;
 }
-.detail-container {
-  padding: 15px;
-  border: 1px solid #f4f4f4;
-  border-radius: 5px;
-  box-shadow: 0 0 1px rgba(0,0,0,.1)
-}
-.detail-title {
-  border-bottom: 1px solid #f4f4f4;
-  padding-bottom: 5px;
-  font-size: 18px;
-}
-.detail-part {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-size: 16px;
-  border-bottom: 1px solid #f4f4f4;
-}
-.detail-part:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-.detail-part:first-child {
-  padding-top: 0;
-}
-.detail-part {
-  display: block;
-  line-height: 32px;
-}
-.detail-part .iconfont {
-  float: left;
-  margin-right: 8px;
-}
-.detail-info {
-  margin-left: 25px;
+.detail-top_head{
   overflow: hidden;
-  line-height: normal;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  position: relative;
 }
-.detail-info_label{
-  float: left;
-  width:48px;
+
+.detail-top_pic{
+  width: 90%;
+  margin: 0 auto;
+  border-radius:8rpx;
+  overflow: hidden;
 }
-.detail-info_text{
-  margin-left: 48px;
+.detail-top_picture{
+  width: 100%;
+  border-radius:8rpx;
 }
-.bank-item{
-  padding-bottom: 5px;
+
+.detail-top_info{
+  position: absolute;
+  left:50%;
+  top:50%;
+  width:90%;
+  text-align: center;
+  transform: translate(-50%,-50%);
+  color:#fff;
+}
+
+.detail-top_title{
+  font-size:40px;
+  font-weight:bold;
+  overflow: hidden;
+  padding: 0;
+
+}
+
+.detail-top_average,.detail-top_locate{
+  font-size: 16px;
+  padding-top: 20rpx;
+}
+
+.detail-list{
+  width:90%;
+  margin: 20rpx auto 0 auto;
+}
+
+.detail-item{
+  border-top:1px solid #e9e9e9;
+  padding: 20rpx 0;
+  font-size:16px;
+  color:#333
+}
+
+.detail-item_text{
+  margin-right:20rpx;
 }
 
 .functional{

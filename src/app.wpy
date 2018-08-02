@@ -45,7 +45,7 @@ export default class extends wepy.app {
     all: [],
     index: 0,
     sorted: false,
-    orders: 'asc'
+    orders: 'asc',
     selected: 'hotel',
     plant: [],
     pick: []

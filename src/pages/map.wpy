@@ -33,7 +33,7 @@
   
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '杭州美食地图'
+      navigationBarTitleText: '杭州餐厅与美食推荐'
     }
 
     components = {
