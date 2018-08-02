@@ -96,7 +96,7 @@ export default class Select extends wepy.component {
   methods = {
     bindPickerChange(e) {
       this.index = e.detail.value;
-      this.$emit('reGet',this.restaurants[this.index].short,e.detail.value)
+      this.$emit('reGet',this.restaurants[this.index].short,e.detail.value - 0)
       this.$apply();
     }
   };

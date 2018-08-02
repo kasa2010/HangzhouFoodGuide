@@ -182,8 +182,8 @@ export default class Index extends wepy.page {
   nextType() {
     if (this.index < 14) {
       var tag = this.restaurants[this.index + 1]
-      this.$parent.globalData.index = this.index + 1
-      this.index = this.index + 1
+      this.$parent.globalData.index = this.index - 0 + 1
+      this.index = this.index - 0 + 1
       this.selected = tag
       this.$parent.globalData.selected = tag
       this.$apply()
