@@ -3,7 +3,7 @@
     <view class="detail-wraper">
       <view class="detail-top">
         <view class="detail-top_head">
-          <view class="detail-top_pic">
+          <view class="detail-top_pic" wx:if="{{picid}}">
             <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="widthFix" class="detail-top_picture"></image>
           </view>
           <view class="detail-top_info">
@@ -45,6 +45,10 @@
           <view class="navicon"><text class="iconfont icon-location_light"></text></view>
           <view class="navtext">导航</view>
         </view>
+        <view class="func-item" wx:if="{{tel}}" bindtap="phonecall">
+          <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
+          <view class="navtext">电话</view>
+        </view>
         <view class="func-item" bindtap="goto">
           <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
           <view class="navtext">收藏</view>
@@ -84,7 +88,6 @@ export default class Profile extends wepy.page {
     var id = option.id
     var that = this
     that.id = id
-    console.log(id)
     wx.request({
       url: host.service.getDetail,
       method: 'POST',
@@ -132,7 +135,7 @@ export default class Profile extends wepy.page {
 
   // 热线
   phonecall(){
-    var phonenum = this.telephone
+    var phonenum = this.tel
     wx.makePhoneCall({
       phoneNumber: phonenum
     })
