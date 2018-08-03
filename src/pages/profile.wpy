@@ -10,12 +10,13 @@
     </view>
     <view>
       <view class="profile-list">
-        <view class="profile-list_item">种草<text class="grass-num">{{plantNum}}</text></view>
-        <view class="profile-list_item">拔草<text class="grass-num">{{pickNum}}</text></view>
+        <view class="profile-list_item"><text class="iconfont icon-message"></text>种草<text class="grass-num">{{plantNum}}</text></view>
+        <view class="profile-list_item"><text class="iconfont icon-favor"></text>拔草<text class="grass-num">{{pickNum}}</text></view>
       </view>
       <view class="profile-list">
-        <view class="profile-list_item"><text></text><button open-type="feedback">反馈</button></view>
-        <view class="profile-list_item"><text class="iconfont icon-appreciate_light"></text>赞赏</view>
+        <view class="profile-list_item"><button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message"></text>意见反馈</button></view>
+        <view class="profile-list_item"><button class="feedback-btn" open-type="share"><text class="iconfont icon-share"></text>分享给好友</button></view>
+        <view class="profile-list_item"><text class="iconfont icon-appreciate"></text>赞赏</view>
       </view>
     </view>
   </view>
@@ -49,6 +50,12 @@ export default class Profile extends wepy.page {
     //   }
     // })
   }
+  onShareAppMessage(){
+    return {
+      title: '杭州餐厅与美食推荐',
+      path:'/pages/index'
+    }
+  }
 }
 </script>
 <style>
@@ -79,21 +86,42 @@ export default class Profile extends wepy.page {
   padding-top: 10px;
 }
 
+.feedback-btn{
+  background: #fff;
+  width: 90%;
+  font-size: 16px;
+  padding-left: 0;
+  line-height: 80rpx;
+  height: 80rpx;
+  text-align: left;
+  margin-left: 0;
+}
+.feedback-btn:after{
+  border: 0
+}
 
 .profile-list {
   background: #fff;
   border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
   margin-bottom:20rpx;
 }
-
+.profile-list .iconfont{
+  margin-right: 16rpx;
+  font-size:20px;
+  color:#666
+}
 .profile-list_item{
   background:#fff;
   display: block;
-  padding-left: 20rpx;
+  margin-left: 20rpx;
   height: 80rpx;
   font-size:16px;
   line-height: 80rpx;
   border-bottom:1px solid #e9e9e9;
+}
+.profile-list_item:last-child{
+  border-bottom: 0;
 }
 .grass-num{
   display: inline-block;

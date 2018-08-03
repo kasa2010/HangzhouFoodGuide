@@ -53,8 +53,8 @@
           <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
           <view class="navtext">收藏</view>
         </view>
-        <view class="func-item" bindtap="goto">
-          <view class="navicon"><text class="iconfont icon-share_light"></text></view>
+        <view class="func-item">
+          <view class="navicon"><button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text></button></view>
           <view class="navtext">分享</view>
         </view>
       </view>
@@ -108,7 +108,7 @@ export default class Profile extends wepy.page {
         that.tag = data.tag
         that.tel = data.tel
         that.picid = data.picid
-        wx.showShareMenu()
+        //wx.showShareMenu()
         that.$apply()
       }
     })
@@ -239,7 +239,22 @@ export default class Profile extends wepy.page {
   border-radius: 50%;
   color: #fc7272;
   border: 1px solid #fc7272;
+  overflow: hidden;
 }
+
+.share-btn{
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #fc7272;
+}
+
+.share-btn:after{
+  border:0
+}
+
 .navicon .iconfont {
   font-size: 22px;
 }
