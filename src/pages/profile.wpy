@@ -1,8 +1,12 @@
 <template>
   <view class="profile">
     <view class="profile-banner">
-      <image class="profile-avatar" src="{{avatarUrl}}"></image>
-      <text class="profile-nick">{{nickName}}</text>
+      <view class="profile-avatar">
+        <open-data type="userAvatarUrl"></open-data>  
+      </view>
+      <view class="profile-nick">
+        <open-data type="userNickName"></open-data>
+      </view>      
     </view>
     <view>
       <view class="profile-list">
@@ -36,14 +40,14 @@ export default class Profile extends wepy.page {
   }
   onLoad () {
     var that = this
-    wx.getUserInfo({
-      success: function(res) {
-        var userInfo = res.userInfo
-        that.nickName = userInfo.nickName
-        that.avatarUrl = userInfo.avatarUrl
-        that.$apply()
-      }
-    })
+    // wx.getUserInfo({
+    //   success: function(res) {
+    //     var userInfo = res.userInfo
+    //     that.nickName = userInfo.nickName
+    //     that.avatarUrl = userInfo.avatarUrl
+    //     that.$apply()
+    //   }
+    // })
   }
 }
 </script>
@@ -64,9 +68,10 @@ export default class Profile extends wepy.page {
 .profile-avatar{
   display: block;
   margin: 0 auto;
-  width:80px;
-  height:80px;
+  width:160rpx;
+  height:160rpx;
   border-radius:50%;
+  overflow: hidden
 }
 
 .profile-nick{

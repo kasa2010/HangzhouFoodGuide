@@ -41,15 +41,15 @@
   display: block;
   list-style: none;
   height: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 40rpx;
+  margin-right: 40rpx;
 }
 .reslist li{
   overflow: hidden;
   display: block;
   font-size:16px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  padding-top: 36rpx;
+  padding-bottom: 36rpx;
   border-bottom: 1px solid #f4f4f4;
 }
 .reslist li:last-child{
@@ -89,6 +89,7 @@
   padding: 0 5px;
   font-weight: normal;
   color: #666;
+  border-radius:6rpx;
 }
 
 .list-item_date{
