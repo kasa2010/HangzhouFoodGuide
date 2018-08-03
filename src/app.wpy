@@ -59,7 +59,7 @@ export default class extends wepy.app {
 
   // 初始化数据
   onLaunch () {
-  
+    this.login()
   }
 
   // 检查登录是否过期
@@ -78,10 +78,10 @@ export default class extends wepy.app {
 
   // 登录并返回key
   login(){
+    var that = this
     return new Promise((resolve,reject) => {
       wx.login({
         success: function(res){
-          console.log(res)
           wx.request({
             url: host.service.loginUrl,
             method: 'POST',
@@ -89,10 +89,14 @@ export default class extends wepy.app {
               code: res.code
             },
             success: function(res){
-              console.log(res)
               wx.setStorage({
                 key:'key',
                 data: res.data.key
+              })
+
+              that.ajax(host.service.getResUrl, 'POST', { tag: 'all' })
+              .then(res => {
+                that.globalData.all = res.data
               })
             }
           })
@@ -103,6 +107,7 @@ export default class extends wepy.app {
 
   // 封装登录之后的请求
   ajax(url,method="GET",data,config={}){ 
+    //wx.clearStorageSync()
     let key = wx.getStorageSync('key')
     if(!key){
       return new Promise((resolve,reject) => {

@@ -96,12 +96,28 @@ export default class Index extends wepy.page {
     this.pick = this.$parent.globalData.pick
     this.$apply()
     var that = this
-    this.$parent
+    if(!that.$parent.globalData.all.length){
+      this.$parent
       .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
       .then(res => {
         that.$parent.globalData.all = res.data
         that.getRestaurant()
       })
+
+      wx.request({
+      url:host.service.getResUrl,
+      method:'POST',
+      data:{ tag: 'all' },
+      success: (ret) =>{
+        console.log(ret.data)
+        that.$parent.globalData.all = ret.data.data
+        that.getRestaurant()
+      }
+    })
+    }else {
+      that.getRestaurant()
+    }
+    
   }
 
   // 渲染获取到的餐厅到地图上

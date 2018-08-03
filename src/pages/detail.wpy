@@ -49,7 +49,7 @@
           <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
           <view class="navtext">电话</view>
         </view>
-        <view class="func-item" bindtap="goto">
+        <view class="func-item" bindtap="likeit">
           <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
           <view class="navtext">收藏</view>
         </view>
@@ -64,6 +64,7 @@
 <script>
 import wepy from 'wepy'
 import host from '../config.js'
+import _ from 'lodash'
 export default class Profile extends wepy.page {
   config = {
     navigationBarTitleText: '餐厅详情'
@@ -81,7 +82,8 @@ export default class Profile extends wepy.page {
     env: 0,
     tag: '',
     tel: '',
-    picid: ''
+    picid: '',
+    plant: []
   }
   // 加载页面信息
   onLoad (option) {
@@ -92,7 +94,7 @@ export default class Profile extends wepy.page {
       url: host.service.getDetail,
       method: 'POST',
       data: {
-        id: id
+        id: id 
       },
       success: function (res) {
         var data = res.data.data[0]
@@ -117,7 +119,8 @@ export default class Profile extends wepy.page {
   onShareAppMessage(){
     return {
       title: `${this.resname}`,
-      path:'/pages/detail?id='+ `${this.id}`
+      path:'/pages/detail?id='+ `${this.id}`,
+      imageUrl:'https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/'+ `${this.picid}` + '.jpg',
     }
   }
 
@@ -138,6 +141,28 @@ export default class Profile extends wepy.page {
     var phonenum = this.tel
     wx.makePhoneCall({
       phoneNumber: phonenum
+    })
+  }
+
+  // 收藏
+  likeit() {
+    this.plant.push(this.id)
+    console.log(this.id)
+    this.$apply()
+    this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:'plant'}).then(res => {
+      if(res.message == 'success'){
+        wx.showToast({
+          title: '种草成功',
+          icon: 'success',
+          duration: 2000
+        })
+      } else {
+        wx.showToast({
+          title: '种草失败',
+          icon: 'none',
+          duration: 2000
+        })
+      }
     })
   }
 }

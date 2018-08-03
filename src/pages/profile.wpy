@@ -107,8 +107,8 @@ export default class Profile extends wepy.page {
   margin-bottom:20rpx;
 }
 .profile-list .iconfont{
-  margin-right: 16rpx;
-  font-size:20px;
+  margin-right: 20rpx;
+  font-size:22px;
   color:#666
 }
 .profile-list_item{

@@ -50,6 +50,7 @@
   font-size:16px;
   padding-top: 36rpx;
   padding-bottom: 36rpx;
+  height:150rpx;
   border-bottom: 1px solid #f4f4f4;
 }
 .reslist li:last-child{
@@ -86,7 +87,7 @@
   font-size:12px;
   display: inline-block;
   border:1px solid #e9e9e9;
-  padding: 0 5px;
+  padding: 0 10rpx;
   font-weight: normal;
   color: #666;
   border-radius:6rpx;
@@ -102,18 +103,16 @@
 .list-item_price{
   position: absolute;
   left: 0;
-  bottom:0;
+  bottom: 0;
   color:#fa5741;
   font-size:16px;
+  padding: 0;
+  margin: 0;
 }
 
 .price_num{
   display: inline;
   font-size:18px;
   font-weight: bold;
-}
-
-.list-item_status{
-  margin-left: 110px;
 }
 </style>
