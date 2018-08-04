@@ -10,8 +10,8 @@
     </view>
     <view>
       <view class="profile-list">
-        <view class="profile-list_item"><text class="iconfont icon-message"></text>种草<text class="grass-num">{{plantNum}}</text></view>
-        <view class="profile-list_item"><text class="iconfont icon-favor"></text>拔草<text class="grass-num">{{pickNum}}</text></view>
+        <view class="profile-list_item" bindtap="toPlant"><text class="iconfont icon-favor"></text>种草<text class="grass-num">({{plantNum}})</text></view>
+        <view class="profile-list_item"><text class="iconfont icon-like"></text>拔草<text class="grass-num" wx:if="{{pickNum}}">({{pickNum}})</text></view>
       </view>
       <view class="profile-list">
         <view class="profile-list_item"><button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message"></text>意见反馈</button></view>
@@ -23,6 +23,9 @@
 </template>
 <script>
 import wepy from 'wepy'
+import _ from 'lodash'
+import host from '../config.js'
+
 export default class Profile extends wepy.page {
   config = {
     navigationBarTitleText: '我的'
@@ -39,21 +42,31 @@ export default class Profile extends wepy.page {
       return this.$parent.globalData.pick.length
     }
   }
-  onLoad () {
-    var that = this
-    // wx.getUserInfo({
-    //   success: function(res) {
-    //     var userInfo = res.userInfo
-    //     that.nickName = userInfo.nickName
-    //     that.avatarUrl = userInfo.avatarUrl
-    //     that.$apply()
-    //   }
-    // })
+  onShow () {
+    this.$parent.globalData.plant = []
+    this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
+      var result = _.groupBy(res, 'type')
+      if(result.plant){
+        var plant = result.plant
+        plant.forEach(val => {
+          this.$parent.globalData.plant.push(val.resid)
+          this.$apply()
+        })
+        
+      }
+    })
   }
   onShareAppMessage(){
     return {
       title: '杭州餐厅与美食推荐',
       path:'/pages/index'
+    }
+  }
+  methods = {
+    toPlant(){
+      wx.navigateTo({
+        url: '/pages/plant'
+      })
     }
   }
 }
@@ -108,7 +121,7 @@ export default class Profile extends wepy.page {
 }
 .profile-list .iconfont{
   margin-right: 20rpx;
-  font-size:22px;
+  font-size:20px;
   color:#666
 }
 .profile-list_item{
@@ -131,8 +144,7 @@ export default class Profile extends wepy.page {
   line-height: 24px;
   margin-left: 10px;
   text-align: center;
-  color: #fff;
+  color: #999;
   border-radius:50%;
-  background: red;
 }
 </style>

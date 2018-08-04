@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="detail-wraper">
+      <!-- banner -->
       <view class="detail-top">
         <view class="detail-top_head">
           <view class="detail-top_pic" wx:if="{{picid}}">
@@ -9,10 +10,12 @@
           <view class="detail-top_info">
             <view class="detail-top_title">{{resname}}</view>
             <text class="detail-top_business">{{business}}</text>
+            <!-- <text class="detail-top_business detail-top_tag">{{tag}}</text> -->
           </view>
         </view>
       </view>
 
+      <!-- 信息列表 -->
       <view class="detail-list">
         <view class="detail-item">
           <view class="detail-item_icon">
@@ -34,24 +37,34 @@
           <view class="detail-item_icon">
             <text class="iconfont icon-locationfill detail-item_text"></text>
           </view>
-          <view class="detail-item_content">
-            <text class="detail-item_text">{{address}}</text>
+          <view class="detail-item_content address-text" bindtap="goto">
+            <text class="detail-item_text">{{address}}</text><text class="iconfont icon-right"></text>
           </view>
+          
         </view>
       </view>
 
+      <!-- 功能区 -->
       <view class="functional">
-        <view class="func-item" bindtap="goto">
+        <!-- <view class="func-item" bindtap="goto">
           <view class="navicon"><text class="iconfont icon-location_light"></text></view>
           <view class="navtext">导航</view>
-        </view>
+        </view> -->
         <view class="func-item" wx:if="{{tel}}" bindtap="phonecall">
           <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
           <view class="navtext">电话</view>
         </view>
-        <view class="func-item" bindtap="likeit">
-          <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
-          <view class="navtext">收藏</view>
+        <view class="func-item" bindtap="likeit" wx:if="{{!isPicked}}">
+          <view class="navicon"><text class="iconfont icon-favor_light" wx:if="{{!isPlanted}}"></text><text class="iconfont icon-favorfill" wx:if="{{isPlanted}}"></text></view>
+          <view class="navtext">种草</view>
+        </view>
+        <view class="func-item" bindtap="pickit" wx:if="{{!isPicked}}">
+          <view class="navicon"><text class="iconfont icon-xihuan1"></text></view>
+          <view class="navtext">拔草</view>
+        </view>
+        <view class="func-item"  wx:if="{{isPicked}}">
+          <view class="navicon"><text class="iconfont icon-xihuan"></text></view>
+          <view class="navtext">拔草</view>
         </view>
         <view class="func-item">
           <view class="navicon"><button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text></button></view>
@@ -83,8 +96,110 @@ export default class Profile extends wepy.page {
     tag: '',
     tel: '',
     picid: '',
-    plant: []
+    plant: [],
+    pick:[],
+    isPicked: false,
+    isPlanted: false,
+    restaurants: [
+      {
+        id: 0,
+        short: 'hotel',
+        name: '高端酒店'
+      },
+      {
+        id: 1,
+        short: 'west',
+        name: '西餐'
+      },
+      {
+        id: 2,
+        short: 'hangzhou',
+        name: '杭帮菜'
+      },
+      {
+        id: 3,
+        short: 'idea',
+        name: '创意餐厅'
+      },
+      {
+        id: 4,
+        short: 'hotpot',
+        name: '火锅、串串'
+      },
+      {
+        id: 5,
+        short: 'japan',
+        name: '日本料理'
+      },
+      {
+        id: 6,
+        short: 'family',
+        name: '家常菜'
+      },
+      {
+        id: 7,
+        short: 'guangdong',
+        name: '茶餐厅、粤菜'
+      },
+      {
+        id: 8,
+        short: 'noodle',
+        name: '面馆'
+      },
+      {
+        id: 9,
+        short: 'cake',
+        name: '点心'
+      },
+      {
+        id: 10,
+        short: 'dragon',
+        name: '小龙虾'
+      },
+      {
+        id: 11,
+        short: 'bbq',
+        name: '烧烤'
+      },
+      {
+        id: 12,
+        short: 'vegetarian',
+        name: '素斋'
+      },
+      {
+        id: 13,
+        short: 'thai',
+        name: '泰国菜'
+      },
+      {
+        id: 14,
+        short: 'tea',
+        name: '下午茶'
+      }
+    ]
   }
+
+  onShow () {
+    this.$parent.globalData.plant = []
+    this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
+      var result = _.groupBy(res, 'type')
+      if(result.plant){
+        var plant = result.plant
+        plant.forEach(val => {
+          this.plant.push(val.resid)
+          this.$apply()
+        })
+      }
+      if(result.pick){
+        var pick = result.pick
+        pick.forEach(val => {
+          this.pick.push(val.resid)
+          this.$apply()
+        })
+      }
+    })
+  }
+
   // 加载页面信息
   onLoad (option) {
     var id = option.id
@@ -107,9 +222,33 @@ export default class Profile extends wepy.page {
         that.tasty = data.tasty
         that.server = data.server
         that.env = data.env
-        that.tag = data.tag
+        // that.restaurants.forEach(val => {
+        //   if(data.tag == val.short){
+        //     that.tag = val.name
+        //   }
+        // })
         that.tel = data.tel
         that.picid = data.picid
+
+        var plant = that.plant
+        if(plant.length){
+          plant.forEach(val => {
+            console.log(val)
+            if(val == id){
+              that.isPlanted = true
+            }
+          })
+        }
+
+        var pick = that.pick
+        if(pick.length){
+          pick.forEach(val => {
+            if(val == id){
+              that.isPicked = true
+            }
+          })
+        }
+        
         //wx.showShareMenu()
         that.$apply()
       }
@@ -213,6 +352,9 @@ export default class Profile extends wepy.page {
   margin-top: 20rpx;
   border-radius:8rpx;
 }
+.detail-top_tag{
+  margin-left: 20rpx;
+}
 
 .detail-top_average,.detail-top_locate{
   font-size: 16px;
@@ -228,7 +370,7 @@ export default class Profile extends wepy.page {
   border-top:1px solid #e9e9e9;
   padding: 20rpx 0;
   font-size:18px;
-  color:#333
+  color:#333;
 }
 
 .detail-item:first-child{
@@ -242,8 +384,26 @@ export default class Profile extends wepy.page {
 .detail-item_icon{
   float: left;
 }
+
+.detail-item_icon .icon-locationfill{
+  font-size: 19px
+}
+
 .detail-item_content{
   margin-left:50rpx;
+  position: relative
+}
+
+.detail-item_content .icon-right{
+  position: absolute;
+  top: 50%;
+  right:0rpx;
+  transform:translateY(-50%);
+  color: #666;
+}
+
+.address-text{
+  padding-right: 50rpx
 }
 
 .functional{

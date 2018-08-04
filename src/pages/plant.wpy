@@ -1,0 +1,117 @@
+<template>
+  <view class="plantlist">
+    <view class="contentlist">
+      <list :resList.sync="resList"></list>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import _ from 'lodash';
+import List from '../components/reslist';
+import host from '../config.js';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '种下的草'
+  }
+
+  components = {
+    list: List
+  }
+
+  data = {
+    plant: [],
+    resList: [],
+    restaurants: [
+      'hotel',
+      'west',
+      'hangzhou',
+      'idea',
+      'hotpot',
+      'japan',
+      'family',
+      'guangdong',
+      'noodle',
+      'cake',
+      'dragon',
+      'bbq',
+      'vegetarian',
+      'thai',
+      'tea'
+    ]
+  }
+
+  onShareAppMessage() {
+    return {
+      title: '杭州餐厅与美食推荐',
+      path: '/pages/index'
+    }
+  }
+
+  // 页面初始化
+  onLoad() {
+    wx.showShareMenu()
+    this.plant = this.$parent.globalData.plant
+    this.$apply()
+    var that = this
+    if(!that.$parent.globalData.all.length){
+      this.$parent
+      .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
+      .then(res => {
+        that.$parent.globalData.all = res.data
+        that.getRestaurant()
+      })
+    }else {
+      that.getRestaurant()
+    }
+  }
+
+  // 渲染获取到的餐厅到地图上
+  getRestaurant() {
+    var that = this
+    this.getSelectedData().then(res => {
+      var data = res
+      var list_new = []
+      data.forEach(val => {
+        list_new.push({
+          id: val.id,
+          picid: val.picid,
+          average_price: val.average_price - 0,
+          name: val.resname,
+          lnglat: val.lnglat,
+          business: val.business
+        })
+      })
+      that.resList = list_new
+      that.$apply()
+    })
+  }
+
+  // 获取指定分类的餐厅
+  getSelectedData() {
+    var that = this
+    return new Promise((resolve, reject) => {
+      var plant = that.plant
+      var all = that.$parent.globalData.all
+      var resdata = []
+      all.forEach(val => {
+        plant.forEach(resid => {
+          if (val.id == resid) {
+            resdata.push(val)
+          }
+        })
+      })
+      if (resdata.length) {
+        resolve(resdata)
+      } else {
+        reject('获取分类错误')
+      }
+    })
+  }
+}
+</script>
+<style>
+
+</style>
