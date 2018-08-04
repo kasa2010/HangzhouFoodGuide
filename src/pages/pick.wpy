@@ -14,7 +14,7 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '种草'
+    navigationBarTitleText: '拔草'
   }
 
   components = {
@@ -22,7 +22,7 @@ export default class Index extends wepy.page {
   }
 
   data = {
-    plant: [],
+    pick: [],
     resList: [],
     restaurants: [
       'hotel',
@@ -53,7 +53,7 @@ export default class Index extends wepy.page {
   // 页面初始化
   onLoad() {
     wx.showShareMenu()
-    this.plant = this.$parent.globalData.plant
+    this.pick = this.$parent.globalData.pick
     this.$apply()
     var that = this
     if(!that.$parent.globalData.all.length){
@@ -93,10 +93,11 @@ export default class Index extends wepy.page {
   getSelectedData() {
     var that = this
     return new Promise((resolve, reject) => {
-      var plant = that.plant
+      var pick = that.pick
       var all = that.$parent.globalData.all
       var resdata = []
-      plant.forEach(resid => {
+      
+      pick.forEach(resid => {
         all.forEach(val => {
           if (val.id == resid) {
             resdata.push(val)

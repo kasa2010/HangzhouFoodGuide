@@ -64,7 +64,7 @@
         </view>
         <view class="func-item"  wx:if="{{isPicked}}">
           <view class="navicon"><text class="iconfont icon-xihuan"></text></view>
-          <view class="navtext">拔草</view>
+          <view class="navtext">已拔草</view>
         </view>
         <view class="func-item">
           <view class="navicon"><button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text></button></view>
@@ -179,32 +179,40 @@ export default class Profile extends wepy.page {
     ]
   }
 
-  onShow () {
+  getUseradd (id) {
+    var rid = id
     this.$parent.globalData.plant = []
+    this.$parent.globalData.pick = []
     this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
       var result = _.groupBy(res, 'type')
       if(result.plant){
         var plant = result.plant
         plant.forEach(val => {
-          this.plant.push(val.resid)
+          this.$parent.globalData.plant.push(val.resid)
           this.$apply()
         })
       }
       if(result.pick){
         var pick = result.pick
         pick.forEach(val => {
-          this.pick.push(val.resid)
+          this.$parent.globalData.pick.push(val.resid)
           this.$apply()
         })
       }
+      this.getDetail(rid)
     })
   }
 
   // 加载页面信息
   onLoad (option) {
     var id = option.id
+    this.id = id
+    this.getUseradd(id)
+  }
+
+  // 餐厅详情
+  getDetail(id){
     var that = this
-    that.id = id
     wx.request({
       url: host.service.getDetail,
       method: 'POST',
@@ -229,8 +237,11 @@ export default class Profile extends wepy.page {
         // })
         that.tel = data.tel
         that.picid = data.picid
+            
 
-        var plant = that.plant
+        var plant = that.$parent.globalData.plant
+        var pick = that.$parent.globalData.pick
+
         if(plant.length){
           plant.forEach(val => {
             console.log(val)
@@ -240,7 +251,6 @@ export default class Profile extends wepy.page {
           })
         }
 
-        var pick = that.pick
         if(pick.length){
           pick.forEach(val => {
             if(val == id){
@@ -286,7 +296,6 @@ export default class Profile extends wepy.page {
   // 收藏
   likeit() {
     this.plant.push(this.id)
-    console.log(this.id)
     this.$apply()
     this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:'plant'}).then(res => {
       if(res.message == 'success'){
@@ -298,6 +307,26 @@ export default class Profile extends wepy.page {
       } else {
         wx.showToast({
           title: '种草失败',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  }
+
+  pickit() {
+    this.pick.push(this.id)
+    this.$apply()
+    this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:'pick'}).then(res => {
+      if(res.message == 'success'){
+        wx.showToast({
+          title: '拔草成功',
+          icon: 'success',
+          duration: 2000
+        })
+      } else {
+        wx.showToast({
+          title: '拔草失败',
           icon: 'none',
           duration: 2000
         })
@@ -411,9 +440,9 @@ export default class Profile extends wepy.page {
 }
 
 .func-item{
-  padding: 40rpx 40rpx;
+  padding: 36rpx 36rpx;
   display: inline-block;
-  width:80rpx;
+  width:90rpx;
 }
 
 .navicon {

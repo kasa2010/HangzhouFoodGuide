@@ -104,7 +104,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  color:#fa5741;
+  color:#fa6650;
   font-size:16px;
   padding: 0;
   margin: 0;

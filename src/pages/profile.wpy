@@ -10,13 +10,33 @@
     </view>
     <view>
       <view class="profile-list">
-        <view class="profile-list_item" bindtap="toPlant"><text class="iconfont icon-favor"></text>种草<text class="grass-num">({{plantNum}})</text></view>
-        <view class="profile-list_item"><text class="iconfont icon-like"></text>拔草<text class="grass-num" wx:if="{{pickNum}}">({{pickNum}})</text></view>
+        <view class="profile-list_item" bindtap="toPlant">
+          <text class="iconfont icon-favor lefticon"></text>
+          <text class="secondtext">种草</text>
+          <text class="grass-num" wx:if="{{plantNum}}">{{plantNum}}</text>
+          <text class="iconfont icon-right"></text>
+        </view>
+        <view class="profile-list_item" bindtap="toPick">
+          <text class="iconfont icon-like lefticon"></text>
+          <text class="secondtext">拔草</text>
+          <text class="grass-num" wx:if="{{pickNum}}">{{pickNum}}</text>
+          <text class="iconfont icon-right"></text>
+        </view>
       </view>
       <view class="profile-list">
-        <view class="profile-list_item"><button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message"></text>意见反馈</button></view>
-        <view class="profile-list_item"><button class="feedback-btn" open-type="share"><text class="iconfont icon-share"></text>分享给好友</button></view>
-        <view class="profile-list_item"><text class="iconfont icon-appreciate"></text>赞赏</view>
+        <view class="profile-list_item">
+          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message lefticon"></text>意见反馈</button>
+          <text class="iconfont icon-right"></text>
+        </view>
+        <view class="profile-list_item">
+          <button class="feedback-btn" open-type="share"><text class="iconfont icon-share lefticon"></text>分享给好友</button>
+          <text class="iconfont icon-right"></text>
+        </view>
+        <view class="profile-list_item">
+          <text class="iconfont icon-appreciate lefticon"></text>
+          <text class="secondtext">赞赏</text>
+          <text class="iconfont icon-right"></text>
+        </view>
       </view>
     </view>
   </view>
@@ -44,6 +64,7 @@ export default class Profile extends wepy.page {
   }
   onShow () {
     this.$parent.globalData.plant = []
+    this.$parent.globalData.pick = []
     this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
       var result = _.groupBy(res, 'type')
       if(result.plant){
@@ -52,7 +73,13 @@ export default class Profile extends wepy.page {
           this.$parent.globalData.plant.push(val.resid)
           this.$apply()
         })
-        
+      }
+      if(result.pick){
+        var pick = result.pick
+        pick.forEach(val => {
+          this.$parent.globalData.pick.push(val.resid)
+          this.$apply()
+        })
       }
     })
   }
@@ -66,6 +93,11 @@ export default class Profile extends wepy.page {
     toPlant(){
       wx.navigateTo({
         url: '/pages/plant'
+      })
+    },
+    toPick(){
+      wx.navigateTo({
+        url: '/pages/pick'
       })
     }
   }
@@ -103,7 +135,7 @@ export default class Profile extends wepy.page {
   background: #fff;
   width: 90%;
   font-size: 16px;
-  padding-left: 0;
+  padding-left: 60rpx;
   line-height: 80rpx;
   height: 80rpx;
   text-align: left;
@@ -120,11 +152,11 @@ export default class Profile extends wepy.page {
   margin-bottom:20rpx;
 }
 .profile-list .iconfont{
-  margin-right: 20rpx;
   font-size:20px;
   color:#666
 }
 .profile-list_item{
+  position: relative;
   background:#fff;
   display: block;
   margin-left: 20rpx;
@@ -136,15 +168,33 @@ export default class Profile extends wepy.page {
 .profile-list_item:last-child{
   border-bottom: 0;
 }
+
+.profile-list_item .iconfont{
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.profile-list_item .lefticon{
+  left: 0
+}
+
+.secondtext{
+  padding-left: 60rpx;
+}
+
+.profile-list_item .icon-right{
+  right: 20rpx;
+  color:#bcbcbc;
+  font-size:16px;
+}
+
 .grass-num{
-  display: inline-block;
-  width:24px;
-  height:24px;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:60rpx;
   font-size:14px;
-  line-height: 24px;
-  margin-left: 10px;
-  text-align: center;
-  color: #999;
-  border-radius:50%;
+  color: #bcbcbc;
 }
 </style>
