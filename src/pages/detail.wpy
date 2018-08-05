@@ -50,10 +50,7 @@
           <view class="navicon"><text class="iconfont icon-location_light"></text></view>
           <view class="navtext">导航</view>
         </view> -->
-        <view class="func-item" wx:if="{{tel}}" bindtap="phonecall">
-          <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
-          <view class="navtext">电话</view>
-        </view>
+        
         <view class="func-item" data-type="plant" bindtap="likeit" wx:if="{{!isPicked && !isPlanted}}">
           <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
           <view class="navtext">种草</view>
@@ -73,6 +70,10 @@
         <view class="func-item">
           <view class="navicon"><button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text></button></view>
           <view class="navtext">分享</view>
+        </view>
+        <view class="func-item" wx:if="{{tel}}" bindtap="phonecall">
+          <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
+          <view class="navtext">电话</view>
         </view>
       </view>
     </view>
