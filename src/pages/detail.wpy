@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="detail-wraper">
+    <view class="detail-wraper" wx:if="{{isLoaded}}">
       <!-- banner -->
       <view class="detail-top">
         <view class="detail-top_head">
@@ -54,15 +54,19 @@
           <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
           <view class="navtext">电话</view>
         </view>
-        <view class="func-item" bindtap="likeit" wx:if="{{!isPicked}}">
-          <view class="navicon"><text class="iconfont icon-favor_light" wx:if="{{!isPlanted}}"></text><text class="iconfont icon-favorfill" wx:if="{{isPlanted}}"></text></view>
+        <view class="func-item" data-type="plant" bindtap="likeit" wx:if="{{!isPicked && !isPlanted}}">
+          <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
           <view class="navtext">种草</view>
         </view>
-        <view class="func-item" bindtap="pickit" wx:if="{{!isPicked}}">
+        <view class="func-item" data-type="plant" bindtap="removelikeit" wx:if="{{!isPicked && isPlanted}}">
+          <view class="navicon"><text class="iconfont icon-favorfill"></text></view>
+          <view class="navtext">已种草</view>
+        </view>
+        <view class="func-item" data-type="pick" bindtap="likeit" wx:if="{{!isPicked}}">
           <view class="navicon"><text class="iconfont icon-xihuan1"></text></view>
           <view class="navtext">拔草</view>
         </view>
-        <view class="func-item"  wx:if="{{isPicked}}">
+        <view class="func-item" data-type="pick" bindtap="removelikeit" wx:if="{{isPicked}}">
           <view class="navicon"><text class="iconfont icon-xihuan"></text></view>
           <view class="navtext">已拔草</view>
         </view>
@@ -100,6 +104,7 @@ export default class Profile extends wepy.page {
     pick:[],
     isPicked: false,
     isPlanted: false,
+    isLoaded: false,
     restaurants: [
       {
         id: 0,
@@ -205,6 +210,9 @@ export default class Profile extends wepy.page {
 
   // 加载页面信息
   onLoad (option) {
+    wx.showLoading({
+      title: '加载中'
+    })
     var id = option.id
     this.id = id
     this.getUseradd(id)
@@ -244,7 +252,6 @@ export default class Profile extends wepy.page {
 
         if(plant.length){
           plant.forEach(val => {
-            console.log(val)
             if(val == id){
               that.isPlanted = true
             }
@@ -260,6 +267,9 @@ export default class Profile extends wepy.page {
         }
         
         //wx.showShareMenu()
+        that.$apply()
+        wx.hideLoading()
+        that.isLoaded = true
         that.$apply()
       }
     })
@@ -293,44 +303,74 @@ export default class Profile extends wepy.page {
     })
   }
 
-  // 收藏
-  likeit() {
-    this.plant.push(this.id)
-    this.$apply()
-    this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:'plant'}).then(res => {
+  // 种草
+  likeit(e) {
+    var coltype = e.currentTarget.dataset.type
+    this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:coltype}).then(res => {
       if(res.message == 'success'){
-        wx.showToast({
-          title: '种草成功',
-          icon: 'success',
-          duration: 2000
-        })
+        if(coltype == 'plant'){
+          this.isPlanted = true
+          this.$apply()
+          this.toastTip('种草成功')
+        }else if(coltype == 'pick'){
+          this.isPicked = true
+          if(this.isPlanted){
+            this.isPlanted = false
+            this.removePlant()
+          }
+          this.$apply()
+          this.toastTip('拔草成功')
+        }
       } else {
-        wx.showToast({
-          title: '种草失败',
-          icon: 'none',
-          duration: 2000
-        })
+        if(coltype == 'plant'){
+          this.toastTip('种草失败')
+        }else if(coltype == 'pick'){
+          this.toastTip('拔草失败')
+        }
       }
     })
   }
 
-  pickit() {
-    this.pick.push(this.id)
-    this.$apply()
-    this.$parent.ajax(host.service.addUrl,'POST',{resid:this.id,type:'pick'}).then(res => {
+  removelikeit(e){
+    var coltype = e.currentTarget.dataset.type
+    this.$parent.ajax(host.service.removeUrl,'POST',{resid:this.id,type:coltype}).then(res => {
       if(res.message == 'success'){
-        wx.showToast({
-          title: '拔草成功',
-          icon: 'success',
-          duration: 2000
-        })
+        if(coltype == 'plant'){
+          this.isPlanted = false
+          this.$apply()
+          this.toastTip('取消种草成功')
+        }else if(coltype == 'pick'){
+          this.isPicked = false
+          this.isPlanted = false
+          this.$apply()
+          this.toastTip('取消拔草成功')
+        }
       } else {
-        wx.showToast({
-          title: '拔草失败',
-          icon: 'none',
-          duration: 2000
-        })
+        if(coltype == 'plant'){
+          this.toastTip('取消种草失败')
+        }else if(coltype == 'pick'){
+          this.toastTip('取消拔草失败')
+        }
       }
+    })
+  }
+
+  removePlant(){
+    this.$parent.ajax(host.service.removeUrl,'POST',{resid:this.id,type:'plant'}).then(res => {
+      if(res.message == 'success'){
+        this.isPlanted = false
+        this.$apply()
+      } else {
+        console.log('静默移除种草失败')
+      }
+    })
+  }
+
+  toastTip(title){
+    wx.showToast({
+      title: title,
+      icon: 'none',
+      duration: 2000
     })
   }
 }

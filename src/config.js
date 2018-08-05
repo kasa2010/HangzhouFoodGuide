@@ -8,6 +8,7 @@ export default {
       getResUrl: `${host}/weapp/restaurant`,
       getDetail: `${host}/weapp/getres`,
       addUrl: `${host}/weapp/addres`,
+      removeUrl: `${host}/weapp/removelike`,
       getfavUrl: `${host}/weapp/getlike`
   }
 }
