@@ -1,7 +1,15 @@
 <template>
   <view class="plantlist">
-    <view class="contentlist">
-      <list :resList.sync="resList"></list>
+    <view wx:if="{{plant.length}}">
+      <view class="contentlist-title">共种草<text class="pnum">{{plant.length}}</text>家餐厅</view>
+      <view class="contentlist">
+        <list :resList.sync="resList"></list>
+      </view>
+    </view>
+    
+    <view class="noresult" wx:if="{{!plant.length}}">
+       <text>你还没有种过草哦~</text>
+       <!-- <button type="primary" class="goto-btn" bindtap="toIndex">去种草</button> -->
     </view>
   </view>
 </template>
@@ -51,7 +59,7 @@ export default class Index extends wepy.page {
   }
 
   // 页面初始化
-  onLoad() {
+  onShow() {
     wx.showShareMenu()
     this.plant = this.$parent.globalData.plant
     this.$apply()
@@ -96,22 +104,55 @@ export default class Index extends wepy.page {
       var plant = that.plant
       var all = that.$parent.globalData.all
       var resdata = []
-      plant.forEach(resid => {
-        all.forEach(val => {
-          if (val.id == resid) {
-            resdata.push(val)
-          }
+      if(plant.length){
+        plant.forEach(resid => {
+          all.forEach(val => {
+            if (val.id == resid) {
+              resdata.push(val)
+            }
+          })
         })
-      })
-      if (resdata.length) {
-        resolve(resdata)
-      } else {
-        reject('获取分类错误')
+        if (resdata.length) {
+          resolve(resdata)
+        }
+      }else {
+        this.resList = []
+        this.$apply()
       }
     })
+  }
+
+  methods = {
+    toIndex(){
+      wx.switchTab({
+        url: '/pages/index'
+      })
+    }
   }
 }
 </script>
 <style>
-
+.contentlist-title{
+  background:#f5f5f5;
+  height:80rpx;
+  line-height: 80rpx;
+  padding-left: 40rpx;
+  font-size:14px;
+}
+.pnum{
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+.noresult{
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:18px;
+  color:#999;
+  text-align: center
+}
+.goto-btn{
+  margin: 20rpx auto 0 auto;
+}
 </style>

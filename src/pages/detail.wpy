@@ -311,7 +311,7 @@ export default class Profile extends wepy.page {
         if(coltype == 'plant'){
           this.isPlanted = true
           this.$apply()
-          this.toastTip('种草成功')
+          this.toastTip('种草成功','success')
         }else if(coltype == 'pick'){
           this.isPicked = true
           if(this.isPlanted){
@@ -319,13 +319,13 @@ export default class Profile extends wepy.page {
             this.removePlant()
           }
           this.$apply()
-          this.toastTip('拔草成功')
+          this.toastTip('拔草成功','success')
         }
       } else {
         if(coltype == 'plant'){
-          this.toastTip('种草失败')
+          this.toastTip('种草失败','none')
         }else if(coltype == 'pick'){
-          this.toastTip('拔草失败')
+          this.toastTip('拔草失败','none')
         }
       }
     })
@@ -333,23 +333,32 @@ export default class Profile extends wepy.page {
 
   removelikeit(e){
     var coltype = e.currentTarget.dataset.type
+    var that = this
     this.$parent.ajax(host.service.removeUrl,'POST',{resid:this.id,type:coltype}).then(res => {
       if(res.message == 'success'){
         if(coltype == 'plant'){
           this.isPlanted = false
+          var newPlant = this.$parent.globalData.plant 
+          _.remove(newPlant,function(n){
+            return n == that.id
+          })
           this.$apply()
-          this.toastTip('取消种草成功')
+          this.toastTip('取消种草成功','success')
         }else if(coltype == 'pick'){
           this.isPicked = false
           this.isPlanted = false
+          var newPick = this.$parent.globalData.pick 
+          _.remove(newPick,function(n){
+            return n == that.id
+          })
           this.$apply()
-          this.toastTip('取消拔草成功')
+          this.toastTip('取消拔草成功','success')
         }
       } else {
         if(coltype == 'plant'){
-          this.toastTip('取消种草失败')
+          this.toastTip('取消种草失败','none')
         }else if(coltype == 'pick'){
-          this.toastTip('取消拔草失败')
+          this.toastTip('取消拔草失败','none')
         }
       }
     })
@@ -366,10 +375,10 @@ export default class Profile extends wepy.page {
     })
   }
 
-  toastTip(title){
+  toastTip(title,type){
     wx.showToast({
       title: title,
-      icon: 'none',
+      icon: type,
       duration: 2000
     })
   }
