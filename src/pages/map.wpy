@@ -6,7 +6,7 @@
     </view>
 
     <!-- 地图 -->
-    <view class="content" style="top:50px;bottom:100px">
+    <view class="content" style="top:50px;bottom:160rpx">
       <map id="map" wx:if="isready" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" bindcallouttap="markertap" bindmarkertap="markertap" markers="{{markers}}" show-location></map>
     </view>
 
@@ -281,15 +281,15 @@
 }
 .scroll-view-item_H{
   padding: 13px 5px;
-  width:60px;
+  width:120rpx;
   display: inline-block;
 }
 .item-num{
   position: relative;
   margin:0 auto;
-  width:30px;
-  height:30px;
-  line-height: 30px;
+  width:60rpx;
+  height:60rpx;
+  line-height: 60rpx;
   text-align: center;
   border:1px solid #fa6650;
   border-radius:50%;
@@ -301,7 +301,7 @@
   position: absolute;
   right:-30px;
   top:13px;
-  width:20px;
+  width:40rpx;
   height:1px;
   border-bottom: 1px dotted #fa6650;
 }
@@ -313,11 +313,11 @@
   display: none;
 }
 .item-name{
-  width:60px;
-  height: 40px;
+  width:120rpx;
+  height: 80rpx;
   font-size: 12px;
   text-align: center;
-  padding-top: 8px;
+  padding-top: 16rpx;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap
@@ -327,6 +327,6 @@
   width:100%;
   left:0;
   bottom:0;
-  height:100px;
+  height:160rpx;
 }
 </style>

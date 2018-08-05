@@ -11,13 +11,13 @@
     <view>
       <view class="profile-list">
         <view class="profile-list_item" bindtap="toPlant">
-          <text class="iconfont icon-favor lefticon"></text>
+          <text class="iconfont icon-shoucang lefticon"></text>
           <text class="secondtext">种草</text>
           <text class="grass-num" wx:if="{{plantNum}}">{{plantNum}}</text>
           <text class="iconfont icon-right"></text>
         </view>
         <view class="profile-list_item" bindtap="toPick">
-          <text class="iconfont icon-like lefticon"></text>
+          <text class="iconfont icon-xihuan lefticon"></text>
           <text class="secondtext">拔草</text>
           <text class="grass-num" wx:if="{{pickNum}}">{{pickNum}}</text>
           <text class="iconfont icon-right"></text>
@@ -25,18 +25,18 @@
       </view>
       <view class="profile-list">
         <view class="profile-list_item">
-          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message lefticon"></text>意见反馈</button>
+          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message1 lefticon"></text>意见反馈</button>
           <text class="iconfont icon-right"></text>
         </view>
         <view class="profile-list_item">
-          <button class="feedback-btn" open-type="share"><text class="iconfont icon-share lefticon"></text>分享给好友</button>
+          <button class="feedback-btn" open-type="share"><text class="iconfont icon-share1 lefticon"></text>分享给好友</button>
           <text class="iconfont icon-right"></text>
         </view>
-        <view class="profile-list_item">
-          <text class="iconfont icon-appreciate lefticon"></text>
+        <!-- <view class="profile-list_item">
+          <text class="iconfont icon-zan lefticon"></text>
           <text class="secondtext">赞赏</text>
           <text class="iconfont icon-right"></text>
-        </view>
+        </view> -->
       </view>
     </view>
   </view>
@@ -181,6 +181,28 @@ export default class Profile extends wepy.page {
 
 .secondtext{
   padding-left: 60rpx;
+}
+
+.profile-list_item .icon-shoucang{
+  color:#FFC312
+}
+
+.profile-list_item .icon-xihuan{
+  color:#EA2027
+}
+
+.profile-list_item .icon-message1{
+  color:#2ed573
+}
+
+.profile-list_item .icon-share1{
+  color:#1e90ff;
+  font-size:16px;
+  left:4rpx;
+}
+
+.profile-list_item .icon-zan{
+  color:#7158e2
 }
 
 .profile-list_item .icon-right{
