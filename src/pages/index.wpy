@@ -68,7 +68,7 @@ export default class Index extends wepy.page {
 
   onShareAppMessage() {
     return {
-      title: '杭州美食指南',
+      title: '为你寻找杭州好味道',
       path: '/pages/index'
     }
   }

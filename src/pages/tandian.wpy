@@ -1,0 +1,32 @@
+<template>
+  <web-view src="https://mp.weixin.qq.com{{linkurl}}"></web-view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '探店'
+  }
+
+  data = {
+    linkurl: ''
+  }
+
+  onShareAppMessage() {
+    return {
+      title: '为你寻找杭州好味道',
+      path: '/pages/index'
+    }
+  }
+
+  // 页面初始化
+  onLoad(option) {
+    var linkurl = option.linkurl
+    this.linkurl = linkurl
+    this.$apply()
+    wx.showShareMenu()
+  }
+}
+</script>
