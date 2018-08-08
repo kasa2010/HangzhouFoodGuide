@@ -12,7 +12,8 @@ export default class extends wepy.app {
       'pages/detail',
       'pages/plant',
       'pages/pick',
-      'pages/tandian'
+      'pages/tandian',
+      'pages/articlelist'
     ],
     tabBar: {
       selectedColor: "#fa6650",
@@ -23,6 +24,11 @@ export default class extends wepy.app {
         text: "美食",
         iconPath: "resources/home_light.png",
         selectedIconPath: "./resources/home_fill_light.png"
+      },{
+        pagePath: "pages/articlelist",
+        text: "探店",
+        iconPath: "resources/discover.png",
+        selectedIconPath: "./resources/discover_fill.png"
       },{
         pagePath: "pages/map",
         text: "地图",

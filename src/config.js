@@ -9,6 +9,7 @@ export default {
       getDetail: `${host}/weapp/getres`,
       addUrl: `${host}/weapp/addres`,
       removeUrl: `${host}/weapp/removelike`,
-      getfavUrl: `${host}/weapp/getlike`
+      getfavUrl: `${host}/weapp/getlike`,
+      getArticle: `${host}/weapp/tandian`
   }
 }

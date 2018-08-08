@@ -1,0 +1,80 @@
+<template>
+  <view class="articlelist">
+    <scroll-view>
+      <repeat for="{{articleList}}" key="index" index="index" item="item">
+        <view class="article-container" data-url="{{item.url}}" bindtap="toArticle">
+          <view class="article-img"></view>
+          <view class="article-title">{{item.title}}</view>
+        </view>
+      </repeat>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import host from '../config.js';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '探店'
+  }
+
+  data = {
+    articleList: [],
+  }
+
+  onShareAppMessage() {
+    return {
+      title: '杭州餐厅与美食推荐',
+      path: '/pages/index'
+    }
+  }
+
+  // 页面初始化
+  onShow() {
+    wx.showShareMenu()
+    var that = this
+    this.$parent
+      .ajax(host.service.getArticle, 'POST')
+      .then(res => {
+        that.articleList = res.data
+        that.$apply()
+      })
+  }
+
+  methods = {
+    toArticle(e){
+      var linkurl = e.currentTarget.dataset.url
+      console.log(linkurl)
+      wx.navigateTo({
+        url: '/pages/tandian?linkurl=' + linkurl
+      })
+    }
+  }
+}
+</script>
+<style>
+.contentlist-title{
+  background:#f1f0f5;
+  padding:20rpx 0 14rpx 40rpx;
+  font-size:14px;
+  color:#999;
+}
+.pnum{
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+.noresult{
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:18px;
+  color:#999;
+  text-align: center
+}
+.goto-btn{
+  margin: 20rpx auto 0 auto;
+}
+</style>

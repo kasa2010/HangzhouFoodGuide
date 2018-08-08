@@ -47,7 +47,7 @@
             <text class="iconfont icon-discoverfill detail-item_text"></text>
           </view>
           <view class="detail-item_content" bindtap="tandian">
-            <text class="detail-item_text">探店测评</text>
+            <text class="detail-item_text">探店评测</text>
             <text class="iconfont icon-right"></text>
           </view>
         </view> 
