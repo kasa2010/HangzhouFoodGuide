@@ -1,12 +1,19 @@
 <template>
   <view class="articlelist">
     <scroll-view>
-      <repeat for="{{articleList}}" key="index" index="index" item="item">
-        <view class="article-container" data-url="{{item.url}}" bindtap="toArticle">
-          <view class="article-img"></view>
-          <view class="article-title">{{item.title}}</view>
-        </view>
-      </repeat>
+      <view class="article-wrapper">
+        <repeat for="{{articleList}}" key="index" index="index" item="item">
+          <view class="article-container" data-url="{{item.url}}" bindtap="toArticle">
+            <view class="article-content">
+              <view class="article-img">
+                <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{item.aid}}.jpg" mode="widthFix" class="article-picture"></image>
+              </view>
+              <view class="article-title">{{item.title}}</view>
+              <view class="article-sub">{{item.subscribe}}</view>
+            </view>
+          </view>
+        </repeat>
+      </view>
     </scroll-view>
   </view>
 </template>
@@ -38,7 +45,8 @@ export default class Index extends wepy.page {
     this.$parent
       .ajax(host.service.getArticle, 'POST')
       .then(res => {
-        that.articleList = res.data
+        var articleList = res.data
+        that.articleList = articleList.reverse()
         that.$apply()
       })
   }
@@ -55,26 +63,37 @@ export default class Index extends wepy.page {
 }
 </script>
 <style>
-.contentlist-title{
-  background:#f1f0f5;
-  padding:20rpx 0 14rpx 40rpx;
-  font-size:14px;
-  color:#999;
+.article-wrapper{
+  padding-top: 10rpx;
+  padding-bottom:10rpx;
+  background: #ebebeb;
 }
-.pnum{
-  padding-left: 10rpx;
-  padding-right: 10rpx;
+.article-container{
+  padding: 20rpx 0;
 }
-.noresult{
-  position: absolute;
-  left: 50%;
-  top:50%;
-  transform:translate(-50%,-50%);
+.article-content{
+  background: #fff;
+  width:640rpx;
+  margin:0 auto;
+}
+.article-img{
+  height:310rpx;
+  overflow: hidden
+}
+.article-title{
+  padding: 20rpx 20rpx 10rpx 20rpx;
   font-size:18px;
-  color:#999;
-  text-align: center
+  font-weight: bold;
+  color: #000;
 }
-.goto-btn{
-  margin: 20rpx auto 0 auto;
+
+.article-sub{
+  padding: 0 20rpx 30rpx 20rpx;
+  font-size:14px;
+  color: #999;
+}
+
+.article-picture{
+  width:100%
 }
 </style>
