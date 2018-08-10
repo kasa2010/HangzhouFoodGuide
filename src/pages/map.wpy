@@ -70,6 +70,7 @@
       this.$apply()
     }
     onLoad() {
+      wx.showShareMenu()
       this.plant = this.$parent.globalData.plant
       this.pick = this.$parent.globalData.pick
       
@@ -81,6 +82,14 @@
         })
       } else {
         this.getRestaurant()
+      }
+    }
+
+    onShareAppMessage() {
+      return {
+        title: '杭州餐厅与美食推荐',
+        path: '/pages/index',
+        imageUrl: 'https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/sharepic.jpg'
       }
     }
 

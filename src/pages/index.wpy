@@ -69,7 +69,8 @@ export default class Index extends wepy.page {
   onShareAppMessage() {
     return {
       title: '为你寻找杭州好味道',
-      path: '/pages/index'
+      path: '/pages/index',
+      imageUrl: 'https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/sharepic.jpg'
     }
   }
 
