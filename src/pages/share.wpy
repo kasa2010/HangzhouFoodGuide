@@ -1,0 +1,39 @@
+<template>
+  <view class="plantlist">
+    <view wx:if="{{pick.length}}">
+      <view class="contentlist-title">共拔草<text class="pnum">{{pick.length}}</text>家餐厅</view>
+      <view class="contentlist">
+        <list :resList.sync="resList"></list>
+      </view>
+    </view>
+    
+    <view class="noresult" wx:if="{{!pick.length}}">
+       <text>你还没有拔过草哦~</text>
+       <!-- <button type="primary" class="goto-btn" bindtap="toIndex">去拔草</button> -->
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import _ from 'lodash';
+import host from '../config.js';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '分享杭州超赞餐厅'
+  }
+
+  data = {
+    
+  }
+
+  // 页面初始化
+  onShow() {
+    
+  }
+}
+</script>
+<style>
+
+</style>

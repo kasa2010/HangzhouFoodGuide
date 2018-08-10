@@ -11,6 +11,10 @@
             <view class="list-item_area">{{item.business}}</view>
             <view class="list-item_price">人均<view class="price_num">{{item.average_price}}</view>元</view>
           </view>
+          <view class="list-item_status">
+            <text class="iconfont icon-shoucang" wx:if="{{item.planted}}"></text>
+            <text class="iconfont icon-xihuan" wx:if="{{item.picked}}"></text>
+          </view>
         </li>
       </repeat>
     </ul>
@@ -47,6 +51,7 @@
 .reslist li{
   overflow: hidden;
   display: block;
+  position: relative;
   font-size:16px;
   padding-top: 36rpx;
   padding-bottom: 36rpx;
@@ -108,6 +113,21 @@
   font-size:16px;
   padding: 0;
   margin: 0;
+}
+
+.list-item_status{
+  position: absolute;
+  top:50%;
+  right: 0;
+  transform:translateY(-50%)
+}
+
+.list-item_status .icon-shoucang{
+  color:#FFC312
+}
+
+.list-item_status .icon-xihuan{
+  color:#EA2027
 }
 
 .price_num{

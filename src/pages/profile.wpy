@@ -25,11 +25,11 @@
       </view>
       <view class="profile-list">
         <view class="profile-list_item">
-          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message1 lefticon"></text>意见反馈</button>
+          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message lefticon"></text>意见反馈</button>
           <text class="iconfont icon-right"></text>
         </view>
         <view class="profile-list_item">
-          <button class="feedback-btn" open-type="share"><text class="iconfont icon-share1 lefticon"></text>分享给好友</button>
+          <button class="feedback-btn" open-type="share"><text class="iconfont icon-share lefticon"></text>分享给好友</button>
           <text class="iconfont icon-right"></text>
         </view>
         <!-- <view class="profile-list_item">
@@ -37,6 +37,13 @@
           <text class="secondtext">赞赏</text>
           <text class="iconfont icon-right"></text>
         </view> -->
+      </view>
+      <view class="profile-list">
+        <view class="profile-list_item">
+          <text class="iconfont icon-wodetijiao lefticon"></text>
+          <text class="secondtext">分享杭州超赞餐厅</text>
+          <text class="iconfont icon-right"></text>
+        </view>
       </view>
     </view>
   </view>
@@ -192,11 +199,11 @@ export default class Profile extends wepy.page {
   color:#EA2027
 }
 
-.profile-list_item .icon-message1{
+.profile-list_item .icon-message{
   color:#2ed573
 }
 
-.profile-list_item .icon-share1{
+.profile-list_item .icon-share{
   color:#1e90ff;
   font-size:16px;
   left:4rpx;
@@ -210,6 +217,11 @@ export default class Profile extends wepy.page {
   right: 20rpx;
   color:#bcbcbc;
   font-size:16px;
+}
+
+.profile-list_item .icon-wodetijiao{
+  color:#7158e2;
+  font-size:22px;
 }
 
 .grass-num{
