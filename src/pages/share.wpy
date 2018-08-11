@@ -1,15 +1,32 @@
 <template>
-  <view class="plantlist">
-    <view wx:if="{{pick.length}}">
-      <view class="contentlist-title">共拔草<text class="pnum">{{pick.length}}</text>家餐厅</view>
-      <view class="contentlist">
-        <list :resList.sync="resList"></list>
-      </view>
+  <view class="recomand">
+    <view class="share-form" wx:if="{{!isFinish}}">
+      <form bindsubmit="submitform">
+        <view class="form-content">
+          <view class="form-item">
+            <label class="form-label">餐厅名称</label>
+            <input type="text" maxlength="50" class="form-input" name="resname" bindfocus="focusinput" placeholder="输入您要推荐的餐厅名称" />
+            <text wx:if="{{isError}}" class="error-tip">餐厅名称是必填项哦</text>
+          </view>
+          <view class="form-item">
+            <label class="form-label">分享语(选填)</label>
+            <textarea class="form-textarea" name="sharemsg" placeholder="输入您的推荐语"></textarea>
+          </view>
+        </view>
+        <view class="form-submit">
+          <button type="primary" formType="submit">提交</button>
+        </view>
+      </form>
     </view>
-    
-    <view class="noresult" wx:if="{{!pick.length}}">
-       <text>你还没有拔过草哦~</text>
-       <!-- <button type="primary" class="goto-btn" bindtap="toIndex">去拔草</button> -->
+    <view class="share-finish" wx:if="{{isFinish}}">
+      <view class="finish-icon">
+        <icon type="success" size="90" class="success-icon" />
+        <view class="finish-tip">感谢你的推荐</view>
+        <view class="finish-subtext">已将你的推荐餐厅提交给管理员</view>
+      </view>
+      <view class="finish-btn">
+        <button type="primary" bindtap="backProfile">关闭</button>
+      </view>
     </view>
   </view>
 </template>
@@ -21,19 +38,107 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '分享杭州超赞餐厅'
+    navigationBarTitleText: '推荐杭州超赞餐厅'
   }
 
   data = {
-    
+    isError: false,
+    isFinish: false
   }
 
   // 页面初始化
   onShow() {
     
   }
+  methods = {
+    submitform(e){
+      var data = e.detail.value
+      if(data.resname.length){
+        this.$parent.ajax(host.service.addRecommend,'POST',data).then(res => {
+          if(res.message == 'success'){
+            this.isFinish = true
+            this.$apply()
+          }
+        })
+      } else {
+        this.isError = true
+        this.$apply()
+      }
+    },
+
+    focusinput(){
+      this.isError = false;
+      this.$apply()
+    },
+
+    backProfile(){
+      wx.switchTab({
+        url: '/pages/profile'
+      })
+    }
+  }
 }
 </script>
 <style>
+.recomand{
+  height: 100%;
+  background: #ebebeb;
+}
+.form-content{
+  border-top:1px solid #e9e9e9;
+  border-bottom:1px solid #e9e9e9;
+  background: #fff;
+}
+.form-item{
+  margin-left:30rpx;
+  margin-bottom:20rpx;
+}
+.form-item:last-child{
+  margin-bottom: 0
+}
+.form-label{
+  display: block;
+  font-size:16px;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom:1px solid #e9e9e9;
+  margin-bottom:20rpx;
+}
+.form-input{
+  font-size:18px;
+}
+.form-textarea{
+  font-size:18px;
+}
+.form-submit{
+  padding: 30rpx;
+}
+.error-tip{
+  color:#e74c3c;
+  font-size:14px;
+}
+
+
+.share-finish{
+  padding: 80rpx 30rpx 0 30rpx;
+  text-align: center;
+}
+.finish-tip{
+  text-align: center;
+  font-size: 18px;
+  color:#333;
+  padding-top: 40rpx;
+  padding-bottom: 30rpx;
+}
+.finish-subtext{
+  text-align: center;
+  font-size: 14px;
+  color:#999;
+  padding-bottom: 40rpx;
+}
+.success-icon{
+  display: block;
+  margin: 0 auto;
+}
 
 </style>

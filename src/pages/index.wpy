@@ -117,10 +117,10 @@ export default class Index extends wepy.page {
           lnglat: val.lnglat,
           business: val.business
         }
-        console.log(this.$parent.globalData.pick)
+        //console.log(this.$parent.globalData.pick)
         var isPlanted = _.indexOf(this.$parent.globalData.plant, val.id)
         var isPicked = _.indexOf(this.$parent.globalData.pick, val.id)
-        console.log(isPicked)
+        //console.log(isPicked)
         if(isPlanted >=0){
           single.planted = true
           single.picked = false

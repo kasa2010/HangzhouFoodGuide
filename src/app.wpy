@@ -14,7 +14,8 @@ export default class extends wepy.app {
       'pages/plant',
       'pages/pick',
       'pages/tandian',
-      'pages/articlelist'
+      'pages/articlelist',
+      'pages/share'
     ],
     tabBar: {
       selectedColor: "#fa6650",

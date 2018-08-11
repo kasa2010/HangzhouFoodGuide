@@ -10,6 +10,7 @@ export default {
       addUrl: `${host}/weapp/addres`,
       removeUrl: `${host}/weapp/removelike`,
       getfavUrl: `${host}/weapp/getlike`,
-      getArticle: `${host}/weapp/tandian`
+      getArticle: `${host}/weapp/tandian`,
+      addRecommend: `${host}/weapp/addrecommend`
   }
 }
