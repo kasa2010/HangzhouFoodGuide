@@ -110,7 +110,7 @@ export default class Select extends wepy.component {
     transform:translate(-50%,-50%)
 }
 .picker{
-  font-size:18px;
+  font-size:17px;
 }
 .icon-xialajiantouxiao{
   margin-left: 5px;

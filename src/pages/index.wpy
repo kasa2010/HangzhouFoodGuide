@@ -10,9 +10,10 @@
             <text class="iconfont icon-triangleupfill sorticon {{choosenid == 2 ? 'choosen' : ''}}"></text>
           </view>
           <selector :index.sync="index"></selector>
+          <view class="mapmode" bindtap="toMap"><text class="iconfont icon-locationfill mapicon"></text>地图</view>
         </view>
       </view>
-      <view class="contentlist">
+      <view class="contentlist" wx:if="{{isLoaded}}">
         <list :resList.sync="resList"></list>
       </view>
       <view class="selectChanger">
@@ -41,7 +42,7 @@ export default class Index extends wepy.page {
   }
 
   data = {
-    isready: false,
+    isLoaded: false,
     currentTabIndex: 0,
     resList: [],
     index: 0,
@@ -78,6 +79,7 @@ export default class Index extends wepy.page {
     var that = this;
     let key = wx.getStorageSync('key')
     if(key){
+      console.log('show')
       this.getPlantPick().then(res => {
         if (this.$parent.globalData.all.length) {
           this.getRestaurant()
@@ -95,6 +97,10 @@ export default class Index extends wepy.page {
 
   // 页面初始化
   onLoad() {
+    console.log('load')
+    wx.showLoading({
+      title: '加载中'
+    })
     wx.showShareMenu()
     var that = this;
     this.$parent.login().then(res => {
@@ -111,6 +117,9 @@ export default class Index extends wepy.page {
         })
         this.index = this.$parent.globalData.index
         this.$apply()
+        wx.hideLoading()
+        that.isLoaded = true
+        that.$apply()
       }
     })
   }
@@ -184,6 +193,8 @@ export default class Index extends wepy.page {
 
   // 获取种草及拔草
   getPlantPick(){
+    this.$parent.globalData.plant = []
+    this.$parent.globalData.pick = []
     return new Promise((resolve,reject) => {
       this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
         var result = _.groupBy(res, 'type')
@@ -257,6 +268,13 @@ export default class Index extends wepy.page {
     }
   }
 
+  // 切换到地图
+  toMap() {
+    wx.navigateTo({
+      url: '/pages/map'
+    })
+  }
+
   // 处理子组件事件
   events = {
     reGet: (p1, p2, $event) => {
@@ -296,13 +314,15 @@ export default class Index extends wepy.page {
   border-bottom: 1px solid #f4f4f4;
 }
 .topbar-container {
-  height: 18px;
-  padding: 15px 20px;
+  height: 36rpx;
+  padding: 30rpx 40rpx;
 }
 .topbar-item {
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  left:40rpx;
   font-size: 16px;
-  float: left;
-  margin-right: 20px;
 }
 .choosen.topbar-item {
   color: #2ed573;
@@ -362,5 +382,17 @@ export default class Index extends wepy.page {
 }
 .choosen {
   display: inline-block;
+}
+
+.mapmode{
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:40rpx;
+  font-size:16px;
+}
+.mapicon{
+  display: inline-block;
+  margin-right:4rpx;
 }
 </style>

@@ -101,7 +101,7 @@ export default class Index extends wepy.page {
   getSelectedData() {
     var that = this
     return new Promise((resolve, reject) => {
-      var pick = that.pick
+      var pick = that.$parent.globalData.pick
       var all = that.$parent.globalData.all
       var resdata = []
       if(pick.length){

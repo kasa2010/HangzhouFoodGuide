@@ -1,7 +1,7 @@
 <template>
   <view class="articlelist">
     <scroll-view>
-      <view class="article-wrapper">
+      <view class="article-wrapper" wx:if="{{isLoaded}}">
         <repeat for="{{articleList}}" key="index" index="index" item="item">
           <view class="article-container" data-url="{{item.url}}" bindtap="toArticle">
             <view class="article-content">
@@ -29,6 +29,7 @@ export default class Index extends wepy.page {
 
   data = {
     articleList: [],
+    isLoaded: false
   }
 
   onShareAppMessage() {
@@ -41,6 +42,9 @@ export default class Index extends wepy.page {
 
   // 页面初始化
   onShow() {
+    wx.showLoading({
+      title: '加载中'
+    })
     wx.showShareMenu()
     var that = this
     this.$parent
@@ -48,6 +52,9 @@ export default class Index extends wepy.page {
       .then(res => {
         var articleList = res.data
         that.articleList = articleList.reverse()
+        that.$apply()
+        wx.hideLoading()
+        that.isLoaded = true
         that.$apply()
       })
   }
@@ -65,12 +72,13 @@ export default class Index extends wepy.page {
 </script>
 <style>
 .article-wrapper{
-  padding-top: 10rpx;
-  padding-bottom:10rpx;
   background: #ebebeb;
 }
 .article-container{
-  padding: 20rpx 0;
+  padding-top: 30rpx;
+}
+.article-container:last-child{
+  padding-bottom: 30rpx;
 }
 .article-content{
   background: #fff;

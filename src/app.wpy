@@ -32,11 +32,6 @@ export default class extends wepy.app {
         iconPath: "resources/discover.png",
         selectedIconPath: "./resources/discover_fill.png"
       },{
-        pagePath: "pages/map",
-        text: "地图",
-        iconPath: "./resources/location_light.png",
-        selectedIconPath: "resources/location_fill.png"
-      },{
         pagePath: "pages/profile",
         text: "我的",
         iconPath: "resources/my_light.png",

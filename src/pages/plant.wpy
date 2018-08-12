@@ -63,23 +63,15 @@ export default class Index extends wepy.page {
     wx.showShareMenu()
     this.plant = this.$parent.globalData.plant
     this.$apply()
-    var that = this
-    if(!that.$parent.globalData.all.length){
-      this.$parent
-      .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
-      .then(res => {
-        that.$parent.globalData.all = res.data
-        that.getRestaurant()
-      })
-    }else {
-      that.getRestaurant()
-    }
+    this.getRestaurant()
   }
 
   // 渲染获取到的餐厅到地图上
   getRestaurant() {
+    this.resList = []
     var that = this
     this.getSelectedData().then(res => {
+      console.log(res)
       var data = res
       var list_new = []
       data.forEach(val => {
@@ -94,6 +86,7 @@ export default class Index extends wepy.page {
       })
       that.resList = list_new
       that.$apply()
+      console.log(that.resList.length)
     })
   }
 
@@ -101,7 +94,7 @@ export default class Index extends wepy.page {
   getSelectedData() {
     var that = this
     return new Promise((resolve, reject) => {
-      var plant = that.plant
+      var plant = that.$parent.globalData.plant
       var all = that.$parent.globalData.all
       var resdata = []
       if(plant.length){

@@ -330,6 +330,7 @@ export default class Profile extends wepy.page {
       if(res.message == 'success'){
         if(coltype == 'plant'){
           this.isPlanted = true
+          this.$parent.globalData.plant.push(this.id)
           this.$apply()
           this.toastTip('种草成功','success')
         }else if(coltype == 'pick'){
@@ -338,6 +339,13 @@ export default class Profile extends wepy.page {
             this.isPlanted = false
             this.removePlant()
           }
+          this.$parent.globalData.pick.push(this.id)
+          var newPlant = this.$parent.globalData.plant 
+          var that = this
+          _.remove(newPlant,function(n){
+            return n == that.id
+          })
+          this.$parent.globalData.plant = newPlant
           this.$apply()
           this.toastTip('拔草成功','success')
         }
@@ -362,6 +370,7 @@ export default class Profile extends wepy.page {
           _.remove(newPlant,function(n){
             return n == that.id
           })
+          this.$parent.globalData.plant = newPlant
           this.$apply()
           this.toastTip('取消种草成功','success')
         }else if(coltype == 'pick'){
@@ -371,6 +380,7 @@ export default class Profile extends wepy.page {
           _.remove(newPick,function(n){
             return n == that.id
           })
+          this.$parent.globalData.pick = newPick
           this.$apply()
           this.toastTip('取消拔草成功','success')
         }

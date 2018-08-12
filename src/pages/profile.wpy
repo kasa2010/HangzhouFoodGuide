@@ -69,27 +69,27 @@ export default class Profile extends wepy.page {
       return this.$parent.globalData.pick.length
     }
   }
-  onShow () {
-    this.$parent.globalData.plant = []
-    this.$parent.globalData.pick = []
-    this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
-      var result = _.groupBy(res, 'type')
-      if(result.plant){
-        var plant = result.plant
-        plant.forEach(val => {
-          this.$parent.globalData.plant.push(val.resid)
-          this.$apply()
-        })
-      }
-      if(result.pick){
-        var pick = result.pick
-        pick.forEach(val => {
-          this.$parent.globalData.pick.push(val.resid)
-          this.$apply()
-        })
-      }
-    })
-  }
+  // onShow () {
+  //   this.$parent.globalData.plant = []
+  //   this.$parent.globalData.pick = []
+  //   this.$parent.ajax(host.service.getfavUrl,'POST').then(res => {
+  //     var result = _.groupBy(res, 'type')
+  //     if(result.plant){
+  //       var plant = result.plant
+  //       plant.forEach(val => {
+  //         this.$parent.globalData.plant.push(val.resid)
+  //         this.$apply()
+  //       })
+  //     }
+  //     if(result.pick){
+  //       var pick = result.pick
+  //       pick.forEach(val => {
+  //         this.$parent.globalData.pick.push(val.resid)
+  //         this.$apply()
+  //       })
+  //     }
+  //   })
+  // }
   onShareAppMessage(){
     return {
       title: '为你寻找杭州好味道',
