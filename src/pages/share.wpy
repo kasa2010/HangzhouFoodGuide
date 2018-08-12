@@ -38,7 +38,7 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '推荐杭州超赞餐厅'
+    navigationBarTitleText: '推荐你中意的杭州餐厅'
   }
 
   data = {

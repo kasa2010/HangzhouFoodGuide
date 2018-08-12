@@ -41,7 +41,7 @@
       <view class="profile-list">
         <view class="profile-list_item" bindtap="toShare">
           <text class="iconfont icon-wodetijiao lefticon"></text>
-          <text class="secondtext">推荐杭州超赞餐厅</text>
+          <text class="secondtext">推荐你中意的杭州餐厅</text>
           <text class="iconfont icon-right"></text>
         </view>
       </view>

@@ -76,30 +76,43 @@ export default class Index extends wepy.page {
 
   onShow() {
     var that = this;
-    this.getPlantPick().then(res => {
-      if (this.$parent.globalData.all.length) {
-        this.getRestaurant()
-      } else {
-        this.$parent
-          .ajax(host.service.getResUrl, 'POST', { tag: 'all' })
-          .then(res => {
-            that.$parent.globalData.all = res.data
-            that.getRestaurant()
+    let key = wx.getStorageSync('key')
+    if(key){
+      this.getPlantPick().then(res => {
+        if (this.$parent.globalData.all.length) {
+          this.getRestaurant()
+        } else {
+          this.$parent.ajax(host.service.getResUrl, 'POST', { tag: 'all' }).then(res => {
+              that.$parent.globalData.all = res.data
+              that.getRestaurant()
           })
-      }
-    })
-    
-    this.index = this.$parent.globalData.index
-    this.$apply()
+        }
+      })
+      this.index = this.$parent.globalData.index
+      this.$apply()
+    }
   }
 
   // 页面初始化
   onLoad() {
     wx.showShareMenu()
-    this.plant = this.$parent.globalData.plant
-    this.pick = this.$parent.globalData.pick
-    this.$apply()
-    
+    var that = this;
+    this.$parent.login().then(res => {
+      if(res.statusCode == 200){
+        this.getPlantPick().then(res => {
+          if (this.$parent.globalData.all.length) {
+            this.getRestaurant()
+          } else {
+            this.$parent.ajax(host.service.getResUrl, 'POST', { tag: 'all' }).then(res => {
+                that.$parent.globalData.all = res.data
+                that.getRestaurant()
+            })
+          }
+        })
+        this.index = this.$parent.globalData.index
+        this.$apply()
+      }
+    })
   }
 
   // 渲染获取到的餐厅到地图上

@@ -107,8 +107,8 @@
             id: val.id,
             latitude: lnglat[0],
             longitude: lnglat[1],
-            width: 33,
-            height: 33,
+            width: 25,
+            height: 25,
             callout:{
               content: val.resname,
               display: 'ALWAYS',
