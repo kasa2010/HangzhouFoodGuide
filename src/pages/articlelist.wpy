@@ -62,7 +62,6 @@ export default class Index extends wepy.page {
   methods = {
     toArticle(e){
       var linkurl = e.currentTarget.dataset.url
-      console.log(linkurl)
       wx.navigateTo({
         url: '/pages/tandian?linkurl=' + linkurl
       })

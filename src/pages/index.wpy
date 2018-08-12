@@ -79,7 +79,6 @@ export default class Index extends wepy.page {
     var that = this;
     let key = wx.getStorageSync('key')
     if(key){
-      console.log('show')
       this.getPlantPick().then(res => {
         if (this.$parent.globalData.all.length) {
           this.getRestaurant()
@@ -97,7 +96,6 @@ export default class Index extends wepy.page {
 
   // 页面初始化
   onLoad() {
-    console.log('load')
     wx.showLoading({
       title: '加载中'
     })
