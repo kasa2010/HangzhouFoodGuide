@@ -11,9 +11,6 @@
 
 ![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/meishi2.png)
 
-
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/meishi3.png)
-
 ### 探店
 ![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/tandian.png)
 
