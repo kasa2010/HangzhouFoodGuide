@@ -5,12 +5,12 @@
         <view class="form-content">
           <view class="form-item">
             <label class="form-label">餐厅名称</label>
-            <input type="text" maxlength="50" class="form-input" name="resname" bindfocus="focusinput" placeholder="输入您要推荐的餐厅名称" />
+            <input type="text" maxlength="50" class="form-input" name="resname" bindfocus="focusinput" placeholder="输入你要推荐的餐厅名称" />
             <text wx:if="{{isError}}" class="error-tip">餐厅名称是必填项哦</text>
           </view>
           <view class="form-item">
             <label class="form-label">分享语(选填)</label>
-            <textarea class="form-textarea" name="sharemsg" placeholder="输入您的推荐语"></textarea>
+            <textarea class="form-textarea" name="sharemsg" placeholder="输入你的推荐语"></textarea>
           </view>
         </view>
         <view class="form-submit">
@@ -105,10 +105,10 @@ export default class Index extends wepy.page {
   margin-bottom:20rpx;
 }
 .form-input{
-  font-size:18px;
+  font-size:16px;
 }
 .form-textarea{
-  font-size:18px;
+  font-size:16px;
 }
 .form-submit{
   padding: 30rpx;
