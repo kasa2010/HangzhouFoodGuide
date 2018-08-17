@@ -8,8 +8,10 @@
               <view class="article-img">
                 <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{item.aid}}.jpg" mode="widthFix" class="article-picture"></image>
               </view>
-              <view class="article-title">{{item.title}}</view>
-              <view class="article-sub">{{item.subscribe}}</view>
+              <view class="article-info">
+                <view class="article-title">{{item.title}}</view>
+                <view class="article-sub">{{item.subscribe}}</view>
+              </view>
             </view>
           </view>
         </repeat>
@@ -71,37 +73,54 @@ export default class Index extends wepy.page {
 </script>
 <style>
 .article-wrapper{
-  background: #ebebeb;
+  background: #fff;
+  padding-left:40rpx;
+  padding-right:40rpx;
 }
 .article-container{
-  padding-top: 30rpx;
+  padding-top: 40rpx;
 }
 .article-container:last-child{
-  padding-bottom: 30rpx;
+  padding-bottom: 40rpx;
 }
 .article-content{
+  position: relative;
   background: #fff;
-  width:640rpx;
-  margin:0 auto;
 }
 .article-img{
-  height:310rpx;
+  height:400rpx;
   overflow: hidden
 }
 .article-title{
   padding: 20rpx 20rpx 10rpx 20rpx;
-  font-size:18px;
+  font-size:22px;
   font-weight: bold;
-  color: #000;
+  color: #fff;
 }
 
 .article-sub{
   padding: 0 20rpx 30rpx 20rpx;
   font-size:14px;
-  color: #999;
+  color: #fff;
+}
+
+.article-info{
+  position:absolute;
+  left: 0;
+  bottom: 0;
+  color: #fff;
 }
 
 .article-picture{
   width:100%
+}
+
+.mask{
+  width:100%;
+  height: 100%;
+  background: rgba(0,0,0,.2);
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 </style>
