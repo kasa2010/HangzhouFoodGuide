@@ -1,88 +1,95 @@
 <template>
   <view>
-    <view class="detail-wraper" wx:if="{{isLoaded}}">
-      <!-- banner -->
-      <view class="detail-top">
-        <view class="detail-top_head">
-          <view class="detail-top_pic" wx:if="{{picid}}">
-            <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="widthFix" class="detail-top_picture"></image>
-          </view>
-          <view class="detail-top_info">
-            <view class="detail-top_title">{{resname}}</view>
-            <text class="detail-top_business">{{business}}</text>
-            <!-- <text class="detail-top_business detail-top_tag">{{tag}}</text> -->
+    <scroll-view>
+      <view class="detail-wraper" wx:if="{{isLoaded}}">
+        <!-- banner -->
+        <view class="detail-top">
+          <view class="detail-top_head">
+            <view class="detail-top_pic" wx:if="{{picid}}">
+              <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="widthFix" class="detail-top_picture"></image>
+            </view>
+            <view class="detail-top_info">
+              <view class="detail-top_title">{{resname}}</view>
+              <text class="detail-top_business">{{business}}</text>
+              <!-- <text class="detail-top_business detail-top_tag">{{tag}}</text> -->
+            </view>
           </view>
         </view>
-      </view>
 
-      <!-- 信息列表 -->
-      <view class="detail-list">
-        <view class="detail-item">
-          <view class="detail-item_icon">
-            <text class="iconfont icon-likefill detail-item_text"></text>
+        <!-- 信息列表 -->
+        <view class="detail-list">
+          <view class="detail-item">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-likefill detail-item_text"></text>
+            </view>
+            <view class="detail-item_content">
+              <text class="detail-item_text">口味：{{tasty}}</text><text class="detail-item_text">环境：{{env}}</text><text class="detail-item_text">服务：{{server}}</text>
+            </view>
+          </view> 
+          <view class="detail-item">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-rechargefill detail-item_text"></text>
+            </view>
+            <view class="detail-item_content">
+              <text class="detail-item_text">人均：￥{{average_price}}/人</text>
+            </view>
+          </view> 
+          <view class="detail-item">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-locationfill detail-item_text"></text>
+            </view>
+            <view class="detail-item_content address-text" bindtap="goto">
+              <text class="detail-item_text">{{address}}</text><text class="iconfont icon-right"></text>
+            </view>
+            
           </view>
-          <view class="detail-item_content">
-            <text class="detail-item_text">口味：{{tasty}}</text><text class="detail-item_text">环境：{{env}}</text><text class="detail-item_text">服务：{{server}}</text>
+          <view class="detail-item" wx:if="{{tel}}" bindtap="phonecall">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-phonecall detail-item_text"></text>
+            </view>
+            <view class="detail-item_content address-text">
+              <text class="detail-item_text">{{tel}}</text><text class="iconfont icon-right"></text>
+            </view>
           </view>
-        </view> 
-        <view class="detail-item">
-          <view class="detail-item_icon">
-            <text class="iconfont icon-rechargefill detail-item_text"></text>
-          </view>
-          <view class="detail-item_content">
-            <text class="detail-item_text">人均：￥{{average_price}}/人</text>
-          </view>
-        </view> 
-        <view class="detail-item">
-          <view class="detail-item_icon">
-            <text class="iconfont icon-locationfill detail-item_text"></text>
-          </view>
-          <view class="detail-item_content address-text" bindtap="goto">
-            <text class="detail-item_text">{{address}}</text><text class="iconfont icon-right"></text>
-          </view>
-          
+          <view class="detail-item" wx:if="{{linkurl}}">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-discoverfill detail-item_text"></text>
+            </view>
+            <view class="detail-item_content" bindtap="tandian">
+              <text class="detail-item_text">探店评测</text>
+              <text class="iconfont icon-right"></text>
+            </view>
+          </view> 
         </view>
-        <view class="detail-item" wx:if="{{linkurl}}">
-          <view class="detail-item_icon">
-            <text class="iconfont icon-discoverfill detail-item_text"></text>
-          </view>
-          <view class="detail-item_content" bindtap="tandian">
-            <text class="detail-item_text">探店评测</text>
-            <text class="iconfont icon-right"></text>
-          </view>
-        </view> 
       </view>
-
-      <!-- 功能区 -->
-      <view class="functional">
-        <!-- <view class="func-item" bindtap="goto">
-          <view class="navicon"><text class="iconfont icon-location_light"></text></view>
-          <view class="navtext">导航</view>
+    </scroll-view>
+    <view class="bottom-area">
+      <view class="bottom-btn">
+        <view class="btn-item" wx:if="{{!isPicked}}">
+          <view class="b-button" data-type="plant" bindtap="likeit" wx:if="{{!isPicked && !isPlanted}}">
+            <text class="iconfont icon-favor_light"></text>种草
+          </view>
+          <view class="b-button" data-type="plant" bindtap="removelikeit" wx:if="{{!isPicked && isPlanted}}">
+            <text class="iconfont icon-favorfill"></text>已种草
+          </view>
+        </view>
+        <view class="btn-item">
+          <view class="b-button" data-type="pick" bindtap="likeit" wx:if="{{!isPicked}}">
+            <text class="iconfont icon-xihuan1"></text>拔草
+          </view>
+          <view class="b-button" data-type="pick" bindtap="removelikeit" wx:if="{{isPicked}}">
+            <text class="iconfont icon-xihuan"></text>已种草
+          </view>
+        </view>
+        <!-- <view class="btn-item">
+          <view class="b-button">
+            <button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text>分享</button>
+          </view>
         </view> -->
-        
-        <view class="func-item" data-type="plant" bindtap="likeit" wx:if="{{!isPicked && !isPlanted}}">
-          <view class="navicon"><text class="iconfont icon-favor_light"></text></view>
-          <view class="navtext">种草</view>
-        </view>
-        <view class="func-item" data-type="plant" bindtap="removelikeit" wx:if="{{!isPicked && isPlanted}}">
-          <view class="navicon"><text class="iconfont icon-favorfill"></text></view>
-          <view class="navtext">已种草</view>
-        </view>
-        <view class="func-item" data-type="pick" bindtap="likeit" wx:if="{{!isPicked}}">
-          <view class="navicon"><text class="iconfont icon-xihuan1"></text></view>
-          <view class="navtext">拔草</view>
-        </view>
-        <view class="func-item" data-type="pick" bindtap="removelikeit" wx:if="{{isPicked}}">
-          <view class="navicon"><text class="iconfont icon-xihuan"></text></view>
-          <view class="navtext">已拔草</view>
-        </view>
-        <view class="func-item">
-          <view class="navicon"><button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text></button></view>
-          <view class="navtext">分享</view>
-        </view>
-        <view class="func-item" wx:if="{{tel}}" bindtap="phonecall">
-          <view class="navicon"><text class="iconfont icon-phone_light"></text></view>
-          <view class="navtext">电话</view>
+        <view class="btn-item">
+          <view class="b-button">
+            <text class="iconfont icon-comment_light"></text>评论
+          </view>
         </view>
       </view>
     </view>
@@ -416,7 +423,7 @@ export default class Profile extends wepy.page {
 </script>
 <style>
 .detail-wraper{
-  padding: 20px;
+  padding: 40rpx 40rpx 90rpx 40rpx;
 }
 .detail-top_head{
   overflow: hidden;
@@ -539,9 +546,8 @@ export default class Profile extends wepy.page {
   padding: 0;
   margin: 0;
   background: #fff;
-  height: 80rpx;
-  line-height: 80rpx;
-  color: #fc7272;
+  height: 90rpx;
+  line-height: 90rpx;
 }
 
 .share-btn:after{
@@ -559,5 +565,62 @@ export default class Profile extends wepy.page {
 
 .officel{
   padding: 20px 0;
+}
+
+.icon-phonecall{
+  font-size:20px;
+}
+
+.bottom-area{
+  position: fixed;
+  left: 0;
+  bottom:0;
+  width: 100%;
+}
+.bottom-btn{
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background: #fcfcfc;
+  height: 90rpx;
+}
+.btn-item{
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+.btn-item:after{
+  content: '';
+  display:block;
+  width:1px;
+  height:18px;
+  transform: scaleX(.5);
+  background: #333;
+  position: absolute;
+  right:0;
+  top:50%;
+  margin-top:-9px;
+}
+.btn-item:last-child::after{
+  display: none;
+}
+.b-button{
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size:18px;
+}
+.b-button .iconfont{
+  font-size:24px;
+  font-weight: bold;
+  vertical-align: middle;
+  margin-right:10rpx;
+  position: relative;
+  top: -2px;
+}
+
+.b-button .icon-xihuan,.b-button .icon-favorfill{
+  color:#fc7272
 }
 </style>

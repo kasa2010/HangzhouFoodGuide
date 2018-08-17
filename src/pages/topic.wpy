@@ -1,0 +1,28 @@
+<template>
+  <view>
+    
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import _ from 'lodash';
+import host from '../config.js';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '话题'
+  }
+
+  data = {
+    
+  }
+
+  // 页面初始化
+  onLoad() {
+  
+  }
+}
+</script>
+<style>
+</style>

@@ -80,8 +80,8 @@ export default class Index extends wepy.page {
 .article-container{
   padding-top: 40rpx;
 }
-.article-container:last-child{
-  padding-bottom: 40rpx;
+.article-container:first-child{
+  padding-top: 0;
 }
 .article-content{
   position: relative;
