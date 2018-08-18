@@ -11,6 +11,8 @@ export default {
       removeUrl: `${host}/weapp/removelike`,
       getfavUrl: `${host}/weapp/getlike`,
       getArticle: `${host}/weapp/tandian`,
-      addRecommend: `${host}/weapp/addrecommend`
+      addRecommend: `${host}/weapp/addrecommend`,
+      addComment: `${host}/weapp/addComment`,
+      getComment: `${host}/weapp/getComment`
   }
 }

@@ -1,6 +1,21 @@
 <template>
-  <view>
-    
+  <view class="recomand">
+    <view class="share-form">
+      <form bindsubmit="submitform">
+        <view class="form-content">
+          <view class="form-item">
+            <textarea class="form-textarea" name="dianping" bindinput="updateInputlength" placeholder="不再默默观望，来写评论啦~"></textarea>
+          </view>
+        </view>
+        <view class="error-tip"></view>
+        <view class="input-status">
+          {{inputlength}}/140
+        </view>
+        <view class="form-submit">
+          <button type="primary" formType="submit">发布</button>
+        </view>
+      </form>
+    </view>
   </view>
 </template>
 
@@ -11,18 +26,102 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '评论'
+    navigationBarTitleText: '写评论'
   }
 
   data = {
-    
+    isError: false,
+    inputlength: 0,
+    postid: '',
+    parentid: ''
   }
 
   // 页面初始化
-  onLoad() {
-  
+  onLoad(option) {
+    this.postid = option.postid
+    this.parentid = option.parentid
+    this.$apply()
+  }
+  methods = {
+    submitform(e){
+      var data = e.detail.dianping
+      if(data.dianping.length){
+        this.$parent.ajax(host.service.addComment,'POST',data).then(res => {
+          if(res.message == 'success'){
+            this.isFinish = true
+            this.$apply()
+          }
+        })
+      } else {
+        this.isError = true
+        this.$apply()
+      }
+    },
+
+    focusinput(){
+      this.isError = false;
+      this.$apply()
+    },
+
+    updateInputlength(e){
+      var length = e.detail.value.length
+      this.inputlength = length
+      this.$apply()
+    },
+
+    backProfile(){
+      wx.switchTab({
+        url: '/pages/profile'
+      })
+    }
   }
 }
 </script>
 <style>
+.recomand{
+  height: 100%;
+  background: #ebebeb;
+}
+.form-content{
+  border-top:1px solid #e9e9e9;
+  background: #fff;
+  padding-top:20rpx;
+}
+.form-item{
+  margin-left:30rpx;
+  margin-right:30rpx;
+  margin-bottom:20rpx;
+}
+.form-item:last-child{
+  margin-bottom: 0
+}
+.form-label{
+  display: block;
+  font-size:16px;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom:1px solid #e9e9e9;
+  margin-bottom:20rpx;
+}
+.form-input{
+  font-size:16px;
+}
+.form-textarea{
+  font-size:16px;
+}
+.form-submit{
+  padding: 30rpx;
+}
+.error-tip{
+  color:#e74c3c;
+  font-size:14px;
+}
+
+.input-status{
+  background:#fff;
+  text-align:right;
+  padding: 10rpx 30rpx;
+  font-size:14px;
+}
+
 </style>

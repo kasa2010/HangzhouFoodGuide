@@ -61,7 +61,9 @@ export default class extends wepy.app {
     orders: 'asc',
     selected: 'hotel',
     plant: [],
-    pick: []
+    pick: [],
+    nickName: '',
+    avatarUrl: ''
   }
 
   constructor () {

@@ -88,7 +88,9 @@
         </view> -->
         <view class="btn-item">
           <view class="b-button">
-            <text class="iconfont icon-comment_light"></text>评论
+            <view class="b-button">
+              <button class="share-btn" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-share_light"></text>评论</button>
+            </view>
           </view>
         </view>
       </view>
@@ -327,6 +329,23 @@ export default class Profile extends wepy.page {
     var linkurl = this.linkurl
     wx.navigateTo({
       url: '/pages/tandian?linkurl=' + linkurl
+    })
+  }
+
+  readyComment(e){
+    var userInfo = e.detail.userInfo
+    if(userInfo){
+      this.$parent.globalData.nickName = userInfo.nickName
+      this.$parent.globalData.avatarUrl = userInfo.avatarUrl
+      this.$apply()
+      this.toComment(e.currentTarget.dataset.parentid)
+    }
+  }
+
+  toComment(parentid){
+    var postid = this.id
+    wx.navigateTo({
+      url: '/pages/comment?postid=' + postid + '&parentid=' + parentid
     })
   }
 
