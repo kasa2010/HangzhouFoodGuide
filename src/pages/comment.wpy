@@ -4,10 +4,10 @@
       <form bindsubmit="submitform">
         <view class="form-content">
           <view class="form-item">
-            <textarea class="form-textarea" name="dianping" bindinput="updateInputlength" placeholder="不再默默观望，来写评论啦~"></textarea>
+            <textarea class="form-textarea" name="dianping" bindinput="updateInputlength" bindfocus="focusinput" placeholder="不再默默观望，来写评论啦~"></textarea>
           </view>
         </view>
-        <view class="error-tip"></view>
+        <view class="error-tip" wx:if="{{isError}}">说点什么吧~</view>
         <view class="input-status">
           {{inputlength}}/140
         </view>
@@ -22,6 +22,7 @@
 <script>
 import wepy from 'wepy';
 import _ from 'lodash';
+import moment from 'moment'
 import host from '../config.js';
 
 export default class Index extends wepy.page {
@@ -40,16 +41,44 @@ export default class Index extends wepy.page {
   onLoad(option) {
     this.postid = option.postid
     this.parentid = option.parentid
+    if(option.parentid > 0){
+      var author = option.author
+      var title = '回复' + author
+      wx.setNavigationBarTitle({
+        title: title
+      })
+    }
     this.$apply()
   }
+
+  toastTip(title,type){
+    wx.showToast({
+      title: title,
+      icon: type,
+      duration: 2000
+    })
+  }
+
   methods = {
     submitform(e){
-      var data = e.detail.dianping
-      if(data.dianping.length){
+      var inputin = e.detail.value.dianping
+      if(inputin.length){
+        var data = {
+          postid: this.postid,
+          parentid: this.parentid,
+          msgcontent: inputin,
+          likenum: 0,
+          time: moment().format('YYYY-MM-DD HH:mm:ss'),
+          avatarurl: this.$parent.globalData.avatarUrl,
+          author: this.$parent.globalData.nickName
+        }
+        var that = this
         this.$parent.ajax(host.service.addComment,'POST',data).then(res => {
           if(res.message == 'success'){
-            this.isFinish = true
-            this.$apply()
+            that.toastTip('点评成功','success')
+            setTimeout(function() {
+              wx.navigateBack()
+            },1000)
           }
         })
       } else {
@@ -108,6 +137,7 @@ export default class Index extends wepy.page {
 }
 .form-textarea{
   font-size:16px;
+  width: 100%;
 }
 .form-submit{
   padding: 30rpx;
@@ -115,6 +145,8 @@ export default class Index extends wepy.page {
 .error-tip{
   color:#e74c3c;
   font-size:14px;
+  background: #fff;
+  padding-left: 40rpx;
 }
 
 .input-status{
@@ -122,6 +154,7 @@ export default class Index extends wepy.page {
   text-align:right;
   padding: 10rpx 30rpx;
   font-size:14px;
+  color:#999;
 }
 
 </style>

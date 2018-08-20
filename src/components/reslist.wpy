@@ -9,7 +9,7 @@
           <view class="list-item_content">
             <view class="list-item_name">{{item.name}}</view>
             <view class="list-item_area">{{item.business}}</view>
-            <view class="list-item_price">人均<view class="price_num">{{item.average_price}}</view>元</view>
+            <view class="list-item_price">人均<view class="price_num">{{item.average_price}}</view>元<text class="comment-info iconfont icon-comment_light"></text></view>
           </view>
           <view class="list-item_status">
             <text class="iconfont icon-shoucang" wx:if="{{item.planted}}"></text>
@@ -69,7 +69,6 @@
 .list-picture{
   width:200rpx;
   height:150rpx;
-  border-radius:8rpx;
 }
 .list-item_content{
   margin-left: 230rpx;
@@ -134,5 +133,9 @@
   display: inline;
   font-size:18px;
   font-weight: bold;
+}
+.comment-info{
+  color:#777;
+  margin-left:20rpx;
 }
 </style>

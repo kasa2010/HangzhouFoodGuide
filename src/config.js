@@ -12,7 +12,7 @@ export default {
       getfavUrl: `${host}/weapp/getlike`,
       getArticle: `${host}/weapp/tandian`,
       addRecommend: `${host}/weapp/addrecommend`,
-      addComment: `${host}/weapp/addComment`,
-      getComment: `${host}/weapp/getComment`
+      addComment: `${host}/weapp/addcomment`,
+      getComment: `${host}/weapp/getcomment`
   }
 }

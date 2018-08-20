@@ -33,7 +33,7 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '杭州餐厅与美食推荐'
+    navigationBarTitleText: '精选杭州餐厅'
   }
 
   components = {
@@ -213,6 +213,11 @@ export default class Index extends wepy.page {
         resolve(true)
       })
     })
+  }
+
+  // 获取评论数
+  getCommentCount(){
+    
   }
 
   // 排序

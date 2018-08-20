@@ -6,26 +6,20 @@
         <view class="detail-top">
           <view class="detail-top_head">
             <view class="detail-top_pic" wx:if="{{picid}}">
-              <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="widthFix" class="detail-top_picture"></image>
+              <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="scaleToFill" class="detail-top_picture"></image>
             </view>
             <view class="detail-top_info">
               <view class="detail-top_title">{{resname}}</view>
               <text class="detail-top_business">{{business}}</text>
+              <view class="detail-top_taste">
+                <text class="detail-item_text">口味:{{tasty}}</text><text class="detail-item_text">环境:{{env}}</text><text class="detail-item_text">服务:{{server}}</text>
+              </view>
               <!-- <text class="detail-top_business detail-top_tag">{{tag}}</text> -->
             </view>
           </view>
         </view>
-
-        <!-- 信息列表 -->
+        <!-- 餐厅列表 -->
         <view class="detail-list">
-          <view class="detail-item">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-likefill detail-item_text"></text>
-            </view>
-            <view class="detail-item_content">
-              <text class="detail-item_text">口味：{{tasty}}</text><text class="detail-item_text">环境：{{env}}</text><text class="detail-item_text">服务：{{server}}</text>
-            </view>
-          </view> 
           <view class="detail-item">
             <view class="detail-item_icon">
               <text class="iconfont icon-rechargefill detail-item_text"></text>
@@ -61,8 +55,45 @@
             </view>
           </view> 
         </view>
+
+        <view class="seperator"></view>
+        <!-- 评论列表 -->
+        <view class="comment-list">
+          <view class="comment-part">全部评论<text wx:if="{{commentList.length}}">({{commentCount}})</text></view>
+          <ul class="comlist" wx:if="{{commentList.length}}">
+            <repeat for="{{commentList}}" key="index" index="index" item="item">
+              <li id="{{item.id}}" bindtap="locateTo">
+                <view class="mainComment">
+                  <view class="authorinfo">
+                    <image src="{{item.avatarurl}}" mode="widthFix" class="avatar"></image>
+                  </view>
+                  <view class="comment_content">
+                    <view class="author_name">{{item.author}}</view>
+                    <view class="comment_time">{{item.time}}</view>
+                    <view class="comment_msg">{{item.msgcontent}}</view>
+                  </view>
+                  <view class="comment_btn">
+                    <button class="share-btn" data-parentid="{{item.id}}" data-author="{{item.author}}" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-comment_light"></text></button>
+                  </view>
+                </view>
+                <view wx:if="{{allComment[item.id].length}}" class="subComment">
+                  <repeat for="{{allComment[item.id]}}" key="index" index="index" item="subitem">
+                    <view class="subitem">
+                      <text class="subauthor">{{subitem.author}}：</text>
+                      <text class="subcontent">{{subitem.msgcontent}}</text>
+                    </view>
+                  </repeat>
+                </view>
+              </li>
+            </repeat>
+          </ul>
+          <view class="nocomment" wx:if="{{!commentList.length}}">
+            这里还没有评论……
+          </view>
+        </view>
       </view>
     </scroll-view>
+
     <view class="bottom-area">
       <view class="bottom-btn">
         <view class="btn-item" wx:if="{{!isPicked}}">
@@ -88,9 +119,7 @@
         </view> -->
         <view class="btn-item">
           <view class="b-button">
-            <view class="b-button">
-              <button class="share-btn" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-share_light"></text>评论</button>
-            </view>
+            <button class="share-btn" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-comment_light"></text>评论</button>
           </view>
         </view>
       </view>
@@ -201,7 +230,10 @@ export default class Profile extends wepy.page {
         short: 'tea',
         name: '下午茶'
       }
-    ]
+    ],
+    commentList: [],
+    allComment: [],
+    commentCount: ''
   }
 
   getUseradd (id) {
@@ -225,7 +257,12 @@ export default class Profile extends wepy.page {
         })
       }
       this.getDetail(rid)
+      this.getComment(rid)
     })
+  }
+
+  onShow(){
+    this.getComment(this.id)
   }
 
   // 加载页面信息
@@ -296,6 +333,17 @@ export default class Profile extends wepy.page {
     })
   }
 
+  // 餐厅评论
+  getComment(postid){
+    this.$parent.ajax(host.service.getComment,'POST',{postid: postid}).then(res => {
+      var result = _.groupBy(res, 'parentid')
+      this.commentList = result[0]
+      this.commentCount = res.length
+      this.allComment = result
+      this.$apply()
+    })
+  }
+
   onShareAppMessage(){
     return {
       title: `${this.resname}`,
@@ -332,21 +380,32 @@ export default class Profile extends wepy.page {
     })
   }
 
+  // 评论
   readyComment(e){
     var userInfo = e.detail.userInfo
     if(userInfo){
       this.$parent.globalData.nickName = userInfo.nickName
       this.$parent.globalData.avatarUrl = userInfo.avatarUrl
       this.$apply()
-      this.toComment(e.currentTarget.dataset.parentid)
+      if(e.currentTarget.dataset.parentid){
+        this.toComment(e.currentTarget.dataset.parentid,e.currentTarget.dataset.author)
+      }else{
+        this.toComment(e.currentTarget.dataset.parentid)
+      }
     }
   }
 
-  toComment(parentid){
+  toComment(parentid,author){
     var postid = this.id
-    wx.navigateTo({
-      url: '/pages/comment?postid=' + postid + '&parentid=' + parentid
-    })
+    if(parentid>0){
+      wx.navigateTo({
+        url: '/pages/comment?postid=' + postid + '&parentid=' + parentid + '&author=' + author
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/comment?postid=' + postid + '&parentid=' + parentid
+      })
+    }
   }
 
   // 种草
@@ -441,23 +500,17 @@ export default class Profile extends wepy.page {
 }
 </script>
 <style>
-.detail-wraper{
-  padding: 40rpx 40rpx 90rpx 40rpx;
-}
 .detail-top_head{
   overflow: hidden;
   position: relative;
 }
 
 .detail-top_pic{
-  width: 90%;
-  margin: 0 auto;
-  border-radius:8rpx;
+  width:100%;
   overflow: hidden;
 }
 .detail-top_picture{
   width: 100%;
-  border-radius:8rpx;
 }
 
 .detail-top_info{
@@ -471,11 +524,10 @@ export default class Profile extends wepy.page {
 }
 
 .detail-top_title{
-  font-size:38px;
+  font-size:28px;
   font-weight:bold;
   overflow: hidden;
   padding: 0;
-
 }
 
 .detail-top_business{
@@ -483,11 +535,16 @@ export default class Profile extends wepy.page {
   font-size:14px;
   border:1px solid #fff;
   padding: 0 20rpx;
+  color:#fff;
   margin-top: 20rpx;
   border-radius:8rpx;
 }
-.detail-top_tag{
-  margin-left: 20rpx;
+.detail-top_taste{
+  color:#fff;
+  padding-top:20rpx;
+}
+.detail-top_taste .detail-item_text{
+  font-size: 16px;
 }
 
 .detail-top_average,.detail-top_locate{
@@ -496,8 +553,7 @@ export default class Profile extends wepy.page {
 }
 
 .detail-list{
-  width:90%;
-  margin: 20rpx auto 0 auto;
+  padding: 0 40rpx 20rpx 40rpx;
 }
 
 .detail-item{
@@ -513,6 +569,7 @@ export default class Profile extends wepy.page {
 
 .detail-item_text{
   margin-right:20rpx;
+  font-size:18px;
 }
 
 .detail-item_icon{
@@ -525,7 +582,7 @@ export default class Profile extends wepy.page {
 
 .detail-item_content{
   margin-left:50rpx;
-  position: relative
+  position: relative;
 }
 
 .detail-item_content .icon-right{
@@ -564,7 +621,7 @@ export default class Profile extends wepy.page {
 .share-btn{
   padding: 0;
   margin: 0;
-  background: #fff;
+  background: #fcfcfc;
   height: 90rpx;
   line-height: 90rpx;
 }
@@ -641,5 +698,94 @@ export default class Profile extends wepy.page {
 
 .b-button .icon-xihuan,.b-button .icon-favorfill{
   color:#fc7272
+}
+
+.comment-list{
+  padding: 20rpx 40rpx 90rpx 40rpx;
+}
+.comment-part{
+  padding-bottom:10rpx;
+  font-size:18px;
+  font-weight:bold;
+}
+.mainComment{
+  overflow: hidden;
+  padding-top:20rpx;
+  padding-bottom:20rpx;
+  border-top:1px solid #e9e9e9;
+  position: relative;
+}
+.authorinfo{
+  float: left;
+  width:80rpx;
+  height:80rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.avatar{
+  width:80rpx;
+  height:80rpx;
+}
+
+.comment_content{
+  margin-left: 100rpx;
+  margin-right:80rpx;
+  position: relative;
+}
+.author_name{
+  font-size:14px;
+  color:#666;
+  padding-top: 10rpx;
+}
+.comment_time{
+  font-size:12px;
+  color:#999;
+  padding-bottom:10rpx;
+}
+.comment_msg{
+  font-size:18px;
+}
+
+.comment_btn{
+  position: absolute;
+  right: 0;
+  bottom:30rpx;
+}
+.comment_btn .share-btn{
+  height: 40rpx;
+  font-size:20px;
+  line-height: normal;
+  background: #fff;
+}
+.comment_btn .iconfont{
+  font-size:20px;
+}
+.nocomment{
+  border-top:1px solid #e9e9e9;
+  padding-top:80rpx;
+  text-align: center;
+  color:#777;
+  font-size:16px;
+}
+
+.seperator{
+  background: #f6f6f6;
+  height:32rpx;
+}
+
+.subComment{
+  margin-left:100rpx;
+  padding:10rpx;
+  background:#f6f6f6;
+  margin-bottom:20rpx;
+  border-radius: 8rpx;
+  font-size:14px;
+}
+
+.subauthor{
+  color:#666;
+}
+.subcontent{
+  color:#999
 }
 </style>
