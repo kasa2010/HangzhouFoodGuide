@@ -4,7 +4,7 @@
       <repeat for="{{resList}}" key="index" index="index" item="item">
         <li id="{{item.id}}" bindtap="locateTo">
           <view class="list-item_pic">
-            <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{item.picid}}.jpg" mode="widthFix" class="list-picture"></image>
+            <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{item.picid}}.jpg" mode="scaleToFill" class="list-picture"></image>
           </view>
           <view class="list-item_content">
             <view class="list-item_name">{{item.name}}</view>
@@ -53,26 +53,26 @@
   display: block;
   position: relative;
   font-size:16px;
-  padding-top: 36rpx;
-  padding-bottom: 36rpx;
-  height:150rpx;
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
   border-bottom: 1px solid #f4f4f4;
 }
 .reslist li:last-child{
   border-bottom: none;
 }
 .list-item_pic{
-  float: left;
+  position: absolute;
+  left:0;
+  top:30rpx;
+  bottom:30rpx;
   width: 200rpx;
-  height: 150rpx;
 }
 .list-picture{
   width:200rpx;
-  height:150rpx;
+  height:100%;
 }
 .list-item_content{
   margin-left: 230rpx;
-  height: 150rpx;
   position: relative;
 }
 
@@ -98,19 +98,19 @@
 }
 
 .list-item_date{
-  padding-top: 2px;
+  padding-top: 4rpx;
   font-size:12px;
   font-weight: normal;
   color: #6b7072;
 }
 
 .list-item_price{
-  position: absolute;
+  /* position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 0; */
   color:#fa6650;
   font-size:16px;
-  padding: 0;
+  padding: 14rpx 0 0 0;
   margin: 0;
 }
 
