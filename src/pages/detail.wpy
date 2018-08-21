@@ -689,7 +689,7 @@ export default class Profile extends wepy.page {
 }
 .b-button .iconfont{
   font-size:24px;
-  font-weight: bold;
+  font-weight: 500;
   vertical-align: middle;
   margin-right:10rpx;
   position: relative;
@@ -701,7 +701,7 @@ export default class Profile extends wepy.page {
 }
 
 .comment-list{
-  padding: 20rpx 40rpx 90rpx 40rpx;
+  padding: 20rpx 40rpx 130rpx 40rpx;
 }
 .comment-part{
   padding-bottom:10rpx;
@@ -749,7 +749,7 @@ export default class Profile extends wepy.page {
 .comment_btn{
   position: absolute;
   right: 0;
-  bottom:30rpx;
+  bottom:20rpx;
 }
 .comment_btn .share-btn{
   height: 40rpx;
@@ -758,6 +758,8 @@ export default class Profile extends wepy.page {
   background: #fff;
 }
 .comment_btn .iconfont{
+  position: relative;
+  top:-10rpx;
   font-size:20px;
 }
 .nocomment{

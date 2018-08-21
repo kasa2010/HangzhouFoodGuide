@@ -9,7 +9,7 @@
           <view class="list-item_content">
             <view class="list-item_name">{{item.name}}</view>
             <view class="list-item_area">{{item.business}}</view>
-            <view class="list-item_price">人均<view class="price_num">{{item.average_price}}</view>元<text class="comment-info iconfont icon-comment_light"></text></view>
+            <view class="list-item_price">人均<view class="price_num">{{item.average_price}}</view>元<text class="comment-info iconfont icon-comment_light"></text><text class="commentcount">{{item.commentcount}}</text></view>
           </view>
           <view class="list-item_status">
             <text class="iconfont icon-shoucang" wx:if="{{item.planted}}"></text>
@@ -137,5 +137,10 @@
 .comment-info{
   color:#777;
   margin-left:20rpx;
+}
+.commentcount{
+  margin-left:10rpx;
+  color:#999;
+  font-size:14px;
 }
 </style>

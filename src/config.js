@@ -13,6 +13,7 @@ export default {
       getArticle: `${host}/weapp/tandian`,
       addRecommend: `${host}/weapp/addrecommend`,
       addComment: `${host}/weapp/addcomment`,
-      getComment: `${host}/weapp/getcomment`
+      getComment: `${host}/weapp/getcomment`,
+      getAllComment: `${host}/weapp/getallcomment`
   }
 }
