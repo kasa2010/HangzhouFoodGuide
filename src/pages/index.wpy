@@ -383,7 +383,7 @@ export default class Index extends wepy.page {
 }
 .changeritem {
   display: none;
-  background: #eee;
+  background:rgba(223,230,233,.5);
   width:80rpx;
   height:80rpx;
   line-height: 80rpx;

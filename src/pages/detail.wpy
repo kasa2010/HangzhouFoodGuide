@@ -88,7 +88,7 @@
             </repeat>
           </ul>
           <view class="nocomment" wx:if="{{!commentList.length}}">
-            这里还没有评论……
+            这里还没有评论，留下你的分享吧~
           </view>
         </view>
       </view>

@@ -25,7 +25,7 @@
       </view>
       <view class="profile-list">
         <view class="profile-list_item">
-          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message lefticon"></text>意见反馈</button>
+          <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message1 lefticon"></text>意见反馈</button>
           <text class="iconfont icon-right"></text>
         </view>
         <view class="profile-list_item">
@@ -183,7 +183,7 @@ export default class Profile extends wepy.page {
   color:#EA2027
 }
 
-.profile-list_item .icon-message{
+.profile-list_item .icon-message1{
   color:#2ed573
 }
 
