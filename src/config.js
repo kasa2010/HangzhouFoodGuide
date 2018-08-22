@@ -14,6 +14,10 @@ export default {
       addRecommend: `${host}/weapp/addrecommend`,
       addComment: `${host}/weapp/addcomment`,
       getComment: `${host}/weapp/getcomment`,
-      getAllComment: `${host}/weapp/getallcomment`
+      getAllComment: `${host}/weapp/getallcomment`,
+      getTopic: `${host}/weapp/gettopic`,
+      getReply: `${host}/weapp/getreply`,
+      addReply: `${host}/weapp/addreply`,
+      getAllReply: `${host}/weapp/getallreply`
   }
 }
