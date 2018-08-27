@@ -1,6 +1,48 @@
 <template>
   <view>
-    
+    <view class="banner">
+      <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="scaleToFill" class="banner-picture"></image>
+    </view>
+    <view class="topic-detail">
+      <view class="topic-title">{{title}}</view>
+      <view class="topic-describe">{{describe}}</view>
+    </view>
+    <view class="seperator"></view>
+    <!-- 评论列表 -->
+    <view class="comment-list">
+      <view class="comment-part">全部评论<text wx:if="{{commentList.length}}">({{commentCount}})</text></view>
+      <ul class="comlist" wx:if="{{commentList.length}}">
+        <repeat for="{{commentList}}" key="index" index="index" item="item">
+          <li id="{{item.id}}" bindtap="locateTo">
+            <view class="mainComment">
+              <view class="authorinfo">
+                <image src="{{item.avatarurl}}" mode="widthFix" class="avatar"></image>
+              </view>
+              <view class="comment_content">
+                <view class="author_name">{{item.author}}</view>
+                <view class="comment_time">{{item.time}}</view>
+                <view class="comment_msg">{{item.msgcontent}}</view>
+              </view>
+              <view class="comment_btn">
+                <button class="share-btn" data-parentid="{{item.id}}" data-author="{{item.author}}" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-comment_light"></text></button>
+              </view>
+            </view>
+            <view wx:if="{{allComment[item.id].length}}" class="subComment">
+              <repeat for="{{allComment[item.id]}}" key="index" index="index" item="subitem">
+                <view class="subitem">
+                  <text class="subauthor">{{subitem.author}}：</text>
+                  <text class="subcontent">{{subitem.msgcontent}}</text>
+                </view>
+              </repeat>
+            </view>
+          </li>
+        </repeat>
+      </ul>
+      <view class="nocomment" wx:if="{{!commentList.length}}">
+        这里还没有评论，留下你的分享吧~
+      </view>
+    </view>
+    <button class="post-btn" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment">发布回答</button>
   </view>
 </template>
 
@@ -9,20 +51,89 @@ import wepy from 'wepy';
 import _ from 'lodash';
 import host from '../config.js';
 
-export default class Index extends wepy.page {
+export default class TopicDetail extends wepy.page {
   config = {
-    navigationBarTitleText: '话题'
+    navigationBarTitleText: '话题详情'
   }
 
   data = {
-    
+    id: '',
+    title: '',
+    describe: '',
+    picid: ''
   }
 
   // 页面初始化
-  onLoad() {
-  
+  onLoad(option) {
+    wx.showLoading({
+      title: '加载中'
+    })
+    var id = option.id
+    this.id = id
+    this.$apply()
+    this.getTopicDetail(id)
+  }
+
+  // 话题详情
+  getTopicDetail(id){
+    var that = this
+    this.$parent.ajax(host.service.getTopicDetail,'POST',{id: id}).then(res => {
+      var data = res[0]
+      this.title = data.topic
+      this.describe = data.describe
+      this.picid = data.picid
+      this.$apply()
+      wx.hideLoading()
+    })
+  }
+
+  // 餐厅评论
+  getReply(postid){
+    this.$parent.ajax(host.service.getComment,'POST',{postid: postid}).then(res => {
+      var result = _.groupBy(res, 'parentid')
+      this.commentList = result[0]
+      this.commentCount = res.length
+      this.allComment = result
+      this.$apply()
+    })
   }
 }
 </script>
 <style>
+.banner{
+  height: 400rpx;
+  overflow: hidden;
+}
+.banner-picture{
+  width:100%;
+}
+.topic-detail{
+  width:80%;
+  margin: 0 auto;
+  background: #fff;
+  position: relative;
+  top:-60rpx;
+  border-radius: 8rpx;
+  padding: 40rpx 30rpx;
+  box-shadow: 0 0 4rpx rgba(0,0,0,.1)
+}
+.topic-title{
+  font-size:18px;
+}
+.topic-describe{
+  font-size:14px;
+  padding-top:20rpx;
+}
+
+.share-btn{
+  padding: 0;
+  margin: 0;
+  background: #fcfcfc;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+
+.share-btn:after{
+  border:0
+}
 </style>

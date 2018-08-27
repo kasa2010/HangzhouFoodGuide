@@ -139,7 +139,7 @@ export default class Index extends wepy.page {
           name: val.resname,
           lnglat: val.lnglat,
           business: val.business,
-          commentcount: 0
+          commentcount: ''
         }
         //console.log(this.$parent.globalData.pick)
         var isPlanted = _.indexOf(this.$parent.globalData.plant, val.id)

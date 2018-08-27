@@ -1,9 +1,12 @@
 <template>
   <view class="topic-list">
-    <view class="topic-item">
-      <view class="topic-title">来推荐：你最推荐的杭帮菜</view>
-      <view class="topic-answer">回答<text>3</text></view>
-    </view>
+    <repeat for="{{topiclist}}"  key="index" index="index" item="item">
+      <view class="topic-item" id="{{item.id}}" bindtap="toTopic">
+        <view class="topic-title">{{item.topic}}</view>
+        <view class="topic-des">{{item.describe}}</view>
+        <view class="topic-answer">回答<text>3</text></view>
+      </view>
+    </repeat>
   </view>
 </template>
 
@@ -23,8 +26,23 @@ export default class Index extends wepy.page {
 
   // 页面初始化
   onLoad() {
-    
+    this.loadData()
   }
+
+  loadData(){
+    this.$parent.ajax(host.service.getTopic,'POST').then(res => {
+      this.topiclist = res.reverse()
+      this.$apply()
+      console.log(res)
+    })
+  }
+
+  toTopic(e){
+      var index = e.currentTarget.id
+      wx.navigateTo({
+        url: '/pages/topicdetail?id=' + index
+      })
+    }
 }
 </script>
 <style>
@@ -32,6 +50,7 @@ export default class Index extends wepy.page {
     padding: 10rpx 40rpx;
   }
   .topic-item{
+    margin-bottom: 30rpx;
     padding:20rpx 30rpx;
     border:1px solid #e9e9e9;
     border-radius:10rpx;
@@ -41,6 +60,12 @@ export default class Index extends wepy.page {
     font-size:18px;
     font-weight: bold;
     padding-bottom:10rpx;
+  }
+
+  .topic-des{
+    font-size:14px;
+    color:#333;
+    padding-bottom: 10rpx;
   }
   .topic-answer{
     font-size:14px;

@@ -10,7 +10,7 @@
               </view>
               <view class="article-info">
                 <view class="article-title">{{item.title}}</view>
-                <view class="article-sub">{{item.subscribe}}</view>
+                <!-- <view class="article-sub">{{item.subscribe}}</view> -->
               </view>
             </view>
           </view>
@@ -78,7 +78,9 @@ export default class Index extends wepy.page {
   padding-right:40rpx;
 }
 .article-container{
-  padding-top: 40rpx;
+  margin-bottom:30rpx;
+  border:1px solid #e9e9e9;
+  border-radius:4rpx;
 }
 .article-container:first-child{
   padding-top: 0;
@@ -88,14 +90,14 @@ export default class Index extends wepy.page {
   background: #fff;
 }
 .article-img{
-  height:400rpx;
+  height:320rpx;
   overflow: hidden
 }
 .article-title{
-  padding: 20rpx 20rpx 10rpx 20rpx;
-  font-size:22px;
+  padding: 20rpx 30rpx 20rpx 30rpx;
+  font-size:18px;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 }
 
 .article-sub{
@@ -105,10 +107,7 @@ export default class Index extends wepy.page {
 }
 
 .article-info{
-  position:absolute;
-  left: 0;
-  bottom: 0;
-  color: #fff;
+  color: #000;
 }
 
 .article-picture{
