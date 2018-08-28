@@ -8,18 +8,23 @@
             <view class="detail-top_pic" wx:if="{{picid}}">
               <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="scaleToFill" class="detail-top_picture"></image>
             </view>
-            <view class="detail-top_info">
-              <view class="detail-top_title">{{resname}}</view>
-              <text class="detail-top_business">{{business}}</text>
-              <view class="detail-top_taste">
-                <text class="detail-item_text">口味:{{tasty}}</text><text class="detail-item_text">环境:{{env}}</text><text class="detail-item_text">服务:{{server}}</text>
-              </view>
-              <!-- <text class="detail-top_business detail-top_tag">{{tag}}</text> -->
-            </view>
           </view>
         </view>
+        <view class="detail-content">
+          <view class="detail-top_info">
+            <view class="detail-top_title">{{resname}}</view>
+            <text class="detail-top_business">{{business}}</text>
+          </view>
         <!-- 餐厅列表 -->
         <view class="detail-list">
+          <view class="detail-item">
+            <view class="detail-item_icon">
+              <text class="iconfont icon-likefill detail-item_text"></text>
+            </view>
+            <view class="detail-item_content">
+              <text class="detail-item_text">口味:{{tasty}}</text><text class="detail-item_text">环境:{{env}}</text><text class="detail-item_text">服务:{{server}}</text>
+            </view>
+          </view>
           <view class="detail-item">
             <view class="detail-item_icon">
               <text class="iconfont icon-rechargefill detail-item_text"></text>
@@ -90,6 +95,7 @@
           <view class="nocomment" wx:if="{{!commentList.length}}">
             这里还没有评论，留下你的分享吧~
           </view>
+        </view>
         </view>
       </view>
     </scroll-view>
@@ -502,6 +508,7 @@ export default class Profile extends wepy.page {
 </script>
 <style>
 .detail-top_head{
+  height: 400rpx;
   overflow: hidden;
   position: relative;
 }
@@ -514,34 +521,36 @@ export default class Profile extends wepy.page {
   width: 100%;
 }
 
+.detail-content{
+  position: relative;
+  top: -80rpx;
+}
 .detail-top_info{
-  position: absolute;
-  left:50%;
-  top:50%;
-  width:90%;
+  background: #fff;
+  margin: 0 20rpx;
   text-align: center;
-  transform: translate(-50%,-50%);
-  color:#fff;
+  color:#333;
+  border-radius:14rpx;
 }
 
 .detail-top_title{
-  font-size:28px;
-  font-weight:bold;
+  font-size:24px;
+  padding-top: 20rpx;
+  padding-bottom: 0;
   overflow: hidden;
-  padding: 0;
 }
 
 .detail-top_business{
   display: inline-block;
   font-size:14px;
-  border:1px solid #fff;
+  border:1px solid #333;
   padding: 0 20rpx;
-  color:#fff;
+  color:#333;
   margin-top: 20rpx;
   border-radius:8rpx;
 }
 .detail-top_taste{
-  color:#fff;
+  color:#333;
   padding-top:20rpx;
 }
 .detail-top_taste .detail-item_text{
@@ -554,7 +563,7 @@ export default class Profile extends wepy.page {
 }
 
 .detail-list{
-  padding: 0 40rpx 20rpx 40rpx;
+  padding: 20rpx 40rpx 20rpx 50rpx;
 }
 
 .detail-item{
@@ -575,6 +584,7 @@ export default class Profile extends wepy.page {
 
 .detail-item_icon{
   float: left;
+  color:#fc7272;
 }
 
 .detail-item_icon .icon-locationfill{

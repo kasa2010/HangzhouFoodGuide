@@ -1,12 +1,15 @@
 <template>
   <view class="profile">
     <view class="profile-banner">
-      <view class="profile-avatar">
-        <open-data type="userAvatarUrl"></open-data>  
-      </view>
-      <view class="profile-nick">
-        <open-data type="userNickName"></open-data>
-      </view>      
+      <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/bg.jpg" mode="scaleToFill" class="profile-picture"></image>
+      <view class="profile-info">
+        <view class="profile-avatar">
+          <open-data type="userAvatarUrl"></open-data>  
+        </view>
+        <view class="profile-nick">
+          <open-data type="userNickName"></open-data>
+        </view>
+      </view>   
     </view>
     <view>
       <view class="profile-list">
@@ -101,26 +104,36 @@ export default class Profile extends wepy.page {
   background: #f7f7f7
 }
 .profile-banner{
-  padding-top: 10px;
-  padding-bottom: 10px;
+  position: relative;
   background: #fff;
   text-align: center;
   border-bottom: 1px solid #e9e9e9;
   margin-bottom: 10px;
+  height: 420rpx;
+  overflow: hidden;
 }
-
+.profile-info{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top:50%;
+  transform:translateY(-50%);
+}
 .profile-avatar{
   display: block;
   margin: 0 auto;
-  width:160rpx;
-  height:160rpx;
+  width:200rpx;
+  height:200rpx;
   border-radius:50%;
-  overflow: hidden
+  overflow: hidden;
+  border: 4rpx solid #fff;
 }
 
 .profile-nick{
   display: inline-block;
   padding-top: 10px;
+  font-size:16px;
+  color: #fff;
 }
 
 .feedback-btn{
@@ -215,5 +228,9 @@ export default class Profile extends wepy.page {
   right:60rpx;
   font-size:14px;
   color: #bcbcbc;
+}
+
+.profile-picture{
+  width: 100%;
 }
 </style>

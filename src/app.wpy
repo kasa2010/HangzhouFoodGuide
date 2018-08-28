@@ -251,7 +251,7 @@ html,body,page{
 }
 
 .comment-list{
-  padding: 20rpx 40rpx 130rpx 40rpx;
+  padding: 20rpx 40rpx 50rpx 40rpx;
 }
 .comment-part{
   padding-bottom:10rpx;
