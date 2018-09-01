@@ -35,16 +35,16 @@
           <button class="feedback-btn" open-type="share"><text class="iconfont icon-share lefticon"></text>分享给好友</button>
           <text class="iconfont icon-right"></text>
         </view>
-        <!-- <view class="profile-list_item">
-          <text class="iconfont icon-zan lefticon"></text>
-          <text class="secondtext">赞赏</text>
-          <text class="iconfont icon-right"></text>
-        </view> -->
-      </view>
-      <view class="profile-list">
         <view class="profile-list_item" bindtap="toShare">
           <text class="iconfont icon-wodetijiao lefticon"></text>
           <text class="secondtext">推荐你中意的杭州餐厅</text>
+          <text class="iconfont icon-right"></text>
+        </view>
+      </view>
+      <view class="profile-list">
+        <view class="profile-list_item">
+          <text class="iconfont icon-appreciatefill"></text><view class="secondtext"><navigator target="miniProgram" app-id="wx18a2ac992306a5a4" path="pages/apps/largess/detail?accountId=4943424">给开发者赞赏</navigator></view>
+          <text class="secondtext"></text>
           <text class="iconfont icon-right"></text>
         </view>
       </view>
@@ -200,6 +200,10 @@ export default class Profile extends wepy.page {
   color:#2ed573
 }
 
+.profile-list_item .icon-appreciatefill{
+  color:#7d5fff
+}
+
 .profile-list_item .icon-share{
   color:#1e90ff;
   font-size:16px;
@@ -217,8 +221,8 @@ export default class Profile extends wepy.page {
 }
 
 .profile-list_item .icon-wodetijiao{
-  color:#7158e2;
-  font-size:22px;
+  color:#18dcff;
+  font-size:24px;
 }
 
 .grass-num{
