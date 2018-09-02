@@ -5,7 +5,10 @@
         <!-- banner -->
         <view class="detail-top">
           <view class="detail-top_head">
-            <view class="detail-top_pic" wx:if="{{picid}}">
+            <view class="detail-top_pic" wx:if="{{hasbig}}">
+              <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/b{{id}}.jpg" mode="scaleToFill" class="detail-top_picture"></image>
+            </view>
+            <view class="detail-top_pic" wx:else>
               <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/{{picid}}.jpg" mode="scaleToFill" class="detail-top_picture"></image>
             </view>
           </view>
@@ -14,54 +17,56 @@
           <view class="detail-top_info">
             <view class="detail-top_title">{{resname}}</view>
             <text class="detail-top_business">{{business}}</text>
-          </view>
-        <!-- 餐厅列表 -->
-        <view class="detail-list">
-          <view class="detail-item">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-likefill detail-item_text"></text>
-            </view>
-            <view class="detail-item_content">
-              <text class="detail-item_text">口味:{{tasty}}</text><text class="detail-item_text">环境:{{env}}</text><text class="detail-item_text">服务:{{server}}</text>
-            </view>
-          </view>
-          <view class="detail-item">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-rechargefill detail-item_text"></text>
-            </view>
-            <view class="detail-item_content">
-              <text class="detail-item_text">人均：￥{{average_price}}/人</text>
-            </view>
-          </view> 
-          <view class="detail-item">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-locationfill detail-item_text"></text>
-            </view>
-            <view class="detail-item_content address-text" bindtap="goto">
-              <text class="detail-item_text">{{address}}</text><text class="iconfont icon-right"></text>
-            </view>
-            
-          </view>
-          <view class="detail-item" wx:if="{{tel}}" bindtap="phonecall">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-phonecall detail-item_text"></text>
-            </view>
-            <view class="detail-item_content address-text">
-              <text class="detail-item_text">{{tel}}</text><text class="iconfont icon-right"></text>
-            </view>
-          </view>
-          <view class="detail-item" wx:if="{{linkurl}}">
-            <view class="detail-item_icon">
-              <text class="iconfont icon-discoverfill detail-item_text"></text>
-            </view>
-            <view class="detail-item_content" bindtap="tandian">
-              <text class="detail-item_text">探店评测</text>
-              <text class="iconfont icon-right"></text>
-            </view>
-          </view> 
-        </view>
 
-        <view class="seperator"></view>
+            <!-- 餐厅列表 -->
+            <view class="detail-list">
+              <view class="detail-item">
+                <view class="detail-item_icon">
+                  <text class="iconfont icon-likefill detail-item_text"></text>
+                </view>
+                <view class="detail-item_content">
+                  <text class="detail-item_text">口味:{{tasty}}</text><text class="detail-item_text">环境:{{env}}</text><text class="detail-item_text">服务:{{server}}</text>
+                </view>
+              </view>
+              <view class="detail-item">
+                <view class="detail-item_icon">
+                  <text class="iconfont icon-rechargefill detail-item_text"></text>
+                </view>
+                <view class="detail-item_content">
+                  <text class="detail-item_text">人均：￥{{average_price}}/人</text>
+                </view>
+              </view> 
+              <view class="detail-item">
+                <view class="detail-item_icon">
+                  <text class="iconfont icon-locationfill detail-item_text"></text>
+                </view>
+                <view class="detail-item_content address-text" bindtap="goto">
+                  <text class="detail-item_text">{{address}}</text><text class="iconfont icon-right"></text>
+                </view>
+                
+              </view>
+              <view class="detail-item" wx:if="{{tel}}" bindtap="phonecall">
+                <view class="detail-item_icon">
+                  <text class="iconfont icon-phonecall detail-item_text"></text>
+                </view>
+                <view class="detail-item_content address-text">
+                  <text class="detail-item_text">{{tel}}</text><text class="iconfont icon-right"></text>
+                </view>
+              </view>
+              <view class="detail-item" wx:if="{{linkurl}}">
+                <view class="detail-item_icon">
+                  <text class="iconfont icon-discoverfill detail-item_text"></text>
+                </view>
+                <view class="detail-item_content" bindtap="tandian">
+                  <text class="detail-item_text">探店评测</text>
+                  <text class="iconfont icon-right"></text>
+                </view>
+              </view> 
+            </view>
+          </view>
+        
+
+        <!-- <view class="seperator"></view> -->
         <!-- 评论列表 -->
         <view class="comment-list">
           <view class="comment-part">全部评论<text wx:if="{{commentList.length}}">({{commentCount}})</text></view>
@@ -154,6 +159,7 @@ export default class Profile extends wepy.page {
     tag: '',
     tel: '',
     picid: '',
+    hasbig: 0,
     plant: [],
     pick:[],
     linkurl: '',
@@ -310,6 +316,7 @@ export default class Profile extends wepy.page {
         // })
         that.tel = data.tel
         that.picid = data.picid
+        that.hasbig = data.hasbig
             
 
         var plant = that.$parent.globalData.plant
@@ -527,25 +534,28 @@ export default class Profile extends wepy.page {
 }
 .detail-top_info{
   background: #fff;
-  margin: 0 20rpx;
-  text-align: center;
+  margin: 0 20rpx 40rpx 20rpx;
   color:#333;
   border-radius:14rpx;
+  box-shadow: 0rpx 4rpx 4rpx rgba(0,0,0,.1)
 }
 
 .detail-top_title{
   font-size:24px;
-  padding-top: 20rpx;
+  text-align: left;
+  padding-top: 40rpx;
+  padding-left: 40rpx;
   padding-bottom: 0;
   overflow: hidden;
 }
 
 .detail-top_business{
   display: inline-block;
-  font-size:14px;
-  border:1px solid #333;
+  font-size:12px;
+  border:1px solid #e9e9e9;
   padding: 0 20rpx;
-  color:#333;
+  color:#999;
+  margin-left:40rpx;
   margin-top: 20rpx;
   border-radius:8rpx;
 }
@@ -563,11 +573,11 @@ export default class Profile extends wepy.page {
 }
 
 .detail-list{
-  padding: 20rpx 40rpx 20rpx 50rpx;
+  padding: 4rpx 40rpx 20rpx 50rpx;
 }
 
 .detail-item{
-  border-top:1px solid #e9e9e9;
+  /* border-top:1px solid #e9e9e9; */
   padding: 20rpx 0;
   font-size:18px;
   color:#333;
@@ -579,7 +589,7 @@ export default class Profile extends wepy.page {
 
 .detail-item_text{
   margin-right:20rpx;
-  font-size:18px;
+  font-size:16px;
 }
 
 .detail-item_icon{

@@ -1,6 +1,7 @@
 <template>
   <view class="profile">
-    <view class="profile-banner">
+    <view class="profile-top">
+      <view class="profile-banner">
       <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/bg.jpg" mode="scaleToFill" class="profile-picture"></image>
       <view class="profile-info">
         <view class="profile-avatar">
@@ -9,10 +10,23 @@
         <view class="profile-nick">
           <open-data type="userNickName"></open-data>
         </view>
-      </view>   
+      </view>
+    </view>
+      <view class="collect">
+        <view class="collect-item" bindtap="toPlant">
+          <text class="iconfont icon-shoucang"></text>
+          <text class="collect-name">种草</text>
+          <text class="collect-num" wx:if="{{plantNum}}">{{plantNum}}</text>
+        </view>
+        <view class="collect-item" bindtap="toPick">
+          <text class="iconfont icon-xihuan"></text>
+          <text class="collect-name">拔草</text>
+          <text class="collect-num" wx:if="{{pickNum}}">{{pickNum}}</text>
+        </view>
+      </view> 
     </view>
     <view>
-      <view class="profile-list">
+      <!-- <view class="profile-list">
         <view class="profile-list_item" bindtap="toPlant">
           <text class="iconfont icon-shoucang lefticon"></text>
           <text class="secondtext">种草</text>
@@ -25,7 +39,7 @@
           <text class="grass-num" wx:if="{{pickNum}}">{{pickNum}}</text>
           <text class="iconfont icon-right"></text>
         </view>
-      </view>
+      </view> -->
       <view class="profile-list">
         <view class="profile-list_item">
           <button open-type="feedback" class="feedback-btn"><text class="iconfont icon-message1 lefticon"></text>意见反馈</button>
@@ -99,6 +113,11 @@ export default class Profile extends wepy.page {
 }
 </script>
 <style>
+.profile-top{
+  position: relative;
+  padding-bottom: 40rpx;
+  margin-bottom: 20rpx;
+}
 .profile{
   height: 100%;
   background: #f7f7f7
@@ -109,7 +128,7 @@ export default class Profile extends wepy.page {
   text-align: center;
   border-bottom: 1px solid #e9e9e9;
   margin-bottom: 10px;
-  height: 420rpx;
+  height: 360rpx;
   overflow: hidden;
 }
 .profile-info{
@@ -117,13 +136,13 @@ export default class Profile extends wepy.page {
   width: 100%;
   left: 0;
   top:50%;
-  transform:translateY(-50%);
+  transform:translateY(-60%);
 }
 .profile-avatar{
   display: block;
   margin: 0 auto;
-  width:200rpx;
-  height:200rpx;
+  width:150rpx;
+  height:150rpx;
   border-radius:50%;
   overflow: hidden;
   border: 4rpx solid #fff;
@@ -236,5 +255,42 @@ export default class Profile extends wepy.page {
 
 .profile-picture{
   width: 100%;
+}
+
+.collect{
+  position: absolute;
+  width: 70%;
+  left:50%;
+  bottom:10rpx;
+  background: #fff;
+  transform: translateX(-50%);
+  height: 100rpx;
+  border-radius:50rpx;
+  box-shadow: 4rpx 4rpx 4rpx rgba(0,0,0,.1)
+}
+
+.collect-item{
+  float: left;
+  width: 50%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size:16px;
+}
+.collect-item .icon-shoucang{
+  color:#FFC312;
+}
+.collect-item .icon-xihuan{
+  color:#EA2027;
+}
+.collect-name{
+  padding-left:20rpx;
+  padding-right:10rpx;
+}
+.collect-num{
+  color:#bcbcbc;
+}
+.collect-item .iconfont{
+  font-size: 20px;
 }
 </style>
