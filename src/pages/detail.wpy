@@ -16,7 +16,9 @@
         <view class="detail-content">
           <view class="detail-top_info">
             <view class="detail-top_title">{{resname}}</view>
-            <text class="detail-top_business">{{business}}</text>
+            <view class="label-container">
+              <text class="detail-top_business">{{business}}</text>
+            </view>
 
             <!-- 餐厅列表 -->
             <view class="detail-list">
@@ -63,13 +65,30 @@
                 </view>
               </view> 
             </view>
+            <view class="zan-btn" bindtap="addlove" wx:if="{{!isLoved}}">
+              <text class="iconfont icon-appreciate_light"></text>
+            </view>
+            <view class="zan-btn" bindtap="removelove" wx:if="{{isLoved}}">
+              <text class="iconfont icon-appreciate_fill_light"></text>
+            </view>
           </view>
         
 
-        <!-- <view class="seperator"></view> -->
+        <view class="seperator"></view>
+        <view class="likenum">
+          <view class="liketext" wx:if="{{!lovenum}}">觉得好吃就点个赞吧~</view>
+          <view class="liketext" wx:if="{{lovenum}}">{{lovenum}} 位吃货觉得这个餐厅很赞~</view>
+        </view>
+        <view class="seperator"></view>
         <!-- 评论列表 -->
         <view class="comment-list">
-          <view class="comment-part">全部评论<text wx:if="{{commentList.length}}">({{commentCount}})</text></view>
+          <view class="comment-part">
+            留言板
+            <text wx:if="{{commentList.length}}">({{commentCount}})</text>            
+            <button class="leave-msg" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment">
+              <text class="iconfont icon-edit_light"></text>写留言
+            </button>
+          </view>
           <ul class="comlist" wx:if="{{commentList.length}}">
             <repeat for="{{commentList}}" key="index" index="index" item="item">
               <li id="{{item.id}}" bindtap="locateTo">
@@ -128,11 +147,6 @@
             <button class="share-btn" open-type="share"><text class="iconfont icon-share_light"></text>分享</button>
           </view>
         </view> -->
-        <view class="btn-item">
-          <view class="b-button">
-            <button class="share-btn" data-parentid="0" open-type="getUserInfo" bindgetuserinfo="readyComment"><text class="iconfont icon-comment_light"></text>评论</button>
-          </view>
-        </view>
       </view>
     </view>
   </view>
@@ -165,6 +179,8 @@ export default class Profile extends wepy.page {
     linkurl: '',
     isPicked: false,
     isPlanted: false,
+    isLoved: false,
+    lovenum: 0,
     isLoaded: false,
     restaurants: [
       {
@@ -270,6 +286,8 @@ export default class Profile extends wepy.page {
       }
       this.getDetail(rid)
       this.getComment(rid)
+      this.getlove()
+      this.getLoveNum()
     })
   }
 
@@ -511,6 +529,56 @@ export default class Profile extends wepy.page {
       duration: 2000
     })
   }
+
+  // 点赞
+  addlove(){
+    this.$parent.ajax(host.service.addLove,'POST',{postid: this.id}).then(res => {
+      if(res.message == 'success'){
+        this.isLoved = true
+        this.lovenum = this.lovenum + 1
+        this.$apply()
+        this.toastTip('点了个赞','success')
+      } else {
+        this.toastTip('故障了','none')
+      }
+    })
+  }
+
+  removelove(){
+    this.$parent.ajax(host.service.removeLove,'POST',{postid: this.id}).then(res => {
+      if(res.message == 'success'){
+        this.isLoved = false
+        this.lovenum = this.lovenum - 1
+        this.$apply()
+        this.toastTip('收回点赞','success')
+      } else {
+        this.toastTip('故障了','none')
+      }
+    })
+  }
+
+  getlove(){
+    var that = this
+    this.$parent.ajax(host.service.getLove,'POST',{postid: this.id}).then(res => {
+      if(res.length){
+        that.isLoved = true
+      } else {
+        that.isLoved = false
+      }
+      that.$apply()
+    })
+  }
+
+  getLoveNum(){
+    var that = this
+    this.$parent.ajax(host.service.getLoveNum,'POST',{postid: this.id}).then(res => {
+      console.log(res)
+      if(res.length){
+        that.lovenum = res.length
+        that.$apply()
+      } 
+    })
+  }
 }
 </script>
 <style>
@@ -530,21 +598,55 @@ export default class Profile extends wepy.page {
 
 .detail-content{
   position: relative;
-  top: -80rpx;
+  top: -40rpx;
 }
 .detail-top_info{
   background: #fff;
-  margin: 0 20rpx 40rpx 20rpx;
+  position: relative;
+  margin: 0 20rpx;
   color:#333;
+  padding-bottom:40rpx;
   border-radius:14rpx;
   box-shadow: 0rpx 4rpx 4rpx rgba(0,0,0,.1)
 }
 
+.zan-btn{
+  width:100rpx;
+  height: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+  position: absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-50rpx;
+  background: #fc7272;
+  color: #fff;
+  border-radius:50%;
+}
+.zan-btn .iconfont{
+  font-size:28px;
+}
+
+.leave-msg{
+  position: absolute;
+  right:0rpx;
+  top:0rpx;
+  line-height: 50rpx;
+  font-size:14px;
+  background: #fff;
+  text-align:right;
+  color:#999;
+  font-weight: normal;
+  padding-right:0
+}
+.leave-msg:after{
+  border:0
+}
+
 .detail-top_title{
-  font-size:24px;
-  text-align: left;
+  font-size:20px;
+  text-align: center;
   padding-top: 40rpx;
-  padding-left: 40rpx;
   padding-bottom: 0;
   overflow: hidden;
 }
@@ -555,8 +657,7 @@ export default class Profile extends wepy.page {
   border:1px solid #e9e9e9;
   padding: 0 20rpx;
   color:#999;
-  margin-left:40rpx;
-  margin-top: 20rpx;
+  margin: 0 auto 0;
   border-radius:8rpx;
 }
 .detail-top_taste{
@@ -578,7 +679,7 @@ export default class Profile extends wepy.page {
 
 .detail-item{
   /* border-top:1px solid #e9e9e9; */
-  padding: 20rpx 0;
+  padding: 16rpx 0;
   font-size:18px;
   color:#333;
 }
@@ -719,5 +820,19 @@ export default class Profile extends wepy.page {
 
 .b-button .icon-xihuan,.b-button .icon-favorfill{
   color:#fc7272
+}
+
+.likenum{
+  padding-top: 70rpx;
+  padding-bottom:40rpx;
+}
+.liketext{
+  text-align:center;
+  font-size:14px;
+  color:#999;
+}
+.label-container{
+  text-align: center;
+  padding-top: 10rpx;
 }
 </style>

@@ -18,53 +18,53 @@ export default class Select extends wepy.component {
     restaurants: [
       {
         id: 0,
-        short: 'hotel',
-        name: '高端酒店'
-      },
-      {
-        id: 1,
-        short: 'west',
-        name: '西餐'
-      },
-      {
-        id: 2,
         short: 'hangzhou',
         name: '杭帮菜'
       },
       {
-        id: 3,
+        id: 1,
         short: 'idea',
         name: '创意餐厅'
       },
       {
-        id: 4,
-        short: 'hotpot',
-        name: '火锅、串串'
-      },
-      {
-        id: 5,
-        short: 'japan',
-        name: '日本料理'
-      },
-      {
-        id: 6,
+        id: 2,
         short: 'family',
         name: '家常菜'
       },
       {
-        id: 7,
-        short: 'guangdong',
-        name: '茶餐厅、粤菜'
-      },
-      {
-        id: 8,
+        id: 3,
         short: 'noodle',
         name: '面馆'
       },
       {
+        id: 4,
+        short: 'hotel',
+        name: '高端酒店'
+      },
+      {
+        id: 5,
+        short: 'west',
+        name: '西餐'
+      },
+      {
+        id: 6,
+        short: 'hotpot',
+        name: '火锅、串串'
+      },
+      {
+        id: 7,
+        short: 'japan',
+        name: '日本料理'
+      },
+      {
+        id: 8,
+        short: 'guangdong',
+        name: '茶餐厅、粤菜'
+      },
+      {
         id: 9,
         short: 'cake',
-        name: '点心'
+        name: '点心、小吃'
       },
       {
         id: 10,

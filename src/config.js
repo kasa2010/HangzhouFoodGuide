@@ -14,7 +14,12 @@ export default {
       addRecommend: `${host}/weapp/addrecommend`,
       addComment: `${host}/weapp/addcomment`,
       getComment: `${host}/weapp/getcomment`,
-      getAllComment: `${host}/weapp/getallcomment`
+      getAllComment: `${host}/weapp/getallcomment`,
+      addLove: `${host}/weapp/addlove`,
+      removeLove: `${host}/weapp/removelove`,
+      getLove: `${host}/weapp/getlove`,
+      getLoveNum: `${host}/weapp/getlovenum`,
+      getAllLove: `${host}/weapp/getalllove`
       // getTopic: `${host}/weapp/gettopic`,
       // getTopicDetail: `${host}/weapp/gettopicdetail`,
       // getReply: `${host}/weapp/getreply`,
