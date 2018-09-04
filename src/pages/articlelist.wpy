@@ -76,11 +76,13 @@ export default class Index extends wepy.page {
   background: #fff;
   padding-left:40rpx;
   padding-right:40rpx;
+  padding-top: 20rpx;
 }
 .article-container{
   margin-bottom:30rpx;
   border:1px solid #e9e9e9;
   border-radius:4rpx;
+  box-shadow: 4rpx 4rpx 6rpx rgba(0,0,0,.1);
 }
 .article-container:first-child{
   padding-top: 0;

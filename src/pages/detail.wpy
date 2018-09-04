@@ -128,18 +128,18 @@
       <view class="bottom-btn">
         <view class="btn-item" wx:if="{{!isPicked}}">
           <view class="b-button" data-type="plant" bindtap="likeit" wx:if="{{!isPicked && !isPlanted}}">
-            <text class="iconfont icon-favor_light"></text>种草
+            <text class="iconfont icon-favor_light"></text>想吃
           </view>
           <view class="b-button" data-type="plant" bindtap="removelikeit" wx:if="{{!isPicked && isPlanted}}">
-            <text class="iconfont icon-favorfill"></text>已种草
+            <text class="iconfont icon-favorfill"></text><text class="eated">取消想吃</text>
           </view>
         </view>
         <view class="btn-item">
           <view class="b-button" data-type="pick" bindtap="likeit" wx:if="{{!isPicked}}">
-            <text class="iconfont icon-xihuan1"></text>拔草
+            <text class="iconfont icon-xihuan1"></text>吃过
           </view>
           <view class="b-button" data-type="pick" bindtap="removelikeit" wx:if="{{isPicked}}">
-            <text class="iconfont icon-xihuan"></text>已种草
+            <text class="iconfont icon-xihuan"></text><text class="eated">取消吃过</text>
           </view>
         </view>
         <!-- <view class="btn-item">
@@ -449,7 +449,7 @@ export default class Profile extends wepy.page {
           this.isPlanted = true
           this.$parent.globalData.plant.push(this.id)
           this.$apply()
-          this.toastTip('种草成功','success')
+          this.toastTip('添加想吃成功','success')
         }else if(coltype == 'pick'){
           this.isPicked = true
           if(this.isPlanted){
@@ -464,13 +464,13 @@ export default class Profile extends wepy.page {
           })
           this.$parent.globalData.plant = newPlant
           this.$apply()
-          this.toastTip('拔草成功','success')
+          this.toastTip('添加吃过成功','success')
         }
       } else {
         if(coltype == 'plant'){
-          this.toastTip('种草失败','none')
+          this.toastTip('添加想吃失败','none')
         }else if(coltype == 'pick'){
-          this.toastTip('拔草失败','none')
+          this.toastTip('添加吃过失败','none')
         }
       }
     })
@@ -489,7 +489,7 @@ export default class Profile extends wepy.page {
           })
           this.$parent.globalData.plant = newPlant
           this.$apply()
-          this.toastTip('取消种草成功','success')
+          this.toastTip('取消想吃成功','success')
         }else if(coltype == 'pick'){
           this.isPicked = false
           this.isPlanted = false
@@ -499,13 +499,13 @@ export default class Profile extends wepy.page {
           })
           this.$parent.globalData.pick = newPick
           this.$apply()
-          this.toastTip('取消拔草成功','success')
+          this.toastTip('取消吃过成功','success')
         }
       } else {
         if(coltype == 'plant'){
-          this.toastTip('取消种草失败','none')
+          this.toastTip('取消想吃失败','none')
         }else if(coltype == 'pick'){
-          this.toastTip('取消拔草失败','none')
+          this.toastTip('取消吃过失败','none')
         }
       }
     })
@@ -517,7 +517,7 @@ export default class Profile extends wepy.page {
         this.isPlanted = false
         this.$apply()
       } else {
-        console.log('静默移除种草失败')
+        console.log('静默移除想吃失败')
       }
     })
   }
@@ -807,7 +807,7 @@ export default class Profile extends wepy.page {
 .b-button{
   height: 90rpx;
   line-height: 90rpx;
-  font-size:18px;
+  font-size:16px;
 }
 .b-button .iconfont{
   font-size:24px;
@@ -834,5 +834,9 @@ export default class Profile extends wepy.page {
 .label-container{
   text-align: center;
   padding-top: 10rpx;
+}
+.eated{
+  color:#fc7272;
+  font-size:16px;
 }
 </style>

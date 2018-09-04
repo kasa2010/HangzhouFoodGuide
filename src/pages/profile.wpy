@@ -15,12 +15,12 @@
       <view class="collect">
         <view class="collect-item" bindtap="toPlant">
           <text class="iconfont icon-shoucang"></text>
-          <text class="collect-name">种草</text>
+          <text class="collect-name">想吃</text>
           <text class="collect-num" wx:if="{{plantNum}}">{{plantNum}}</text>
         </view>
         <view class="collect-item" bindtap="toPick">
           <text class="iconfont icon-xihuan"></text>
-          <text class="collect-name">拔草</text>
+          <text class="collect-name">吃过</text>
           <text class="collect-num" wx:if="{{pickNum}}">{{pickNum}}</text>
         </view>
       </view> 
