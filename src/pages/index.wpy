@@ -138,6 +138,7 @@ export default class Index extends wepy.page {
       data.forEach(val => {
         var single = {
           id: val.id,
+          orderid: val.orderid,
           picid: val.picid,
           average_price: val.average_price - 0,
           name: val.resname,
@@ -181,7 +182,11 @@ export default class Index extends wepy.page {
           that.$parent.globalData.orders
         )
       } else {
-        that.resList = list_new
+        that.resList = _.orderBy(
+          list_new,
+          'orderid',
+          'asc'
+        )
       }
       that.isready = true;
       that.$apply()
