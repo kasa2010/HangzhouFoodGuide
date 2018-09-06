@@ -1,14 +1,14 @@
 <template>
   <view class="plantlist">
     <view wx:if="{{plant.length}}">
-      <view class="contentlist-title">共种草<text class="pnum">{{plant.length}}</text>家餐厅</view>
+      <view class="contentlist-title">共想吃<text class="pnum">{{plant.length}}</text>家餐厅</view>
       <view class="contentlist">
         <list :resList.sync="resList"></list>
       </view>
     </view>
     
     <view class="noresult" wx:if="{{!plant.length}}">
-       <text>你还没有种过草哦~</text>
+       <text>居然还没有想吃的餐厅~</text>
        <!-- <button type="primary" class="goto-btn" bindtap="toIndex">去种草</button> -->
     </view>
   </view>
@@ -22,7 +22,7 @@ import host from '../config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '种草'
+    navigationBarTitleText: '想吃'
   }
 
   components = {
