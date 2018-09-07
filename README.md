@@ -2,17 +2,17 @@
 展示杭州吃货们推选的杭州精选餐厅。
 
 ## 预览
-![image](https://github.com/kasa2010/picture/blob/master/qr.jpg)
+![image](https://github.com/kasa2010/pictures/blob/master/qr.jpg)
 
 ## 功能说明
 ### 美食
-![image](https://github.com/kasa2010/picture/blob/master/index.png)
+![image](https://github.com/kasa2010/pictures/blob/master/index.png)
 
 
-![image](https://github.com/kasa2010/picture/blob/master/detail.png)
+![image](https://github.com/kasa2010/pictures/blob/master/detail.png)
 
 ### 探店
-![image](https://github.com/kasa2010/picture/blob/master/tandian.png)
+![image](https://github.com/kasa2010/pictures/blob/master/tandian.png)
 
 ### 我的
-![image](https://github.com/kasa2010/picture/blob/master/my.png)
+![image](https://github.com/kasa2010/pictures/blob/master/my.png)
