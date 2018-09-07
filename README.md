@@ -2,17 +2,17 @@
 展示杭州吃货们推选的杭州精选餐厅。
 
 ## 预览
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/qr.jpg)
+![image](https://github.com/kasa2010/picture/blob/master/qr.jpg)
 
 ## 功能说明
 ### 美食
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/meishi1.png)
+![image](https://github.com/kasa2010/picture/blob/master/index.png)
 
 
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/meishi2.png)
+![image](https://github.com/kasa2010/picture/blob/master/detail.png)
 
 ### 探店
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/tandian.png)
+![image](https://github.com/kasa2010/picture/blob/master/tandian.png)
 
 ### 我的
-![image](https://github.com/kasa2010/hangzhou-restaurant-guide/blob/master/src/resources/wode.png)
+![image](https://github.com/kasa2010/picture/blob/master/my.png)
