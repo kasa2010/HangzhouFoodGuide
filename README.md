@@ -8,8 +8,6 @@
 ## 功能说明
 ### 美食
 ![image](https://github.com/kasa2010/pictures/blob/master/index.png)
-
-
 ![image](https://github.com/kasa2010/pictures/blob/master/detail.png)
 
 ### 探店
