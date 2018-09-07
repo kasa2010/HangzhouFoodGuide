@@ -7,11 +7,11 @@
 
 ## 功能说明
 ### 美食
-![image](https://github.com/kasa2010/pictures/blob/master/index.png)
-![image](https://github.com/kasa2010/pictures/blob/master/detail.png)
+![image](https://github.com/kasa2010/pictures/blob/master/index2.png)
+![image](https://github.com/kasa2010/pictures/blob/master/detail2.png)
 
 ### 探店
-![image](https://github.com/kasa2010/pictures/blob/master/tandian.png)
+![image](https://github.com/kasa2010/pictures/blob/master/tandian2.png)
 
 ### 我的
-![image](https://github.com/kasa2010/pictures/blob/master/my.png)
+![image](https://github.com/kasa2010/pictures/blob/master/my2.png)
