@@ -15,7 +15,7 @@
         </view>
         <view class="detail-content">
           <view class="detail-top_info">
-            <view class="detail-top_title">{{resname}}</view>
+            <view class="detail-top_title">{{resname}}<text class="iconfont icon-copy copy-btn" bindtap="copythat"></text></view>
             <view class="label-container">
               <text class="detail-top_business">{{business}}</text>
             </view>
@@ -579,6 +579,16 @@ export default class Profile extends wepy.page {
       } 
     })
   }
+
+  copythat(){
+    var that = this
+    wx.setClipboardData({
+      data: this.resname,
+      success: function(){
+        that.toastTip('复制餐厅名称成功','none')
+      }
+    })
+  }
 }
 </script>
 <style>
@@ -838,5 +848,11 @@ export default class Profile extends wepy.page {
 .eated{
   color:#fc7272;
   font-size:16px;
+}
+.copy-btn{
+  font-size:20px;
+  color:#fc7272!important;
+  font-weight: normal;
+  margin-left:10rpx;
 }
 </style>
