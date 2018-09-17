@@ -1,0 +1,124 @@
+<template>
+  <view>
+    <view class="lottery-time">本周福利(2018.9.12-9.19)</view>
+    <view class="lottery-item">
+      <view class="lottery-cover">
+        <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/lottery.png" class="cover-img" mode="scaleToFill"></image>
+        <text class="moneynum">￥20</text>
+      </view>
+      <view class="lottery-content">
+        <view class="lottery-text">
+          <view class="lottery-title">请你吃饭20元现金券</view>
+          <view class="lottery-info">数量：1  参与人数：203</view>
+        </view>
+        <view class="lottery-btn">参与抽奖</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import _ from 'lodash';
+import host from '../config.js';
+
+export default class Choujiang extends wepy.page {
+  config = {
+    navigationBarTitleText: '请你吃饭'
+  }
+
+
+  data = {
+    
+  }
+
+  onShareAppMessage() {
+    return {
+      title: '杭州餐厅与美食推荐',
+      path: '/pages/index'
+    }
+  }
+
+  // 页面初始化
+  onShow() {
+    
+  }
+
+  methods = {
+    toIndex(){
+      wx.switchTab({
+        url: '/pages/index'
+      })
+    }
+  }
+}
+</script>
+<style>
+ .lottery-item{
+   overflow: hidden;
+   padding: 10rpx 20rpx;
+ }
+ .lottery-cover{
+   width:182rpx;
+   height:169rpx;
+   float: left;
+   position: relative;
+ }
+ .cover-img{
+   width: 182rpx;
+   height: 169rpx;
+ }
+
+ .lottery-content{
+   position: relative;
+   height: 169rpx;
+   margin-left: 198rpx;
+ }
+
+ .lottery-title{
+   font-size:16px;
+   color:#333;
+ }
+
+ .lottery-info{
+   padding-top: 10rpx;
+   font-size:14px;
+   color:#999;
+ }
+
+ .lottery-btn{
+   position: absolute;
+   right: 0;
+   top:50%;
+   transform:translateY(-50%);
+   width:180rpx;
+   height: 64rpx;
+   line-height: 64rpx;
+   text-align:center;
+   background: #1ac419;
+   border-radius:80rpx;
+   color:#fff;
+   font-size:14px;
+ }
+
+ .moneynum{
+   position: absolute;
+   font-size:22px;
+   color:#fff;
+   left: 50%;
+   top:50%;
+   transform: translate(-60%,-50%);
+ }
+
+ .lottery-text{
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform:translateY(-50%);
+ }
+
+ .lottery-time{
+   padding-left: 20rpx;
+   font-size:18px;
+ }
+</style>
