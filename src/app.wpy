@@ -163,7 +163,7 @@ html,body,page{
 .content{
   position: absolute;
   left: 0;
-  top: 49px;
+  top: 80rpx;
   right: 0;
   bottom:0;
 }

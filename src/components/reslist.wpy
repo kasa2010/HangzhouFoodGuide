@@ -57,24 +57,23 @@
   display: block;
   list-style: none;
   height: 100%;
-  margin-left: 40rpx;
-  margin-right: 40rpx;
+  background: #f6f6f6;
 }
 .reslist li{
   overflow: hidden;
   display: block;
   position: relative;
   font-size:16px;
-  padding-top: 30rpx;
-  padding-bottom: 30rpx;
-  border-bottom: 1px solid #f4f4f4;
+  padding:30rpx;
+  margin-bottom:10rpx;
+  background: #fff;
 }
 .reslist li:last-child{
   border-bottom: none;
 }
 .list-item_pic{
   position: absolute;
-  left:0;
+  left:30rpx;
   top:30rpx;
   bottom:30rpx;
   width: 200rpx;
@@ -144,7 +143,7 @@
 .list-item_status{
   position: absolute;
   top:50%;
-  right: 0;
+  right: 30rpx;
   transform:translateY(-50%)
 }
 

@@ -1,5 +1,14 @@
 <template>
   <view>
+    <view class="lottery-top">
+        <image src="https://lg-kfc8r7cy-1252865942.cos.ap-shanghai.myqcloud.com/choujiang.jpg" mode="scaleToFill" class="lottery-banner"></image>
+      </view>
+    <view class="lottery-desc">
+      <view>1.每周六至周五你都可以报名参加本周“请你吃饭”的活动。</view>
+      <view>2.每次活动设置若干名20~50元现金券奖励。</view>
+      <view>3.周五下午揭晓中奖名单。</view>
+    </view>
+    <view class="seperator"></view>
     <view class="lottery-time">本周福利(2018.9.12-9.19)</view>
     <view class="lottery-item">
       <view class="lottery-cover">
@@ -118,7 +127,23 @@ export default class Choujiang extends wepy.page {
  }
 
  .lottery-time{
+   padding-top: 20rpx;
+   padding-bottom: 10rpx;
    padding-left: 20rpx;
    font-size:18px;
+   text-align:center;
+ }
+ .lottery-desc{
+   padding: 20rpx 40rpx 40rpx 40rpx;
+   font-size:18px;
+   line-height: 64rpx;
+   color:#545556;
+ }
+ .lottery-banner{
+   width: 100%;
+ }
+
+ .lottery-top{
+   overflow: hidden;
  }
 </style>
