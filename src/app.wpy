@@ -17,7 +17,8 @@ export default class extends wepy.app {
       'pages/articlelist',
       'pages/share',
       'pages/comment',
-      'pages/choujiang'
+      'pages/choujiang',
+      'pages/cjdetail'
       // 'pages/topic',
       // 'pages/topicdetail'
     ],
@@ -37,7 +38,7 @@ export default class extends wepy.app {
         selectedIconPath: "./resources/discover_fill.png"
       },{
         pagePath: "pages/choujiang",
-        text: "请你吃饭",
+        text: "津贴",
         iconPath: "resources/present.png",
         selectedIconPath: "./resources/present_fill.png"
       },{

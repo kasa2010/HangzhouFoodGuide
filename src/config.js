@@ -19,7 +19,11 @@ export default {
       removeLove: `${host}/weapp/removelove`,
       getLove: `${host}/weapp/getlove`,
       getLoveNum: `${host}/weapp/getlovenum`,
-      getAllLove: `${host}/weapp/getalllove`
+      getAllLove: `${host}/weapp/getalllove`,
+      getLotteries: `${host}/weapp/getlotteries`,
+      attendIn: `${host}/weapp/attendin`,
+      getCjusers: `${host}/weapp/getcjusers`,
+      getTotalnum: `${host}/weapp/gettotalnum`,
       // getTopic: `${host}/weapp/gettopic`,
       // getTopicDetail: `${host}/weapp/gettopicdetail`,
       // getReply: `${host}/weapp/getreply`,
