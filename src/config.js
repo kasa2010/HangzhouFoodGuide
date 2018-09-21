@@ -21,9 +21,11 @@ export default {
       getLoveNum: `${host}/weapp/getlovenum`,
       getAllLove: `${host}/weapp/getalllove`,
       getLotteries: `${host}/weapp/getlotteries`,
+      getLottery: `${host}/weapp/getlottery`,
       attendIn: `${host}/weapp/attendin`,
       getCjusers: `${host}/weapp/getcjusers`,
       getTotalnum: `${host}/weapp/gettotalnum`,
+      getUseractive: `${host}/weapp/getuseractive`
       // getTopic: `${host}/weapp/gettopic`,
       // getTopicDetail: `${host}/weapp/gettopicdetail`,
       // getReply: `${host}/weapp/getreply`,

@@ -61,11 +61,8 @@ export default class Index extends wepy.page {
 
   methods = {
     submitform(e){
-      console.log('hahahah')
       var inputin = e.detail.value.dianping
-      console.log(e.detail.value)
       if(inputin.length){
-        console.log('pppp')
         var data = {
           postid: this.postid,
           parentid: this.parentid,
