@@ -38,7 +38,7 @@ export default class extends wepy.app {
         selectedIconPath: "./resources/discover_fill.png"
       },{
         pagePath: "pages/choujiang",
-        text: "津贴",
+        text: "抽奖",
         iconPath: "resources/present.png",
         selectedIconPath: "./resources/present_fill.png"
       },{

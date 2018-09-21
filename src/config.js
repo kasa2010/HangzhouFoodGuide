@@ -24,6 +24,7 @@ export default {
       getLottery: `${host}/weapp/getlottery`,
       attendIn: `${host}/weapp/attendin`,
       getCjusers: `${host}/weapp/getcjusers`,
+      getAttendin: `${host}/weapp/getattendin`,
       getTotalnum: `${host}/weapp/gettotalnum`,
       getUseractive: `${host}/weapp/getuseractive`
       // getTopic: `${host}/weapp/gettopic`,
