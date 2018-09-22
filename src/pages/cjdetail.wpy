@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="cjtitle">抽奖内容</view>
+    <view class="cjtitle">抽奖内容<button class="contact-btn" size="mini" open-type="contact">联系客服 ></button></view>
     <view class="cjbanner">
       <view class="cjbanner-title">{{cjname}}</view>
       <view class="cjbanner-pic">
@@ -206,6 +206,7 @@ export default class Cjdetail extends wepy.page {
   padding:20rpx 0 14rpx 20rpx;
   font-size:16px;
   color:#999;
+  overflow: hidden;
 }
 .cjdetail-item{
   overflow: hidden;
@@ -325,5 +326,15 @@ export default class Cjdetail extends wepy.page {
 .cjimg{
   width: 90rpx;
   height:90rpx;
+}
+.contact-btn{
+  float: right;
+  height:45rpx;
+  background:#f1f0f5;
+  color:#333;
+  line-height: 28rpx;
+}
+.contact-btn:after{
+  border:0
 }
 </style>
