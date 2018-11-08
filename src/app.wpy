@@ -16,11 +16,7 @@ export default class extends wepy.app {
       'pages/tandian',
       'pages/articlelist',
       'pages/share',
-      'pages/comment',
-      'pages/choujiang',
-      'pages/cjdetail'
-      // 'pages/topic',
-      // 'pages/topicdetail'
+      'pages/comment'
     ],
     tabBar: {
       selectedColor: "#fa6650",
@@ -36,11 +32,6 @@ export default class extends wepy.app {
         text: "探店",
         iconPath: "resources/discover.png",
         selectedIconPath: "./resources/discover_fill.png"
-      },{
-        pagePath: "pages/choujiang",
-        text: "抽奖",
-        iconPath: "resources/present.png",
-        selectedIconPath: "./resources/present_fill.png"
       },{
         pagePath: "pages/profile",
         text: "我的",
